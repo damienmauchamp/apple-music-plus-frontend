@@ -190,15 +190,6 @@ export default function Test() {
 				{type === 'releases'
 					? displayReleases(data)
 					: displaySongs(data)}
-
-				<div className="grid grid-rows-2 grid-flow-col gap-4">
-					{/* {newReleases &&
-						newReleases.map((item: any) => ( */}
-					{data &&
-						(type === 'releases'
-							? data.map(releaseMap)
-							: data.map(songsMap))}
-				</div>
 			</section>
 		)
 	}
