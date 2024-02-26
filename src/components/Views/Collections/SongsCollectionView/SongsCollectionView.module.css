@@ -1,0 +1,4 @@
+/* .gridScrollVerticalView { */
+/* @apply grid grid-flow-col grid-rows-2 gap-4;
+	grid-auto-columns: calc(25% - 1rem); */
+/* } */

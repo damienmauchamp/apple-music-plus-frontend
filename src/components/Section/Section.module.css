@@ -1,0 +1,13 @@
+/* .section {
+}
+.sectionContent {
+} */
+.sectionHeader {
+	@apply mx-6 mb-3;
+}
+.sectionTitle {
+	@apply text-lg font-bold;
+}
+.sectionItems {
+	@apply w-full overflow-x-auto;
+}
