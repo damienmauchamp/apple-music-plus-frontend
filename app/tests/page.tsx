@@ -5,6 +5,7 @@ import axios from 'axios'
 import Image from 'next/image'
 import { IoRefreshCircleOutline } from 'react-icons/io5'
 import moment from 'moment'
+import styles from 'page.module.css'
 
 const apiHeaders = {
 	Accept: 'application/json',
@@ -213,8 +214,11 @@ export default function Test() {
 		)
 	}
 
+	// throw new Error('testestestes')
+
 	return (
 		<>
+			<h2>Page.tsx</h2>
 			{section('New Releases', handleNewReleases, newReleases)}
 			{section('New Singles', handleNewSingles, newSingles)}
 			{section('Upcoming', handleUpcoming, upcoming)}
