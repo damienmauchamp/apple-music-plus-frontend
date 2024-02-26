@@ -4,22 +4,33 @@ import React, { useEffect, useRef, useState } from 'react'
 import axios from 'axios'
 import Image from 'next/image'
 import { IoRefreshCircleOutline } from 'react-icons/io5'
+import moment from 'moment'
 
 const apiHeaders = {
 	Accept: 'application/json',
 	Authorization: `Bearer ${process.env.TEST_USER_TOKEN}`,
 }
 
+const dateParams = {
+	from: moment().subtract(7, 'days').format('YYYY-MM-DD'),
+}
+
 const apiParams = {
 	sort: '-releaseDate',
-	weekly: 1,
-	weeks: 1,
+	// weekly: 1,
+	// weeks: 1,
 }
+
+const timestampParam = () => ({
+	timestamp: new Date().getTime(),
+})
 
 async function getNewReleases() {
 	return await axios.get(`${process.env.APP_URL}/api/user/releases`, {
 		headers: apiHeaders,
 		params: {
+			...timestampParam(),
+			...dateParams,
 			...apiParams,
 			hide_singles: 1,
 			hide_eps: 0,
@@ -32,6 +43,8 @@ async function getNewSingles() {
 	return await axios.get(`${process.env.APP_URL}/api/user/releases`, {
 		headers: apiHeaders,
 		params: {
+			...timestampParam(),
+			...dateParams,
 			...apiParams,
 			hide_albums: 1,
 			hide_eps: 1,
@@ -44,6 +57,8 @@ async function getUpcoming() {
 	return await axios.get(`${process.env.APP_URL}/api/user/releases`, {
 		headers: apiHeaders,
 		params: {
+			...timestampParam(),
+			...dateParams,
 			sort: '-releaseDate',
 			only_upcoming: 1,
 		},
@@ -54,6 +69,8 @@ async function getNewSongs() {
 	return await axios.get(`${process.env.APP_URL}/api/user/releases/songs`, {
 		headers: apiHeaders,
 		params: {
+			...timestampParam(),
+			...dateParams,
 			...apiParams,
 			hide_upcoming: 1,
 		},
@@ -64,6 +81,8 @@ async function getUpcomingSongs() {
 	return await axios.get(`${process.env.APP_URL}/api/user/releases/songs`, {
 		headers: apiHeaders,
 		params: {
+			...timestampParam(),
+			...dateParams,
 			sort: '-releaseDate',
 			only_upcoming: 1,
 		},
