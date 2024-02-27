@@ -9,5 +9,5 @@
 	@apply text-lg font-bold;
 }
 .sectionItems {
-	@apply w-full overflow-x-auto;
+	@apply w-full pb-8;
 }

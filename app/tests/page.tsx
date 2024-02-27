@@ -124,7 +124,7 @@ export default function Test() {
 
 	useEffect(() => {
 		loadNewReleases()
-		// loadNewSingles()
+		loadNewSingles()
 		// loadUpcoming()
 		loadNewSongs()
 		// loadUpcomingSongs()
@@ -145,28 +145,40 @@ export default function Test() {
 
 	return (
 		<>
-			<Section id={'newReleases'} title={'New Releases'}>
-				<AlbumsCollectionView key={'newReleases'} items={newReleases} />
-			</Section>
+			<div className="max-w-5xl mx-auto">
+				<Section
+					id={'newReleases'}
+					title={'New Releases'}
+					scroll={true}
+				>
+					<AlbumsCollectionView
+						key={'newReleases'}
+						items={newReleases}
+					/>
+				</Section>
 
-			<Section id={'newSingles'} title={'New Singles'}>
-				<AlbumsCollectionView key={'newSingles'} items={newSingles} />
-			</Section>
+				<Section id={'newSingles'} title={'New Singles'}>
+					<AlbumsCollectionView
+						key={'newSingles'}
+						items={newSingles}
+					/>
+				</Section>
 
-			<Section id={'Upcoming'} title={'Upcoming'}>
-				<AlbumsCollectionView key={'upcoming'} items={upcoming} />
-			</Section>
+				<Section id={'Upcoming'} title={'Upcoming'}>
+					<AlbumsCollectionView key={'upcoming'} items={upcoming} />
+				</Section>
 
-			<Section id={'newSongs'} title={'New Songs'}>
-				<SongsCollectionView key={'newSongs'} items={newSongs} />
-			</Section>
+				<Section id={'newSongs'} title={'New Songs'}>
+					<SongsCollectionView key={'newSongs'} items={newSongs} />
+				</Section>
 
-			<Section id={'Upcoming Songs'} title={'Upcoming Songs'}>
-				<SongsCollectionView
-					key={'upcomingSongs'}
-					items={upcomingSongs}
-				/>
-			</Section>
+				<Section id={'Upcoming Songs'} title={'Upcoming Songs'}>
+					<SongsCollectionView
+						key={'upcomingSongs'}
+						items={upcomingSongs}
+					/>
+				</Section>
+			</div>
 
 			<hr />
 
@@ -180,11 +192,13 @@ export default function Test() {
 
 			<hr />
 
-			<ul>
-				<li>APP_URL : {process.env.APP_URL}</li>
-				<li>DEVELOPER_TOKEN : {process.env.DEVELOPER_TOKEN}</li>
-				<li>TEST_USER_TOKEN : {process.env.TEST_USER_TOKEN}</li>
-			</ul>
+			<section className="w-full overflow-hidden">
+				<ul>
+					<li>APP_URL : {process.env.APP_URL}</li>
+					<li>DEVELOPER_TOKEN : {process.env.DEVELOPER_TOKEN}</li>
+					<li>TEST_USER_TOKEN : {process.env.TEST_USER_TOKEN}</li>
+				</ul>
+			</section>
 		</>
 	)
 }

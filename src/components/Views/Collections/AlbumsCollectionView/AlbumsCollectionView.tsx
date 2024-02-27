@@ -8,21 +8,29 @@ type AlbumCollectionViewProps = {
 }
 
 const AlbumCollectionView = ({ items, ...props }: AlbumCollectionViewProps) => {
+	const size = 316
 	return (
 		<ul className={styles.gridScrollVerticalView}>
 			{items.map((item: any) => (
 				<a
-					className="flex flex-col basis-auto cols-3"
+					// className="flex flex-col basis-auto group col-span-1"
+					// className="basis-auto cols-3"
+					// className="flex flex-col basis-auto snap-start px-4 -mx-4"
+					// className="list-item snap-start px-4 -mx-4"
+					className={styles.tmpAlbums}
 					target="_blank"
 					href={`https://music.apple.com/${process.env.STOREFRONT}/album/${item.storeId}`}
 					key={`${props.key}-${item.storeId}`}
 				>
-					<div>
+					<div className="block">
 						<Image
-							src={item.artworkUrl.replace('{w}x{h}', '300x300')}
+							src={item.artworkUrl.replace(
+								'{w}x{h}',
+								`${size}x${size}`
+							)}
 							alt={`${item.name} by ${item.artistName}`}
-							width={300}
-							height={300}
+							width={size}
+							height={size}
 						></Image>
 					</div>
 					<div className="flex flex-col">
