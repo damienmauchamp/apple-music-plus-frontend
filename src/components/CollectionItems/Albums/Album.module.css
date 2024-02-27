@@ -1,0 +1,7 @@
+.container {
+	@apply flex flex-col basis-auto;
+	@apply snap-start;
+	@apply p-4 -m-4;
+
+	/* @apply basis-1/6; */
+}

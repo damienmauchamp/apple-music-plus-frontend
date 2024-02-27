@@ -1,17 +1,30 @@
-.gridScrollVerticalView {
-	@apply grid grid-rows-2 grid-flow-col gap-x-4 gap-y-6;
-	grid-auto-columns: calc(16.6667% - 1rem);
-	@apply overflow-x-auto overflow-y-hidden;
-	@apply w-full scroll-smooth overscroll-x-none snap-x;
+.gridSection {
+	@apply grid gap-x-4 gap-y-6;
+	@apply max-sm:auto-cols-2c max-md:auto-cols-4c auto-cols-6c;
+	@apply grid-rows-2;
+	@apply overflow-y-hidden;
+	@apply w-full;
 	@apply me-0 ms-0;
 	@apply -my-4;
-	/* @apply py-4 px-7; */
 	@apply py-4 px-4;
+	/* @apply py-4 px-7; */
 	scrollbar-width: none;
 }
 
-.tmpAlbums {
-	@apply flex flex-col basis-auto;
-	@apply snap-start;
-	@apply p-4 -m-4;
+.gridNotScrollable {
+	@apply max-sm:grid-cols-2 max-md:grid-cols-4 grid-cols-6;
+}
+
+.gridScrollable {
+	@apply grid-flow-col;
+	@apply overflow-x-auto;
+	@apply scroll-smooth overscroll-x-none snap-x;
+}
+
+.gridMobileScrollable {
+	/* Scrollable on mobile, +gridScrollable -gridNotScrollable*/
+	@apply max-md:grid-cols-none;
+	@apply max-md:grid-flow-col;
+	@apply max-md:overflow-x-auto;
+	@apply max-md:scroll-smooth max-md:overscroll-x-none max-md:snap-x;
 }

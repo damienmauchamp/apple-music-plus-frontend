@@ -8,6 +8,7 @@ import styles from 'page.module.css'
 import Section from '@/src/components/Section/Section'
 import AlbumsCollectionView from '@/src/components/Views/Collections/AlbumsCollectionView/AlbumsCollectionView'
 import SongsCollectionView from '@/src/components/Views/Collections/SongsCollectionView/SongsCollectionView'
+import GridAlbumSection from '@/src/components/Layout/GridAlbumSection/GridAlbumSection'
 
 // region api
 const apiHeaders = {
@@ -125,7 +126,7 @@ export default function Test() {
 	useEffect(() => {
 		loadNewReleases()
 		loadNewSingles()
-		// loadUpcoming()
+		loadUpcoming()
 		loadNewSongs()
 		// loadUpcomingSongs()
 	}, [])
@@ -146,27 +147,34 @@ export default function Test() {
 	return (
 		<>
 			<div className="max-w-5xl mx-auto">
-				<Section
+				<GridAlbumSection
 					id={'newReleases'}
 					title={'New Releases'}
+					key={'newReleases'}
+					items={newReleases}
+					scroll={false}
+					mobileScroll={true}
+					rows={2}
+				/>
+
+				<GridAlbumSection
+					id={'newSingles'}
+					title={'New Singles'}
+					key={'newSingles'}
+					items={newSingles}
 					scroll={true}
-				>
-					<AlbumsCollectionView
-						key={'newReleases'}
-						items={newReleases}
-					/>
-				</Section>
+					rows={2}
+				/>
 
-				<Section id={'newSingles'} title={'New Singles'}>
-					<AlbumsCollectionView
-						key={'newSingles'}
-						items={newSingles}
-					/>
-				</Section>
-
-				<Section id={'Upcoming'} title={'Upcoming'}>
-					<AlbumsCollectionView key={'upcoming'} items={upcoming} />
-				</Section>
+				<GridAlbumSection
+					id={'upcoming'}
+					title={'Upcoming'}
+					key={'upcoming'}
+					items={upcoming}
+					scroll={false}
+					mobileScroll={true}
+					rows={1}
+				/>
 
 				<Section id={'newSongs'} title={'New Songs'}>
 					<SongsCollectionView key={'newSongs'} items={newSongs} />
