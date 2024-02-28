@@ -1,6 +1,7 @@
 import React from 'react'
 import Image from 'next/image'
 import styles from './Album.module.css'
+import ContentRating from '../../Elements/ContentRating/ContentRating'
 
 interface AlbumProps extends React.HTMLAttributes<HTMLDivElement> {
 	key: string
@@ -9,6 +10,7 @@ interface AlbumProps extends React.HTMLAttributes<HTMLDivElement> {
 	artistName: string
 	artworkUrl: string
 	artworkSize?: number
+	contentRating: string
 }
 
 const Album = ({
@@ -18,6 +20,7 @@ const Album = ({
 	artistName,
 	artworkUrl,
 	artworkSize,
+	contentRating,
 	...props
 }: AlbumProps) => {
 	return (
@@ -38,8 +41,13 @@ const Album = ({
 					height={artworkSize}
 				></Image>
 			</div>
-			<div className="flex flex-col">
-				<div>{name}</div>
+			<div className={styles.albumDetails}>
+				<div className={styles.albumNameContainer}>
+					<div className={styles.albumName}>{name}</div>
+					<span className={styles.albumBadge}>
+						<ContentRating type={contentRating} size={11} />
+					</span>
+				</div>
 				<div>{artistName}</div>
 			</div>
 		</a>

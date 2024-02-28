@@ -1,7 +1,7 @@
 import React from 'react'
 import Image from 'next/image'
 import styles from './Song.module.css'
-import ContentRatingExplicit from '@/src/components/Elements/ContentRating/ContentRatingExplicit'
+import ContentRating from '@/src/components/Elements/ContentRating/ContentRating'
 
 interface SongProps extends React.HTMLAttributes<HTMLDivElement> {
 	key: string
@@ -93,14 +93,8 @@ const Song = ({
 					<div className={styles.songNameContainer}>
 						<div className="flex items-center">
 							<div className={styles.songName}>{name}</div>
-
-							{/* <ContentRatingExplicit /> */}
 							<span className={styles.songBadge}>
-								{contentRating === 'explicit' ? (
-									<ContentRatingExplicit />
-								) : (
-									''
-								)}
+								<ContentRating type={contentRating} />
 							</span>
 						</div>
 						<div

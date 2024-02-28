@@ -44,13 +44,6 @@
 	content: ' ';
 	/* @apply inline-flex; */
 }
-/* 
-.songBadge {
-	@apply w-[9px]  h-[9px];
-}
-.songBadge > svg {
-	@apply fill-gray-50;
-} */
 
 .songNameArtist {
 	@apply truncate sm:hidden;

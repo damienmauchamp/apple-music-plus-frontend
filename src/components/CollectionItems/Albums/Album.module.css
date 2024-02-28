@@ -3,3 +3,18 @@
 	@apply snap-start;
 	@apply p-4 -m-4;
 }
+
+.albumDetails {
+	@apply flex flex-col py-1;
+}
+.albumNameContainer {
+	@apply flex items-center;
+}
+
+.albumName {
+	@apply line-clamp-2;
+}
+
+.albumBadge {
+	@apply pl-3 pt-[2px] ml-auto self-start;
+}

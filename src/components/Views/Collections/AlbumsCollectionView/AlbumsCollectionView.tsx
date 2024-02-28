@@ -44,6 +44,7 @@ const AlbumCollectionView = ({
 					artistName={item.artistName}
 					artworkUrl={item.artworkUrl}
 					artworkSize={artworkSize}
+					contentRating={item.contentRating}
 				/>
 			))}
 		</ul>
