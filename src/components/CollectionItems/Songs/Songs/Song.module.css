@@ -32,12 +32,25 @@
 }
 
 .songNameContainer {
-	@apply flex flex-col justify-center truncate p-2;
+	@apply flex flex-col justify-center truncate;
+	/* @apply p-2; */
+	@apply pr-2;
 }
 
 .songName {
 	@apply truncate;
 }
+.songBadge::before {
+	content: ' ';
+	/* @apply inline-flex; */
+}
+/* 
+.songBadge {
+	@apply w-[9px]  h-[9px];
+}
+.songBadge > svg {
+	@apply fill-gray-50;
+} */
 
 .songNameArtist {
 	@apply truncate sm:hidden;

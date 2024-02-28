@@ -22,10 +22,6 @@ const Album = ({
 }: AlbumProps) => {
 	return (
 		<a
-			// className="flex flex-col basis-auto group col-span-1"
-			// className="basis-auto cols-3"
-			// className="flex flex-col basis-auto snap-start px-4 -mx-4"
-			// className="list-item snap-start px-4 -mx-4"
 			className={styles.container}
 			target="_blank"
 			href={`https://music.apple.com/${process.env.STOREFRONT}/album/${storeId}`}
