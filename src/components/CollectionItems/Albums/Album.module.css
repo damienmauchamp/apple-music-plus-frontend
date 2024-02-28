@@ -1,7 +1,12 @@
 .container {
 	@apply flex flex-col basis-auto;
-	@apply snap-start;
+	@apply snap-start self-start;
 	@apply p-4 -m-4;
+}
+
+.artwork {
+	/* @apply w-auto rounded-[7px]; */
+	@apply rounded-[7px];
 }
 
 .albumDetails {
@@ -17,4 +22,8 @@
 
 .albumBadge {
 	@apply pl-3 pt-[2px] ml-auto self-start;
+}
+
+.artistName {
+	@apply line-clamp-1;
 }

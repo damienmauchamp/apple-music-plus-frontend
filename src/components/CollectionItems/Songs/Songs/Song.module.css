@@ -14,7 +14,7 @@
 	@apply grid;
 	grid-template-areas: 'song-artwork song-rank song-icon song-name';
 	grid-template-columns: auto auto auto 1fr;
-	@apply h-[46px] pl-2;
+	@apply h-[46px] pl-4;
 }
 .artworkContainer {
 	/* flex  basis-auto shrink-0 w-12 h-12 */
@@ -63,7 +63,7 @@
 }
 
 .durationCell {
-	@apply pr-3;
+	@apply pr-4;
 }
 .durationContainer {
 	/* @apply inline-grid; */

@@ -24,33 +24,34 @@ const Album = ({
 	...props
 }: AlbumProps) => {
 	return (
-		<a
-			className={styles.container}
-			target="_blank"
-			href={`https://music.apple.com/${process.env.STOREFRONT}/album/${storeId}`}
-			key={key}
-		>
-			<div className="block">
-				<Image
-					src={artworkUrl.replace(
-						'{w}x{h}',
-						`${artworkSize}x${artworkSize}`
-					)}
-					alt={`${name} by ${artistName}`}
-					width={artworkSize}
-					height={artworkSize}
-				></Image>
-			</div>
-			<div className={styles.albumDetails}>
-				<div className={styles.albumNameContainer}>
-					<div className={styles.albumName}>{name}</div>
-					<span className={styles.albumBadge}>
-						<ContentRating type={contentRating} size={11} />
-					</span>
+		<div className={styles.container} key={key}>
+			<a
+				target="_blank"
+				href={`https://music.apple.com/${process.env.STOREFRONT}/album/${storeId}`}
+			>
+				<div className="block">
+					<Image
+						className={styles.artwork}
+						src={artworkUrl.replace(
+							'{w}x{h}',
+							`${artworkSize}x${artworkSize}`
+						)}
+						alt={`${name} by ${artistName}`}
+						width={artworkSize}
+						height={artworkSize}
+					></Image>
 				</div>
-				<div>{artistName}</div>
-			</div>
-		</a>
+				<div className={styles.albumDetails}>
+					<div className={styles.albumNameContainer}>
+						<div className={styles.albumName}>{name}</div>
+						<span className={styles.albumBadge}>
+							<ContentRating type={contentRating} size={11} />
+						</span>
+					</div>
+					<div className={styles.artistName}>{artistName}</div>
+				</div>
+			</a>
+		</div>
 	)
 }
 

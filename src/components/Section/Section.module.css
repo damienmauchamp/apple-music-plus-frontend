@@ -3,7 +3,7 @@
 .sectionContent {
 } */
 .sectionHeader {
-	@apply mx-6 mb-3;
+	@apply mx-4 mb-3;
 }
 .sectionTitle {
 	@apply text-lg font-bold;
@@ -12,3 +12,10 @@
 	@apply w-full pb-8;
 	@apply overflow-x-hidden;
 }
+
+/** @todo : max results : 56px x n =>
+ * {
+    max-height: 560px;
+    overflow-y: auto;
+    scrollbar-width: none;
+} */
