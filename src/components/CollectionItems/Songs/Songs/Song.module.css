@@ -7,9 +7,8 @@
 	@apply table-cell;
 	@apply align-middle;
 }
-
-.artworkNameCell {
-}
+/* .artworkNameCell {
+} */
 .artworkNameContainer {
 	/* @apply flex; */
 	@apply grid;
@@ -17,7 +16,6 @@
 	grid-template-columns: auto auto auto 1fr;
 	@apply h-[46px] pl-2;
 }
-
 .artworkContainer {
 	/* flex  basis-auto shrink-0 w-12 h-12 */
 	@apply grid items-center;
@@ -78,3 +76,48 @@
 .songActions {
 	@apply ml-2;
 }
+
+/* region grid */
+
+.container.gridContainer {
+	@apply flex snap-start items-center;
+	@apply m-0 p-0;
+	@apply -m-4 p-4;
+	@apply h-auto;
+}
+
+.container.gridContainer > * {
+	@apply flex;
+}
+
+.container.gridContainer .gridWrapper {
+	/* @apply grid w-full; */
+	/* grid-template-columns: auto auto 1fr auto; */
+	/* @apply py-2 pr-3.5; */
+	/* @apply py-2 px-3.5; */
+	@apply flex w-full;
+}
+
+.container.gridContainer .artworkNameCell {
+	/* @apply mr-3; */
+}
+
+.container.gridContainer .artworkNameContainer {
+	@apply pr-2 py-2 h-auto;
+}
+
+.container.gridContainer .songNameArtist {
+	@apply block;
+}
+
+.container.gridContainer .durationCell {
+	@apply ml-auto flex;
+}
+
+.container.gridContainer .artistNameCell,
+.container.gridContainer .albumNameCell,
+.container.gridContainer .trackDuration {
+	@apply hidden;
+}
+
+/* endregion grid */

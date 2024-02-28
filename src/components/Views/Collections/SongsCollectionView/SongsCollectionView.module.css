@@ -1,7 +1,17 @@
-/* .gridScrollVerticalView { */
-/* @apply grid grid-flow-col grid-rows-2 gap-4;
-	grid-auto-columns: calc(25% - 1rem); */
-/* } */
 .SongsCollectionView {
 	@apply table;
+}
+
+.gridScrollable {
+	@apply grid gap-x-2 gap-y-0;
+	@apply m-0 p-0;
+	@apply -m-4 p-4;
+	@apply grid-flow-col;
+	@apply max-lg:auto-cols-2c auto-cols-3c;
+	@apply max-lg:auto-cols-2c-song-full auto-cols-3c-song-full;
+	@apply overflow-x-auto overflow-y-hidden;
+	@apply scroll-smooth overscroll-x-none snap-x;
+	scrollbar-width: none;
+	@apply items-stretch;
+	@apply grid-rows-4;
 }

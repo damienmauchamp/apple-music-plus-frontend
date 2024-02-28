@@ -6,14 +6,36 @@ import Song from '@/src/components/CollectionItems/Songs/Songs/Song'
 export interface SongsCollectionViewProps {
 	key: string
 	items: any[]
+	scroll?: boolean
+	rows?: number
+	// mobileScroll?: boolean
 }
 
-const SongsCollectionView = ({ items, ...props }: SongsCollectionViewProps) => {
+const SongsCollectionView = ({
+	items,
+	scroll,
+	rows,
+	// mobileScroll,
+	...props
+}: SongsCollectionViewProps) => {
 	// todo : property & global parameter
 	const artworkSize = 50
 
+	if (!rows) rows = 4
+	let classNames = ''
+	if (rows) {
+		classNames += ` !grid-rows-${rows}`
+	}
+
 	return (
-		<div className={styles.SongsCollectionView}>
+		<ul
+			className={`
+			${styles.SongsCollectionView}
+			${scroll ? styles.gridScrollable : ''}
+			${classNames}
+		`}
+			data-scroll={Number(scroll)}
+		>
 			{items.map((item: any) => (
 				<Song
 					key={`${props.key}-${item.storeId}`}
@@ -28,9 +50,10 @@ const SongsCollectionView = ({ items, ...props }: SongsCollectionViewProps) => {
 					artworkSize={artworkSize}
 					durationInMillis={item.durationInMillis}
 					contentRating={item.contentRating}
+					wrap={scroll}
 				/>
 			))}
-		</div>
+		</ul>
 	)
 }
 

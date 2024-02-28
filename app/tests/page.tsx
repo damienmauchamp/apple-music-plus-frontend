@@ -176,6 +176,15 @@ export default function Test() {
 				/>
 				<SongsListSection
 					id={'newSongs'}
+					title={'New Songs With Scroll'}
+					key={'newSongs'}
+					items={newSongs}
+					//
+					scroll={true}
+					rows={4}
+				/>
+				<SongsListSection
+					id={'newSongs'}
 					title={'New Songs'}
 					key={'newSongs'}
 					items={newSongs}

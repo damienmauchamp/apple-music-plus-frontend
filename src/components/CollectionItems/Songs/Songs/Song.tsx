@@ -16,6 +16,7 @@ interface SongProps extends React.HTMLAttributes<HTMLDivElement> {
 	artworkSize?: number
 	durationInMillis?: number
 	contentRating: string
+	wrap?: boolean
 }
 
 function formatDuration(milliseconds: number) {
@@ -68,63 +69,84 @@ const Song = ({
 	let albumLink = `https://music.apple.com/${process.env.STOREFRONT}/album/${albumId}`
 	let songLink = `${albumLink}?i=${storeId}`
 
-	return (
-		<div className={styles.container} key={key}>
-			<div className={styles.artworkNameCell}>
-				<div className={styles.artworkNameContainer}>
-					<a
-						className={styles.artworkContainer}
-						// className="flex flex-col basis-auto cols-3 shrink-0"
-						target="_blank"
-						href={songLink}
-					>
-						<Image
-							className={styles.artwork}
-							src={artworkUrl.replace(
-								'{w}x{h}',
-								`${artworkSize}x${artworkSize}`
-							)}
-							alt={`${name} by ${artistName}`}
-							width={artworkSize}
-							height={artworkSize}
-						></Image>
-					</a>
-
-					<div className={styles.songNameContainer}>
-						<div className="flex items-center">
-							<div className={styles.songName}>{name}</div>
-							<span className={styles.songBadge}>
-								<ContentRating type={contentRating} />
-							</span>
+	const song = () => {
+		return (
+			<>
+				<div className={styles.artworkNameCell}>
+					<div className={styles.artworkNameContainer}>
+						<div className="block">
+							<a
+								className={styles.artworkContainer}
+								// className="flex flex-col basis-auto cols-3 shrink-0"
+								target="_blank"
+								href={songLink}
+							>
+								<Image
+									className={styles.artwork}
+									src={artworkUrl.replace(
+										'{w}x{h}',
+										`${artworkSize}x${artworkSize}`
+									)}
+									alt={`${name} by ${artistName}`}
+									width={artworkSize}
+									height={artworkSize}
+								></Image>
+							</a>
 						</div>
-						<div
-							className={styles.songNameArtist}
-							dangerouslySetInnerHTML={{ __html: artistsNames }}
-						/>
+
+						<div className={styles.songNameContainer}>
+							<div className="flex items-center">
+								<div className={styles.songName}>{name}</div>
+								<span className={styles.songBadge}>
+									<ContentRating type={contentRating} />
+								</span>
+							</div>
+							<div
+								className={styles.songNameArtist}
+								dangerouslySetInnerHTML={{
+									__html: artistsNames,
+								}}
+							/>
+						</div>
 					</div>
 				</div>
-			</div>
-			<div className={styles.artistNameCell}>
-				<div
-					className={styles.artistName}
-					dangerouslySetInnerHTML={{ __html: artistsNames }}
-				/>
-			</div>
-			<div className={styles.albumNameCell}>
-				<div className={styles.albumName}>{albumName}</div>
-			</div>
-			<div className={styles.durationCell}>
-				<div className={styles.durationContainer}>
-					<time
-						className={styles.trackDuration}
-						dateTime={formatDateTime(Number(durationInMillis))}
-					>
-						{duration}
-					</time>
-
-					<div className={styles.songActions}>···</div>
+				<div className={styles.artistNameCell}>
+					<div
+						className={styles.artistName}
+						dangerouslySetInnerHTML={{ __html: artistsNames }}
+					/>
 				</div>
-			</div>
+				<div className={styles.albumNameCell}>
+					<div className={styles.albumName}>{albumName}</div>
+				</div>
+				<div className={styles.durationCell}>
+					<div className={styles.durationContainer}>
+						<time
+							className={styles.trackDuration}
+							dateTime={formatDateTime(Number(durationInMillis))}
+						>
+							{duration}
+						</time>
+
+						<div className={styles.songActions}>···</div>
+					</div>
+				</div>
+			</>
+		)
+	}
+	const render = () => {
+		if (props.wrap) {
+			return <div className={styles.gridWrapper}>{song()}</div>
+		}
+		return song()
+	}
+
+	return (
+		<div
+			className={`${styles.container} ${props.wrap ? styles.gridContainer : ''}`}
+			key={key}
+		>
+			{render()}
 		</div>
 	)
 }

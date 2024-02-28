@@ -30,13 +30,6 @@ const AlbumsGridSection = ({
 					rows={rows}
 				/>
 			</Section>
-			<ul>
-				<li>- [Section] title: {title}</li>
-				<li>
-					- [AlbumsCollectionView] scroll: {scroll ? 'true' : 'false'}
-					- [AlbumsCollectionView] rows: {rows}
-				</li>
-			</ul>
 		</>
 	)
 }

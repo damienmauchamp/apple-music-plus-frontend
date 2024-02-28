@@ -14,8 +14,8 @@ const SongsListSection = ({
 	title,
 	key,
 	items,
-	// scroll,
-	// rows,
+	scroll,
+	rows,
 	...props
 }: SongsListSectionProps) => {
 	return (
@@ -24,17 +24,10 @@ const SongsListSection = ({
 				<SongsCollectionView
 					key={key}
 					items={items}
-					// scroll={scroll}
-					// rows={rows}
+					scroll={scroll}
+					rows={rows}
 				/>
 			</Section>
-			<ul>
-				<li>- [Section] title: {title}</li>
-				{/* <li>
-					- [SongsCollectionView] scroll: {scroll ? 'true' : 'false'}-
-					[SongsCollectionView] rows: {rows}
-				</li> */}
-			</ul>
 		</>
 	)
 }

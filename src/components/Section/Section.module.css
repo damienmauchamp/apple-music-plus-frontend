@@ -10,4 +10,5 @@
 }
 .sectionItems {
 	@apply w-full pb-8;
+	@apply overflow-x-hidden;
 }
