@@ -4,12 +4,14 @@ import AlbumsCollectionView, {
 	AlbumCollectionViewProps,
 } from '../../Views/Collections/AlbumsCollectionView/AlbumsCollectionView'
 
-interface GridAlbumSectionProps extends SectionProps, AlbumCollectionViewProps {
+interface AlbumsGridSectionProps
+	extends SectionProps,
+		AlbumCollectionViewProps {
 	key: string
 	items: any[]
 }
 
-const GridAlbumSection = ({
+const AlbumsGridSection = ({
 	id,
 	title,
 	key,
@@ -17,7 +19,7 @@ const GridAlbumSection = ({
 	scroll,
 	rows,
 	...props
-}: GridAlbumSectionProps) => {
+}: AlbumsGridSectionProps) => {
 	return (
 		<>
 			<Section id={id} title={title}>
@@ -39,5 +41,5 @@ const GridAlbumSection = ({
 	)
 }
 
-export default GridAlbumSection
-export type { GridAlbumSectionProps }
+export default AlbumsGridSection
+export type { AlbumsGridSectionProps }

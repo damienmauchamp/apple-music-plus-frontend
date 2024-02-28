@@ -8,7 +8,7 @@ import styles from 'page.module.css'
 import Section from '@/src/components/Section/Section'
 import AlbumsCollectionView from '@/src/components/Views/Collections/AlbumsCollectionView/AlbumsCollectionView'
 import SongsCollectionView from '@/src/components/Views/Collections/SongsCollectionView/SongsCollectionView'
-import GridAlbumSection from '@/src/components/Layout/GridAlbumSection/GridAlbumSection'
+import AlbumsGridSection from '@/src/components/Layout/AlbumsGridSection/AlbumsGridSection'
 import SongsListSection from '@/src/components/Layout/SongsListSection/SongsListSection'
 
 // region api
@@ -126,10 +126,10 @@ export default function Test() {
 
 	useEffect(() => {
 		loadNewReleases()
-		// loadNewSingles()
-		// loadUpcoming()
+		loadNewSingles()
+		loadUpcoming()
 		loadNewSongs()
-		// loadUpcomingSongs()
+		loadUpcomingSongs()
 	}, [])
 
 	const refreshButton = (title: string, handleClick: () => void) => {
@@ -148,7 +148,7 @@ export default function Test() {
 	return (
 		<>
 			<div className="max-w-5xl mx-auto">
-				<GridAlbumSection
+				<AlbumsGridSection
 					id={'newReleases'}
 					title={'New Releases'}
 					key={'newReleases'}
@@ -157,7 +157,7 @@ export default function Test() {
 					mobileScroll={true}
 					rows={2}
 				/>
-				<GridAlbumSection
+				<AlbumsGridSection
 					id={'newSingles'}
 					title={'New Singles'}
 					key={'newSingles'}
@@ -165,7 +165,7 @@ export default function Test() {
 					scroll={true}
 					rows={2}
 				/>
-				<GridAlbumSection
+				<AlbumsGridSection
 					id={'upcoming'}
 					title={'Upcoming'}
 					key={'upcoming'}
