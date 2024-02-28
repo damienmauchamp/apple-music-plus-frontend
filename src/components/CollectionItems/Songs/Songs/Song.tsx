@@ -8,6 +8,7 @@ interface SongProps extends React.HTMLAttributes<HTMLDivElement> {
 	name: string
 	albumId: string
 	albumName: string
+	artists: any[] // todo : Artist[]
 	artistId: string
 	artistName: string
 	artworkUrl: string
@@ -42,6 +43,7 @@ const Song = ({
 	name,
 	albumId,
 	albumName,
+	artists,
 	artistId,
 	artistName,
 	artworkUrl,
@@ -50,6 +52,21 @@ const Song = ({
 	contentRating,
 	...props
 }: SongProps) => {
+	const duration = durationInMillis
+		? formatDuration(durationInMillis)
+		: '--:--'
+
+	let artistsNames = artistName
+	artists.forEach((artist: any) => {
+		artistsNames = artistsNames.replace(
+			artist.name,
+			`<a target="_blank" href="https://music.apple.com/${process.env.STOREFRONT}/artist/${artist.storeId}">${artist.name}</a>`
+		)
+	})
+
+	let albumLink = `https://music.apple.com/${process.env.STOREFRONT}/album/${albumId}`
+	let songLink = `${albumLink}?i=${storeId}`
+
 	return (
 		<div className={styles.container} key={key}>
 			<div className={styles.artworkNameCell}>
@@ -58,7 +75,7 @@ const Song = ({
 						className={styles.artworkContainer}
 						// className="flex flex-col basis-auto cols-3 shrink-0"
 						target="_blank"
-						href={`https://music.apple.com/${process.env.STOREFRONT}/album/${albumId}?i=${storeId}`}
+						href={songLink}
 					>
 						<Image
 							className={styles.artwork}
@@ -76,28 +93,29 @@ const Song = ({
 						<div className={styles.songName}>
 							{name} ({contentRating})
 						</div>
-						<div className={styles.songNameArtist}>
-							{artistName}
-						</div>
+						<div
+							className={styles.songNameArtist}
+							dangerouslySetInnerHTML={{ __html: artistsNames }}
+						/>
 					</div>
 				</div>
 			</div>
 			<div className={styles.artistNameCell}>
-				<div className="flex truncate">{artistName}</div>
+				<div
+					className={styles.artistName}
+					dangerouslySetInnerHTML={{ __html: artistsNames }}
+				/>
 			</div>
 			<div className={styles.albumNameCell}>
-				<div className="flex truncate">{albumName}</div>
+				<div className={styles.albumName}>{albumName}</div>
 			</div>
 			<div className={styles.durationCell}>
 				<div className={styles.durationContainer}>
 					<time
 						className={styles.trackDuration}
 						dateTime={formatDateTime(Number(durationInMillis))}
-						// data-testid="track-duration"
 					>
-						{durationInMillis
-							? formatDuration(durationInMillis)
-							: '--:--'}
+						{duration}
 					</time>
 
 					<div className={styles.songActions}>···</div>

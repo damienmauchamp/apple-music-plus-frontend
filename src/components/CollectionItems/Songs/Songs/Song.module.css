@@ -15,7 +15,7 @@
 	@apply grid;
 	grid-template-areas: 'song-artwork song-rank song-icon song-name';
 	grid-template-columns: auto auto auto 1fr;
-	@apply h-[46px];
+	@apply h-[46px] pl-2;
 }
 
 .artworkContainer {
@@ -40,15 +40,22 @@
 }
 
 .songNameArtist {
-	@apply flex truncate sm:hidden;
+	@apply truncate sm:hidden;
 }
 
 .artistNameCell {
 	@apply max-sm:hidden truncate pr-3;
 }
 
+.artistName {
+	@apply truncate;
+}
+
 .albumNameCell {
 	@apply max-md:hidden truncate pr-4;
+}
+.albumName {
+	@apply truncate;
 }
 
 .durationCell {

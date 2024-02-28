@@ -9,6 +9,7 @@ import Section from '@/src/components/Section/Section'
 import AlbumsCollectionView from '@/src/components/Views/Collections/AlbumsCollectionView/AlbumsCollectionView'
 import SongsCollectionView from '@/src/components/Views/Collections/SongsCollectionView/SongsCollectionView'
 import GridAlbumSection from '@/src/components/Layout/GridAlbumSection/GridAlbumSection'
+import SongsListSection from '@/src/components/Layout/SongsListSection/SongsListSection'
 
 // region api
 const apiHeaders = {
@@ -104,27 +105,27 @@ export default function Test() {
 
 	const loadNewReleases = async () => {
 		const res = await getNewReleases()
-		setNewReleases(res.data)
+		setNewReleases(res.data.data)
 	}
 	const loadNewSingles = async () => {
 		const res = await getNewSingles()
-		setNewSingles(res.data)
+		setNewSingles(res.data.data)
 	}
 	const loadUpcoming = async () => {
 		const res = await getUpcoming()
-		setUpcoming(res.data)
+		setUpcoming(res.data.data)
 	}
 	const loadNewSongs = async () => {
 		const res = await getNewSongs()
-		setNewSongs(res.data)
+		setNewSongs(res.data.data)
 	}
 	const loadUpcomingSongs = async () => {
 		const res = await getUpcomingSongs()
-		setUpcomingSongs(res.data)
+		setUpcomingSongs(res.data.data)
 	}
 
 	useEffect(() => {
-		// loadNewReleases()
+		loadNewReleases()
 		// loadNewSingles()
 		// loadUpcoming()
 		loadNewSongs()
@@ -156,7 +157,6 @@ export default function Test() {
 					mobileScroll={true}
 					rows={2}
 				/>
-
 				<GridAlbumSection
 					id={'newSingles'}
 					title={'New Singles'}
@@ -165,7 +165,6 @@ export default function Test() {
 					scroll={true}
 					rows={2}
 				/>
-
 				<GridAlbumSection
 					id={'upcoming'}
 					title={'Upcoming'}
@@ -175,17 +174,18 @@ export default function Test() {
 					mobileScroll={true}
 					rows={1}
 				/>
-
-				<Section id={'newSongs'} title={'New Songs'}>
-					<SongsCollectionView key={'newSongs'} items={newSongs} />
-				</Section>
-
-				<Section id={'Upcoming Songs'} title={'Upcoming Songs'}>
-					<SongsCollectionView
-						key={'upcomingSongs'}
-						items={upcomingSongs}
-					/>
-				</Section>
+				<SongsListSection
+					id={'newSongs'}
+					title={'New Songs'}
+					key={'newSongs'}
+					items={newSongs}
+				/>
+				<SongsListSection
+					id={'upcomingSongs'}
+					title={'Upcoming Songs'}
+					key={'upcomingSongs'}
+					items={upcomingSongs}
+				/>
 			</div>
 
 			<hr />

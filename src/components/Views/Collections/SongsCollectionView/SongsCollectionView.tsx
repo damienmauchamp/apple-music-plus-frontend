@@ -3,7 +3,7 @@ import Image from 'next/image'
 import styles from './SongsCollectionView.module.css'
 import Song from '@/src/components/CollectionItems/Songs/Songs/Song'
 
-type SongsCollectionViewProps = {
+export interface SongsCollectionViewProps {
 	key: string
 	items: any[]
 }
@@ -23,6 +23,7 @@ const SongsCollectionView = ({ items, ...props }: SongsCollectionViewProps) => {
 					albumName={item.albumName}
 					artistId={item.artistId}
 					artistName={item.artistName}
+					artists={item.artists}
 					artworkUrl={item.artworkUrl}
 					artworkSize={artworkSize}
 					durationInMillis={item.durationInMillis}
