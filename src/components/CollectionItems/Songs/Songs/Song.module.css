@@ -1,0 +1,67 @@
+.container {
+	@apply table-row;
+	@apply align-middle;
+	@apply h-14;
+}
+.container > * {
+	@apply table-cell;
+	@apply align-middle;
+}
+
+.artworkNameCell {
+}
+.artworkNameContainer {
+	/* @apply flex; */
+	@apply grid;
+	grid-template-areas: 'song-artwork song-rank song-icon song-name';
+	grid-template-columns: auto auto auto 1fr;
+	@apply h-[46px];
+}
+
+.artworkContainer {
+	/* flex  basis-auto shrink-0 w-12 h-12 */
+	@apply grid items-center;
+	grid-area: song-artwork;
+	grid-template-areas: 'song-index';
+	@apply mr-3;
+}
+
+.artwork {
+	@apply h-10 w-auto rounded-[5px];
+	grid-area: song-index;
+}
+
+.songNameContainer {
+	@apply flex flex-col justify-center truncate p-2;
+}
+
+.songName {
+	@apply truncate;
+}
+
+.songNameArtist {
+	@apply flex truncate sm:hidden;
+}
+
+.artistNameCell {
+	@apply max-sm:hidden truncate pr-3;
+}
+
+.albumNameCell {
+	@apply max-md:hidden truncate pr-4;
+}
+
+.durationCell {
+	@apply pr-3;
+}
+.durationContainer {
+	/* @apply inline-grid; */
+	@apply flex items-center justify-end;
+}
+
+.trackDuration {
+	@apply max-[420px]:hidden;
+}
+.songActions {
+	@apply ml-2;
+}

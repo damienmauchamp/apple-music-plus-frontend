@@ -2,7 +2,7 @@ import React from 'react'
 import Image from 'next/image'
 import styles from './Album.module.css'
 
-interface AlbumProps {
+interface AlbumProps extends React.HTMLAttributes<HTMLDivElement> {
 	key: string
 	storeId: string
 	name: string

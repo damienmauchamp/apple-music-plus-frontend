@@ -1,6 +1,7 @@
 import React from 'react'
 import Image from 'next/image'
 import styles from './SongsCollectionView.module.css'
+import Song from '@/src/components/CollectionItems/Songs/Songs/Song'
 
 type SongsCollectionViewProps = {
 	key: string
@@ -8,33 +9,27 @@ type SongsCollectionViewProps = {
 }
 
 const SongsCollectionView = ({ items, ...props }: SongsCollectionViewProps) => {
+	// todo : property & global parameter
+	const artworkSize = 50
+
 	return (
-		<ul className={styles.SongsCollectionView}>
+		<div className={styles.SongsCollectionView}>
 			{items.map((item: any) => (
-				<div
-					className="flex flex-row"
+				<Song
 					key={`${props.key}-${item.storeId}`}
-				>
-					<a
-						className="flex flex-col basis-auto cols-3"
-						target="_blank"
-						href={`https://music.apple.com/${process.env.STOREFRONT}/album/${item.albumId}?i=${item.storeId}`}
-					>
-						<Image
-							src={item.artworkUrl.replace('{w}x{h}', '100x100')}
-							alt={`${item.name} by ${item.artistName}`}
-							width={100}
-							height={100}
-						></Image>
-					</a>
-					<div>{item.name}</div>
-					<div>{item.artistName}</div>
-					<div>{item.albumName}</div>
-					<div>{item.durationInMillis}</div>
-					<div>{item.contentRating}</div>
-				</div>
+					storeId={item.storeId}
+					name={item.name}
+					albumId={item.albumId}
+					albumName={item.albumName}
+					artistId={item.artistId}
+					artistName={item.artistName}
+					artworkUrl={item.artworkUrl}
+					artworkSize={artworkSize}
+					durationInMillis={item.durationInMillis}
+					contentRating={item.contentRating}
+				/>
 			))}
-		</ul>
+		</div>
 	)
 }
 

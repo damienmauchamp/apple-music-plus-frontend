@@ -124,9 +124,9 @@ export default function Test() {
 	}
 
 	useEffect(() => {
-		loadNewReleases()
-		loadNewSingles()
-		loadUpcoming()
+		// loadNewReleases()
+		// loadNewSingles()
+		// loadUpcoming()
 		loadNewSongs()
 		// loadUpcomingSongs()
 	}, [])
