@@ -4,7 +4,7 @@ import styles from './Song.module.css'
 import ContentRating from '@/src/components/Elements/ContentRating/ContentRating'
 
 interface SongProps extends React.HTMLAttributes<HTMLDivElement> {
-	key: string
+	// identifier: string
 	// id: number,
 	storeId: string
 	name: string
@@ -52,7 +52,7 @@ function formatDateTime(milliseconds: number) {
 }
 
 const Song = ({
-	key,
+	// identifier,
 	storeId,
 	name,
 	albumId,
@@ -156,7 +156,7 @@ const Song = ({
 	return (
 		<div
 			className={`${styles.container} ${props.wrap ? styles.gridContainer : ''}`}
-			key={key}
+			// key={identifier}
 		>
 			{render()}
 		</div>

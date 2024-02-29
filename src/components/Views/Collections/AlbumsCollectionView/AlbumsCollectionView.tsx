@@ -5,7 +5,7 @@ import { clearLine } from 'readline'
 import Album from '@/src/components/CollectionItems/Albums/Album'
 
 export type AlbumCollectionViewProps = {
-	key: string
+	id: string
 	items: any[]
 	scroll?: boolean
 	rows?: number
@@ -42,7 +42,8 @@ const AlbumCollectionView = ({
 			{items.map((item: any) => (
 				<Album
 					{...item}
-					key={`${props.key}-${item.storeId}`}
+					key={`${props.id}-${item.storeId}`}
+					// identifier={`${props.id}-${item.storeId}`}
 					storeId={item.storeId}
 					name={item.name}
 					artistName={item.artistName}

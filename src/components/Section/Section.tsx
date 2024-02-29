@@ -3,6 +3,7 @@ import styles from './Section.module.css'
 import Image from 'next/image'
 
 export interface SectionProps extends React.HTMLAttributes<HTMLElement> {
+	id: string
 	title: string
 	items?: any[]
 	seeAll?: () => void

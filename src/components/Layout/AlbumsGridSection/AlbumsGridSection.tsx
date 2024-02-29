@@ -7,14 +7,14 @@ import AlbumsCollectionView, {
 interface AlbumsGridSectionProps
 	extends SectionProps,
 		AlbumCollectionViewProps {
-	key: string
+	// key: string
 	items: any[]
 }
 
 const AlbumsGridSection = ({
 	id,
 	title,
-	key,
+	// key,
 	items,
 	scroll,
 	rows,
@@ -24,7 +24,7 @@ const AlbumsGridSection = ({
 		<>
 			<Section id={id} title={title}>
 				<AlbumsCollectionView
-					key={key}
+					id={id}
 					items={items}
 					scroll={scroll}
 					rows={rows}

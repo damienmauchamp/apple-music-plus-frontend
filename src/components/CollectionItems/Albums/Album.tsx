@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import styles from './Album.module.css'
 import ContentRating from '../../Elements/ContentRating/ContentRating'
+import axios from 'axios'
 
 interface AlbumProps extends React.HTMLAttributes<HTMLDivElement> {
-	key: string
+	// identifier: string
 	// id: number,
 	storeId: string
 	name: string
@@ -27,8 +28,34 @@ interface AlbumProps extends React.HTMLAttributes<HTMLDivElement> {
 	// updated_at?: string
 }
 
+// region api
+const apiHeaders = {
+	Accept: 'application/json',
+	Authorization: `Bearer ${process.env.TEST_USER_TOKEN}`,
+	'Music-Token': `${process.env.TEST_USER_MUSIC_TOKEN}`,
+}
+
+async function addResourceToLibrary(
+	storeIds: string[],
+	type: string = 'albums'
+) {
+	// todo : use MusicKit API
+	return await axios.post(
+		`${process.env.APP_URL}/api/applemusic/library`,
+		{},
+		{
+			headers: apiHeaders,
+			params: {
+				ids: storeIds,
+				type: type,
+			},
+		}
+	)
+}
+// endregion api
+
 const Album = ({
-	key,
+	// identifier,
 	storeId,
 	name,
 	artistName,
@@ -37,13 +64,45 @@ const Album = ({
 	contentRating,
 	...props
 }: AlbumProps) => {
-	// const onOverlayClick = (e, arg1, arg2, arg3 ) => {
-	// 	e.preventDefault();
-	// 	//do something...
-	// }
+	const [inLibrary, setInLibrary] = React.useState<boolean | null>(null)
+	const [libraryButtonLoading, setLibraryButtonLoading] =
+		React.useState(false)
+	// const [libraryButtonLoadingText, setLibraryButtonLoadingText] =
+	// 	React.useState('Add to library')
+
+	const handleAddToLibrary = (
+		e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+	) => {
+		e.preventDefault()
+
+		if (inLibrary === null) return
+		if (inLibrary) {
+			console.log('Album already in library')
+			return
+		}
+
+		setLibraryButtonLoading(true)
+
+		return addResourceToLibrary([storeId])
+			.then((res) => {
+				setLibraryButtonLoading(false)
+				setInLibrary(res.data.added)
+			})
+			.catch((err) => {
+				console.error('err', err)
+			})
+	}
+
+	useEffect(() => {
+		if (props.inLibrary === undefined) props.inLibrary = null
+		setInLibrary(props.inLibrary)
+	}, [])
 
 	return (
-		<div className={styles.container} key={key}>
+		<div
+			className={styles.container}
+			// key={identifier}
+		>
 			<a
 				className={styles.album}
 				target="_blank"
@@ -63,10 +122,34 @@ const Album = ({
 
 					<div className={styles.artworkOverlay}></div>
 					<div className={styles.artworkOverlayActions}>
-						{props.inLibrary !== null ? (
-							<div>{props.inLibrary ? 'OK' : '+'}</div>
+						{inLibrary !== null ? (
+							<button
+								className={`${styles.overlayButton} ${styles.libraryButton} ${
+									libraryButtonLoading
+										? styles.libraryButtonLoading
+										: ''
+								}`}
+								data-added={Number(inLibrary)}
+								onClick={handleAddToLibrary}
+							>
+								{inLibrary ? 'OK' : '+'}
+							</button>
 						) : null}
-						<div>{props.inLibrary}</div>
+						{/* <div>{inLibrary}</div> */}
+						{/* <div>{inLibrary}</div> */}
+						<button
+							className={`${styles.overlayButton}`}
+							onClick={(
+								e: React.MouseEvent<
+									HTMLButtonElement,
+									MouseEvent
+								>
+							) => {
+								e.preventDefault()
+							}}
+						>
+							...
+						</button>
 					</div>
 				</div>
 				<div className={styles.albumDetails}>

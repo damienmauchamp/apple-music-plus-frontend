@@ -5,14 +5,13 @@ import SongsCollectionView, {
 } from '../../Views/Collections/SongsCollectionView/SongsCollectionView'
 
 interface SongsListSectionProps extends SectionProps, SongsCollectionViewProps {
-	key: string
+	// key: string
 	items: any[]
 }
 
 const SongsListSection = ({
 	id,
 	title,
-	key,
 	items,
 	scroll,
 	rows,
@@ -22,7 +21,7 @@ const SongsListSection = ({
 		<>
 			<Section id={id} title={title}>
 				<SongsCollectionView
-					key={key}
+					id={id}
 					items={items}
 					scroll={scroll}
 					rows={rows}

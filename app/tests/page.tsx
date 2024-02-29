@@ -186,9 +186,9 @@ export default function Test() {
 					// todo : display table header
 				/>
 				<SongsListSection
-					id={'newSongs'}
+					id={'newSongsList'}
 					title={'New Songs'}
-					key={'newSongs'}
+					key={'newSongsList'}
 					items={newSongs}
 				/>
 				<SongsListSection

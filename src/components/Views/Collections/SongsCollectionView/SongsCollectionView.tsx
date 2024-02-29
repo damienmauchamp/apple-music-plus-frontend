@@ -4,7 +4,7 @@ import styles from './SongsCollectionView.module.css'
 import Song from '@/src/components/CollectionItems/Songs/Songs/Song'
 
 export interface SongsCollectionViewProps {
-	key: string
+	id: string
 	items: any[]
 	scroll?: boolean
 	rows?: number
@@ -20,6 +20,8 @@ const SongsCollectionView = ({
 }: SongsCollectionViewProps) => {
 	// todo : property & global parameter
 	const artworkSize = 50
+
+	if (scroll === undefined) scroll = false
 
 	if (!rows) rows = 4
 	let classNames = ''
@@ -39,7 +41,8 @@ const SongsCollectionView = ({
 			{items.map((item: any) => (
 				<Song
 					{...item}
-					key={`${props.key}-${item.storeId}`}
+					key={`${props.id}-${item.storeId}`}
+					// identifier={`${props.id}-${item.storeId}`}
 					storeId={item.storeId}
 					name={item.name}
 					albumId={item.albumId}

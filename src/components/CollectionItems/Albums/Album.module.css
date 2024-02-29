@@ -30,6 +30,21 @@
 	@apply flex items-end justify-between p-4;
 }
 
+.overlayButton {
+	@apply rounded-full;
+}
+
+.libraryButton {
+	@apply p-2;
+	@apply bg-red-400;
+}
+.libraryButton[data-added='1'] {
+	@apply bg-green-400;
+}
+.libraryButtonLoading {
+	@apply bg-gray-500 pointer-events-none cursor-default;
+}
+
 .album:hover .artworkOverlayActions {
 	@apply opacity-100;
 }
@@ -42,7 +57,7 @@
 }
 
 .albumName {
-	@apply line-clamp-2;
+	@apply line-clamp-2 hover:underline;
 }
 
 .albumBadge {
@@ -50,5 +65,5 @@
 }
 
 .artistName {
-	@apply line-clamp-1;
+	@apply line-clamp-1 hover:underline;
 }
