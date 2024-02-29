@@ -41,6 +41,7 @@ const AlbumCollectionView = ({
 		>
 			{items.map((item: any) => (
 				<Album
+					{...item}
 					key={`${props.key}-${item.storeId}`}
 					storeId={item.storeId}
 					name={item.name}
@@ -48,6 +49,7 @@ const AlbumCollectionView = ({
 					artworkUrl={item.artworkUrl}
 					artworkSize={artworkSize}
 					contentRating={item.contentRating}
+					releaseDate={item.releaseDate}
 				/>
 			))}
 		</ul>

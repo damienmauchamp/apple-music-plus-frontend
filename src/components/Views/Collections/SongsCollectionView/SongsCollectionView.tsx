@@ -38,6 +38,7 @@ const SongsCollectionView = ({
 		>
 			{items.map((item: any) => (
 				<Song
+					{...item}
 					key={`${props.key}-${item.storeId}`}
 					storeId={item.storeId}
 					name={item.name}
@@ -50,6 +51,7 @@ const SongsCollectionView = ({
 					artworkSize={artworkSize}
 					durationInMillis={item.durationInMillis}
 					contentRating={item.contentRating}
+					releaseDate={item.releaseDate}
 					wrap={scroll}
 				/>
 			))}

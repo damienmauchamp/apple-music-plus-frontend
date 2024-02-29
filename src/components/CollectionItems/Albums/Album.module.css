@@ -4,9 +4,34 @@
 	@apply p-4 -m-4;
 }
 
+.album {
+}
+
+.artworkContainer {
+	@apply relative;
+}
+
 .artwork {
 	/* @apply w-auto rounded-[7px]; */
 	@apply rounded-[7px];
+}
+
+.artworkOverlay,
+.artworkOverlayActions {
+	@apply opacity-0 absolute top-0 w-full h-full;
+	transition: opacity 0.1s ease-in;
+}
+
+.album:hover .artworkOverlay {
+	@apply bg-black opacity-20;
+}
+
+.artworkOverlayActions {
+	@apply flex items-end justify-between p-4;
+}
+
+.album:hover .artworkOverlayActions {
+	@apply opacity-100;
 }
 
 .albumDetails {

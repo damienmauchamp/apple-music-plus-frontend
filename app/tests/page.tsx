@@ -15,6 +15,7 @@ import SongsListSection from '@/src/components/Layout/SongsListSection/SongsList
 const apiHeaders = {
 	Accept: 'application/json',
 	Authorization: `Bearer ${process.env.TEST_USER_TOKEN}`,
+	'Music-Token': `${process.env.TEST_USER_MUSIC_TOKEN}`,
 }
 
 const dateParams = {
@@ -182,6 +183,7 @@ export default function Test() {
 					//
 					scroll={true}
 					rows={4}
+					// todo : display table header
 				/>
 				<SongsListSection
 					id={'newSongs'}
@@ -214,6 +216,10 @@ export default function Test() {
 					<li>APP_URL : {process.env.APP_URL}</li>
 					<li>DEVELOPER_TOKEN : {process.env.DEVELOPER_TOKEN}</li>
 					<li>TEST_USER_TOKEN : {process.env.TEST_USER_TOKEN}</li>
+					<li>
+						TEST_USER_MUSIC_TOKEN :{' '}
+						{process.env.TEST_USER_MUSIC_TOKEN}
+					</li>
 				</ul>
 			</section>
 		</>

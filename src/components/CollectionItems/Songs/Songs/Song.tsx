@@ -5,17 +5,29 @@ import ContentRating from '@/src/components/Elements/ContentRating/ContentRating
 
 interface SongProps extends React.HTMLAttributes<HTMLDivElement> {
 	key: string
+	// id: number,
 	storeId: string
 	name: string
 	albumId: string
 	albumName: string
+	// album?: any // todo : Album
 	artists: any[] // todo : Artist[]
 	artistId: string
 	artistName: string
+	releaseDate: string
 	artworkUrl: string
 	artworkSize?: number
 	durationInMillis?: number
 	contentRating: string
+	// discNumber?: number
+	// previewUrl?: string
+	inLibrary?: boolean | null
+	// api?: any
+	// custom?: boolean
+	// disabled?: boolean
+	// created_at?: string
+	// updated_at?: string
+	//
 	wrap?: boolean
 }
 
