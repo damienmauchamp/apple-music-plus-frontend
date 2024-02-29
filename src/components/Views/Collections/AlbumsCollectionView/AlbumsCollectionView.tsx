@@ -57,8 +57,4 @@ const AlbumCollectionView = ({
 	)
 }
 
-AlbumCollectionView.defaultProps = {
-	mobileScroll: true,
-}
-
 export default AlbumCollectionView
