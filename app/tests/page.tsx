@@ -130,7 +130,7 @@ export default function Test() {
 		loadNewSingles()
 		loadUpcoming()
 		loadNewSongs()
-		loadUpcomingSongs()
+		// loadUpcomingSongs()
 	}, [])
 
 	const refreshButton = (title: string, handleClick: () => void) => {
@@ -179,11 +179,10 @@ export default function Test() {
 					id={'newSongs'}
 					title={'New Songs With Scroll'}
 					key={'newSongs'}
-					items={newSongs}
+					items={newSongs.slice(0, 10)}
 					//
 					scroll={true}
 					rows={4}
-					// todo : display table header
 				/>
 				<SongsListSection
 					id={'newSongsList'}

@@ -1,7 +1,10 @@
 .gridSection {
-	@apply grid gap-x-4 gap-y-6;
-	@apply max-sm:auto-cols-2c max-md:auto-cols-4c auto-cols-6c;
-	@apply max-sm:auto-cols-2c-album-full max-md:auto-cols-4c-album-full auto-cols-6c-album-full;
+	@apply grid gap-x-4 gap-y-6 min-w-full;
+	/* region song height */
+	/* @apply max-sm:auto-cols-2c max-md:auto-cols-4c auto-cols-6c; */
+	/* @apply max-sm:auto-cols-2c-album-full max-md:auto-cols-4c-album-full auto-cols-6c-album-full; */
+	@apply max-sm:auto-cols-2c max-md:auto-cols-4c-album-full auto-cols-6c-album-full;
+	/* endregion song height */
 	@apply grid-rows-2;
 	@apply overflow-y-hidden;
 	@apply w-full;
@@ -24,8 +27,9 @@
 
 .gridMobileScrollable {
 	/* Scrollable on mobile, +gridScrollable -gridNotScrollable*/
-	@apply max-md:grid-cols-none;
-	@apply max-md:grid-flow-col;
-	@apply max-md:overflow-x-auto;
-	@apply max-md:scroll-smooth max-md:overscroll-x-none max-md:snap-x;
+	@apply max-sm:grid-cols-none;
+	@apply max-sm:grid-flow-col;
+	@apply max-sm:overflow-x-auto;
+	@apply max-sm:scroll-smooth max-sm:overscroll-x-none max-sm:snap-x;
+	@apply max-sm:auto-cols-2c;
 }

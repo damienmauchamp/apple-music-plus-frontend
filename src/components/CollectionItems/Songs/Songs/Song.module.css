@@ -14,7 +14,11 @@
 	@apply grid;
 	grid-template-areas: 'song-artwork song-rank song-icon song-name';
 	grid-template-columns: auto auto auto 1fr;
-	@apply h-[46px] pl-4;
+	@apply h-[46px];
+	@apply pl-4;
+}
+.container:not(.gridContainer) .artworkNameContainer {
+	@apply pl-4;
 }
 .artworkContainer {
 	/* flex  basis-auto shrink-0 w-12 h-12 */
@@ -76,6 +80,32 @@
 .songActions {
 	@apply ml-2;
 }
+
+.container:not(.gridContainer) .artworkNameCell {
+	/* @apply w-[42%]; */
+	/* @apply w-64; */
+}
+.container:not(.gridContainer) .artistNameCell {
+	/* @apply w-[29%]; */
+	/* @apply w-12; */
+	/* min-width: 29rem; */
+	/* @apply w-64; */
+}
+.container:not(.gridContainer) .albumNameCell {
+	/* @apply w-[29%]; */
+	/* @apply w-[29%]; */
+	/* min-width: 29rem; */
+	/* @apply w-64; */
+}
+.container:not(.gridContainer) .durationCell {
+	/* @apply w-[141px]; */
+}
+
+/* region list */
+.container:not(.gridContainer) {
+	@apply w-full max-w-full;
+}
+/* endregion list */
 
 /* region grid */
 

@@ -29,15 +29,37 @@ const SongsCollectionView = ({
 		classNames += ` !grid-rows-${rows}`
 	}
 
+	const header = () => {
+		if (scroll) return null
+
+		return (
+			<div className={styles.header}>
+				<div className={styles.artworkName}>
+					<div className={styles.headerCol}>Morceau</div>
+				</div>
+				<div className={styles.artistName}>
+					<div className={styles.headerCol}>Artiste</div>
+				</div>
+				<div className={styles.albumName}>
+					<div className={styles.headerCol}>Album</div>
+				</div>
+				<div className={styles.duration}>
+					<div className={styles.headerCol}>Durée</div>
+				</div>
+			</div>
+		)
+	}
+
 	return (
 		<ul
 			className={`
 			${styles.SongsCollectionView}
-			${scroll ? styles.gridScrollable : ''}
+			${scroll ? styles.gridScrollable : styles.list}
 			${classNames}
 		`}
 			data-scroll={Number(scroll)}
 		>
+			{header()}
 			{items.map((item: any) => (
 				<Song
 					{...item}

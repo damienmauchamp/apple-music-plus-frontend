@@ -1,5 +1,5 @@
 .SongsCollectionView {
-	@apply table;
+	@apply table table-fixed;
 }
 
 .gridScrollable {
@@ -7,11 +7,66 @@
 	@apply m-0 p-0;
 	@apply -m-4 p-4;
 	@apply grid-flow-col;
-	@apply max-sm:auto-cols-1c max-lg:auto-cols-2c auto-cols-3c;
-	@apply max-sm:auto-cols-1c-song-full max-lg:auto-cols-2c-song-full auto-cols-3c-song-full;
+	/* region song height */
+	/* @apply max-sm:auto-cols-1c-song max-lg:auto-cols-2c-song auto-cols-3c-song; */
+	/* @apply max-sm:auto-cols-1c-song-full max-lg:auto-cols-2c-song-full auto-cols-3c-song-full; */
+	@apply max-sm:auto-cols-1c-song max-lg:auto-cols-2c-song-full auto-cols-3c-song-full;
+	/* endregion song height */
 	@apply overflow-x-auto overflow-y-hidden;
 	@apply scroll-smooth overscroll-x-none snap-x;
 	scrollbar-width: none;
 	@apply items-stretch;
 	@apply grid-rows-4;
+}
+
+.SongsCollectionView.list {
+	@apply w-full max-w-full overflow-hidden;
+}
+
+.header {
+	@apply table-row;
+	@apply max-md:hidden;
+}
+
+.headerCell {
+	@apply table-cell relative;
+	@apply pb-2;
+}
+
+/* .header > div:before { */
+/* .headerCell:not(:first-child):before {
+	@apply inline-block content-[''] h-4;
+	@apply bg-[#ffffff1a] rounded-[0.5px] bg-red-100;
+	position: absolute;
+	top: calc(50% - 3px);
+	transform: translateY(-50%);
+	width: 1px;
+} */
+
+.artworkName {
+	@apply headerCell;
+	@apply pl-4;
+	@apply max-sm:w-auto sm:w-[50%] lg:w-[42%];
+}
+.artistName {
+	@apply headerCell;
+	@apply max-sm:hidden;
+	@apply pr-4;
+	@apply md:w-[29%];
+}
+.albumName {
+	@apply headerCell;
+	@apply max-md:hidden;
+	@apply pr-4;
+	@apply md:w-[29%];
+}
+.duration {
+	@apply headerCell;
+	@apply pr-4;
+	@apply max-[420px]:w-[48px] w-[141px];
+}
+
+.duration > .headerCol {
+	@apply pr-4;
+	@apply text-right;
 }

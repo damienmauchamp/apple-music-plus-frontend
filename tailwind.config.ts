@@ -26,6 +26,14 @@ const config: Config = {
 				'3c': 'calc(100% / 3 - 1rem)',
 				'2c': 'calc(100% / 2 - 1rem)',
 				'1c': 'calc(100% - 1rem)',
+				//
+				'6c-song': 'calc(100% / 6)',
+				'5c-song': 'calc(100% / 5)',
+				'4c-song': 'calc(100% / 4)',
+				'3c-song': 'calc(100% / 3)',
+				'2c-song': 'calc(100% / 2)',
+				'1c-song': 'calc(100%)',
+				//
 				'6c-album-full': 'calc(100% / 6 - 1rem + 1rem / 6)',
 				'5c-album-full': 'calc(100% / 5 - 1rem + 1rem / 5)',
 				'4c-album-full': 'calc(100% / 4 - 1rem + 1rem / 4)',

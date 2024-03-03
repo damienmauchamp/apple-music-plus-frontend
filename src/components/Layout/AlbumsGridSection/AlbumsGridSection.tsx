@@ -28,6 +28,8 @@ const AlbumsGridSection = ({
 					items={items}
 					scroll={scroll}
 					rows={rows}
+					mobileScroll={props.mobileScroll}
+					// {...props}
 				/>
 			</Section>
 		</>
