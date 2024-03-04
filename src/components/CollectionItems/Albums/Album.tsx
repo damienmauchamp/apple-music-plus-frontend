@@ -1,32 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import Image from 'next/image'
 import styles from './Album.module.css'
 import ContentRating from '../../Elements/ContentRating/ContentRating'
 import axios from 'axios'
+import { Album } from '@/types/Items/Items'
 
-interface AlbumProps extends React.HTMLAttributes<HTMLDivElement> {
-	// identifier: string
-	// id: number,
-	storeId: string
-	name: string
-	artistName: string
-	artists?: any[] // todo : Artist[]
-	releaseDate: string
-	artworkUrl: string
-	artworkSize?: number
-	contentRating: string
-	// trackCount?: number
-	// isSingle?: boolean
-	// isCompilation?: boolean
-	// isComplete?: boolean
-	inLibrary?: boolean | null
-	// upc?: string
-	// api?: any
-	// custom?: boolean
-	// disabled?: boolean
-	// created_at?: string
-	// updated_at?: string
-}
+interface AlbumProps extends React.HTMLAttributes<HTMLDivElement>, Album {}
 
 // region api
 const apiHeaders = {
@@ -54,7 +33,7 @@ async function addResourceToLibrary(
 }
 // endregion api
 
-const Album = ({
+const AlbumComponent = ({
 	// identifier,
 	storeId,
 	name,
@@ -166,4 +145,4 @@ const Album = ({
 	)
 }
 
-export default Album
+export default AlbumComponent

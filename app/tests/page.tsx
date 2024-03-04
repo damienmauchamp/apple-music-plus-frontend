@@ -1,13 +1,9 @@
 'use client'
 
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { IoRefreshCircleOutline } from 'react-icons/io5'
 import moment from 'moment'
-import styles from 'page.module.css'
-import Section from '@/src/components/Section/Section'
-import AlbumsCollectionView from '@/src/components/Views/Collections/AlbumsCollectionView/AlbumsCollectionView'
-import SongsCollectionView from '@/src/components/Views/Collections/SongsCollectionView/SongsCollectionView'
 import AlbumsGridSection from '@/src/components/Layout/AlbumsGridSection/AlbumsGridSection'
 import SongsListSection from '@/src/components/Layout/SongsListSection/SongsListSection'
 
@@ -179,7 +175,7 @@ export default function Test() {
 					id={'newSongs'}
 					title={'New Songs With Scroll'}
 					key={'newSongs'}
-					items={newSongs.slice(0, 10)}
+					items={newSongs.slice(0, 16)}
 					//
 					scroll={true}
 					rows={4}
@@ -189,6 +185,7 @@ export default function Test() {
 					title={'New Songs'}
 					key={'newSongsList'}
 					items={newSongs}
+					header={false}
 				/>
 				<SongsListSection
 					id={'upcomingSongs'}

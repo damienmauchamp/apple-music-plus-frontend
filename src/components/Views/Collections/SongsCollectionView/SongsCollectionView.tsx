@@ -1,13 +1,14 @@
 import React from 'react'
-import Image from 'next/image'
 import styles from './SongsCollectionView.module.css'
 import Song from '@/src/components/CollectionItems/Songs/Songs/Song'
+import { Song as SongType } from '@/types/Items/Items'
 
 export interface SongsCollectionViewProps {
 	id: string
-	items: any[]
+	items: SongType[]
 	scroll?: boolean
 	rows?: number
+	header?: boolean
 	// mobileScroll?: boolean
 }
 
@@ -22,8 +23,11 @@ const SongsCollectionView = ({
 	const artworkSize = 50
 
 	if (scroll === undefined) scroll = false
+	if (props.header === undefined) props.header = true
 
-	if (!rows) rows = 4
+	const getRows = () => rows || 4
+
+	if (!rows) rows = getRows()
 	let classNames = ''
 	if (rows) {
 		classNames += ` !grid-rows-${rows}`
@@ -33,7 +37,10 @@ const SongsCollectionView = ({
 		if (scroll) return null
 
 		return (
-			<div className={styles.header}>
+			<div
+				className={styles.header}
+				style={props.header ? {} : { display: 'none' }}
+			>
 				<div className={styles.artworkName}>
 					<div className={styles.headerCol}>Morceau</div>
 				</div>
@@ -50,6 +57,8 @@ const SongsCollectionView = ({
 		)
 	}
 
+	console.log('rows', rows)
+
 	return (
 		<ul
 			className={`
@@ -60,7 +69,7 @@ const SongsCollectionView = ({
 			data-scroll={Number(scroll)}
 		>
 			{header()}
-			{items.map((item: any) => (
+			{items.map((item: SongType, index: number) => (
 				<Song
 					{...item}
 					key={`${props.id}-${item.storeId}`}
@@ -78,6 +87,7 @@ const SongsCollectionView = ({
 					contentRating={item.contentRating}
 					releaseDate={item.releaseDate}
 					wrap={scroll}
+					last={index >= items.length - getRows()}
 				/>
 			))}
 		</ul>

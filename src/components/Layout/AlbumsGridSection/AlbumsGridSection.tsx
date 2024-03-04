@@ -3,34 +3,20 @@ import Section, { SectionProps } from '../../Section/Section'
 import AlbumsCollectionView, {
 	AlbumCollectionViewProps,
 } from '../../Views/Collections/AlbumsCollectionView/AlbumsCollectionView'
+import { Album } from '@/types/Items/Items'
 
 interface AlbumsGridSectionProps
 	extends SectionProps,
 		AlbumCollectionViewProps {
 	// key: string
-	items: any[]
+	items: Album[]
 }
 
-const AlbumsGridSection = ({
-	id,
-	title,
-	// key,
-	items,
-	scroll,
-	rows,
-	...props
-}: AlbumsGridSectionProps) => {
+const AlbumsGridSection = ({ id, title, ...props }: AlbumsGridSectionProps) => {
 	return (
 		<>
 			<Section id={id} title={title}>
-				<AlbumsCollectionView
-					id={id}
-					items={items}
-					scroll={scroll}
-					rows={rows}
-					mobileScroll={props.mobileScroll}
-					// {...props}
-				/>
+				<AlbumsCollectionView id={id} {...props} />
 			</Section>
 		</>
 	)

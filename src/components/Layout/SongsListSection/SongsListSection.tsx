@@ -3,29 +3,18 @@ import Section, { SectionProps } from '../../Section/Section'
 import SongsCollectionView, {
 	SongsCollectionViewProps,
 } from '../../Views/Collections/SongsCollectionView/SongsCollectionView'
+import { Song } from '@/types/Items/Items'
 
 interface SongsListSectionProps extends SectionProps, SongsCollectionViewProps {
 	// key: string
-	items: any[]
+	items: Song[]
 }
 
-const SongsListSection = ({
-	id,
-	title,
-	items,
-	scroll,
-	rows,
-	...props
-}: SongsListSectionProps) => {
+const SongsListSection = ({ id, title, ...props }: SongsListSectionProps) => {
 	return (
 		<>
 			<Section id={id} title={title}>
-				<SongsCollectionView
-					id={id}
-					items={items}
-					scroll={scroll}
-					rows={rows}
-				/>
+				<SongsCollectionView id={id} {...props} />
 			</Section>
 		</>
 	)

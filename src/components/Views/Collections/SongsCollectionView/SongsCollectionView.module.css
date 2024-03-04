@@ -3,11 +3,12 @@
 }
 
 .gridScrollable {
-	@apply grid gap-x-2 gap-y-0;
+	/* @apply grid gap-x-2 gap-y-0; */
+	@apply grid gap-x-4 gap-y-0;
 	@apply m-0 p-0;
-	@apply -m-4 p-4;
+	@apply -m-4 p-4 mx-0;
 	@apply grid-flow-col;
-	/* region song height */
+	/* region song height, see Song:.container.gridContainer.last */
 	/* @apply max-sm:auto-cols-1c-song max-lg:auto-cols-2c-song auto-cols-3c-song; */
 	/* @apply max-sm:auto-cols-1c-song-full max-lg:auto-cols-2c-song-full auto-cols-3c-song-full; */
 	@apply max-sm:auto-cols-1c-song max-lg:auto-cols-2c-song-full auto-cols-3c-song-full;

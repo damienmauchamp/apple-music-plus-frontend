@@ -2,33 +2,11 @@ import React from 'react'
 import Image from 'next/image'
 import styles from './Song.module.css'
 import ContentRating from '@/src/components/Elements/ContentRating/ContentRating'
+import { Artist, Song } from '@/types/Items/Items'
 
-interface SongProps extends React.HTMLAttributes<HTMLDivElement> {
-	// identifier: string
-	// id: number,
-	storeId: string
-	name: string
-	albumId: string
-	albumName: string
-	// album?: any // todo : Album
-	artists: any[] // todo : Artist[]
-	artistId: string
-	artistName: string
-	releaseDate: string
-	artworkUrl: string
-	artworkSize?: number
-	durationInMillis?: number
-	contentRating: string
-	// discNumber?: number
-	// previewUrl?: string
-	inLibrary?: boolean | null
-	// api?: any
-	// custom?: boolean
-	// disabled?: boolean
-	// created_at?: string
-	// updated_at?: string
-	//
+interface SongProps extends React.HTMLAttributes<HTMLDivElement>, Song {
 	wrap?: boolean
+	last?: boolean
 }
 
 function formatDuration(milliseconds: number) {
@@ -51,14 +29,14 @@ function formatDateTime(milliseconds: number) {
 	return `PT${hours ? `${formattedHours}H` : ''}${formattedMinutes}M${formattedSeconds}S`
 }
 
-const Song = ({
+const SongComponent = ({
 	// identifier,
 	storeId,
 	name,
 	albumId,
 	albumName,
 	artists,
-	artistId,
+	// artistId,
 	artistName,
 	artworkUrl,
 	artworkSize,
@@ -66,20 +44,22 @@ const Song = ({
 	contentRating,
 	...props
 }: SongProps) => {
+	console.log('props.last', props.last)
+
 	const duration = durationInMillis
 		? formatDuration(durationInMillis)
 		: '--:--'
 
 	let artistsNames = artistName
-	artists.forEach((artist: any) => {
+	artists.forEach((artist: Artist) => {
 		artistsNames = artistsNames.replace(
 			artist.name,
 			`<a target="_blank" href="https://music.apple.com/${process.env.STOREFRONT}/artist/${artist.storeId}">${artist.name}</a>`
 		)
 	})
 
-	let albumLink = `https://music.apple.com/${process.env.STOREFRONT}/album/${albumId}`
-	let songLink = `${albumLink}?i=${storeId}`
+	const albumLink = `https://music.apple.com/${process.env.STOREFRONT}/album/${albumId}`
+	const songLink = `${albumLink}?i=${storeId}`
 
 	const song = () => {
 		return (
@@ -155,7 +135,8 @@ const Song = ({
 
 	return (
 		<div
-			className={`${styles.container} ${props.wrap ? styles.gridContainer : ''}`}
+			className={` ${styles.container} ${props.wrap ? styles.gridContainer : ''}
+			${props.last ? styles.last : ''}`}
 			// key={identifier}
 		>
 			{render()}
@@ -163,4 +144,4 @@ const Song = ({
 	)
 }
 
-export default Song
+export default SongComponent

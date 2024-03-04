@@ -15,7 +15,7 @@
 	grid-template-areas: 'song-artwork song-rank song-icon song-name';
 	grid-template-columns: auto auto auto 1fr;
 	@apply h-[46px];
-	@apply pl-4;
+	/* @apply pl-4; */
 }
 .container:not(.gridContainer) .artworkNameContainer {
 	@apply pl-4;
@@ -148,6 +148,10 @@
 .container.gridContainer .albumNameCell,
 .container.gridContainer .trackDuration {
 	@apply hidden;
+}
+
+.container.gridContainer.last {
+	@apply max-sm:-mr-8 md:pr-4;
 }
 
 /* endregion grid */
