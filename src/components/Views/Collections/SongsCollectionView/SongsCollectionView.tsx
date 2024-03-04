@@ -57,8 +57,6 @@ const SongsCollectionView = ({
 		)
 	}
 
-	console.log('rows', rows)
-
 	return (
 		<ul
 			className={`

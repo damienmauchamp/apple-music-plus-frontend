@@ -126,7 +126,7 @@ export default function Test() {
 		loadNewSingles()
 		loadUpcoming()
 		loadNewSongs()
-		// loadUpcomingSongs()
+		loadUpcomingSongs()
 	}, [])
 
 	const refreshButton = (title: string, handleClick: () => void) => {

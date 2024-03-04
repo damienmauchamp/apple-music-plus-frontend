@@ -44,8 +44,6 @@ const SongComponent = ({
 	contentRating,
 	...props
 }: SongProps) => {
-	console.log('props.last', props.last)
-
 	const duration = durationInMillis
 		? formatDuration(durationInMillis)
 		: '--:--'
