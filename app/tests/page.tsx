@@ -6,6 +6,7 @@ import { IoRefreshCircleOutline } from 'react-icons/io5'
 import moment from 'moment'
 import AlbumsGridSection from '@/src/components/Layout/AlbumsGridSection/AlbumsGridSection'
 import SongsListSection from '@/src/components/Layout/SongsListSection/SongsListSection'
+import { Album, Song } from '@/types/Items/Items'
 
 // region api
 const apiHeaders = {
@@ -94,11 +95,11 @@ async function getUpcomingSongs() {
 // endregion api
 
 export default function Test() {
-	const [newReleases, setNewReleases] = useState<any[]>([])
-	const [newSingles, setNewSingles] = useState<any[]>([])
-	const [upcoming, setUpcoming] = useState<any[]>([])
-	const [newSongs, setNewSongs] = useState<any[]>([])
-	const [upcomingSongs, setUpcomingSongs] = useState<any[]>([])
+	const [newReleases, setNewReleases] = useState<Album[]>([])
+	const [newSingles, setNewSingles] = useState<Album[]>([])
+	const [upcoming, setUpcoming] = useState<Album[]>([])
+	const [newSongs, setNewSongs] = useState<Song[]>([])
+	const [upcomingSongs, setUpcomingSongs] = useState<Song[]>([])
 
 	const loadNewReleases = async () => {
 		const res = await getNewReleases()
@@ -175,7 +176,8 @@ export default function Test() {
 					id={'newSongs'}
 					title={'New Songs With Scroll'}
 					key={'newSongs'}
-					items={newSongs.slice(0, 16)}
+					items={newSongs}
+					// items={newSongs.slice(0, 16)}
 					//
 					scroll={true}
 					rows={4}
@@ -205,19 +207,28 @@ export default function Test() {
 				{refreshButton('Upcoming Songs', loadUpcomingSongs)}
 			</div>
 
-			<hr />
+			{process.env.APP_DEBUG && (
+				<>
+					<hr />
 
-			<section className="w-full overflow-hidden">
-				<ul>
-					<li>APP_URL : {process.env.APP_URL}</li>
-					<li>DEVELOPER_TOKEN : {process.env.DEVELOPER_TOKEN}</li>
-					<li>TEST_USER_TOKEN : {process.env.TEST_USER_TOKEN}</li>
-					<li>
-						TEST_USER_MUSIC_TOKEN :{' '}
-						{process.env.TEST_USER_MUSIC_TOKEN}
-					</li>
-				</ul>
-			</section>
+					<section className="w-full overflow-hidden">
+						<ul>
+							<li>APP_URL : {process.env.APP_URL}</li>
+							<li>APP_DEBUG : {Number(process.env.APP_DEBUG)}</li>
+							<li>
+								DEVELOPER_TOKEN : {process.env.DEVELOPER_TOKEN}
+							</li>
+							<li>
+								TEST_USER_TOKEN : {process.env.TEST_USER_TOKEN}
+							</li>
+							<li>
+								TEST_USER_MUSIC_TOKEN :{' '}
+								{process.env.TEST_USER_MUSIC_TOKEN}
+							</li>
+						</ul>
+					</section>
+				</>
+			)}
 		</>
 	)
 }

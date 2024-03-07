@@ -13,9 +13,12 @@ const nextConfig = {
 		],
 	},
 	env: {
+		// app
 		// APP_NAME: process.env.APP_NAME,
 		// APP_BUILD: process.env.APP_BUILD,
 		APP_URL: process.env.APP_URL,
+		APP_DEBUG: process.env.APP_DEBUG,
+		// api
 		DEVELOPER_TOKEN: process.env.DEVELOPER_TOKEN,
 		STOREFRONT: process.env.STOREFRONT,
 		// tests
