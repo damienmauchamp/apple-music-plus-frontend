@@ -20,6 +20,15 @@ pm2 startup
 pm2 save
 ```
 
+### Update on production
+
+```bash
+git reset --hard
+git pull
+npm run build:production
+pm2 restart "AM+"
+```
+
 ### Apache conf
 
 ```conf
