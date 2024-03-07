@@ -1,5 +1,6 @@
 .SongsCollectionView {
 	@apply table table-fixed;
+	/* @apply max-sm:table-auto; */
 }
 
 .gridScrollable {
@@ -26,7 +27,19 @@
 
 .header {
 	@apply table-row;
+}
+.header .headerCol {
 	@apply max-md:hidden;
+}
+.header > * {
+	@apply max-md:py-0;
+}
+
+.header.headerHidden .headerCol {
+	@apply hidden;
+}
+.header.headerHidden > * {
+	@apply py-0;
 }
 
 .headerCell {
@@ -34,6 +47,7 @@
 	@apply pb-2;
 }
 
+/* todo : delimiter & header style */
 /* .header > div:before { */
 /* .headerCell:not(:first-child):before {
 	@apply inline-block content-[''] h-4;

@@ -38,8 +38,7 @@ const SongsCollectionView = ({
 
 		return (
 			<div
-				className={styles.header}
-				style={props.header ? {} : { display: 'none' }}
+				className={`${styles.header} ${props.header ? '' : styles.headerHidden}`}
 			>
 				<div className={styles.artworkName}>
 					<div className={styles.headerCol}>Morceau</div>
