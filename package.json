@@ -10,6 +10,8 @@
 		"build:dev": "env-cmd -f .env.local next build",
 		"build:production": "env-cmd -f .env.production next build",
 		"start": "next start",
+		"start:dev": "env-cmd -f .env.local next start",
+		"start:production": "env-cmd -f .env.production next start",
 		"lint": "next lint"
 	},
 	"dependencies": {

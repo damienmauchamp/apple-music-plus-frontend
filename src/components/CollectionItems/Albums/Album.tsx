@@ -8,6 +8,10 @@ import { Album } from '@/types/Items/Items'
 interface AlbumProps extends React.HTMLAttributes<HTMLDivElement>, Album {}
 
 // region api
+const getApiUrl = () => {
+	return String(process.env.APP_URL).replace(/\/+$/, '')
+}
+
 const apiHeaders = {
 	Accept: 'application/json',
 	Authorization: `Bearer ${process.env.TEST_USER_TOKEN}`,
@@ -20,7 +24,7 @@ async function addResourceToLibrary(
 ) {
 	// todo : use MusicKit API
 	return await axios.post(
-		`${process.env.APP_URL}/api/applemusic/library`,
+		`${getApiUrl()}/api/applemusic/library`,
 		{},
 		{
 			headers: apiHeaders,

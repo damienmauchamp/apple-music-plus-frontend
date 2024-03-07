@@ -9,6 +9,10 @@ import SongsListSection from '@/src/components/Layout/SongsListSection/SongsList
 import { Album, Song } from '@/types/Items/Items'
 
 // region api
+const getApiUrl = () => {
+	return String(process.env.APP_URL).replace(/\/+$/, '')
+}
+
 const apiHeaders = {
 	Accept: 'application/json',
 	Authorization: `Bearer ${process.env.TEST_USER_TOKEN}`,
@@ -30,7 +34,7 @@ const timestampParam = () => ({
 })
 
 async function getNewReleases() {
-	return await axios.get(`${process.env.APP_URL}/api/user/releases`, {
+	return await axios.get(`${getApiUrl()}/api/user/releases`, {
 		headers: apiHeaders,
 		params: {
 			...timestampParam(),
@@ -44,7 +48,7 @@ async function getNewReleases() {
 }
 
 async function getNewSingles() {
-	return await axios.get(`${process.env.APP_URL}/api/user/releases`, {
+	return await axios.get(`${getApiUrl()}/api/user/releases`, {
 		headers: apiHeaders,
 		params: {
 			...timestampParam(),
@@ -58,7 +62,7 @@ async function getNewSingles() {
 }
 
 async function getUpcoming() {
-	return await axios.get(`${process.env.APP_URL}/api/user/releases`, {
+	return await axios.get(`${getApiUrl()}/api/user/releases`, {
 		headers: apiHeaders,
 		params: {
 			...timestampParam(),
@@ -70,7 +74,7 @@ async function getUpcoming() {
 }
 
 async function getNewSongs() {
-	return await axios.get(`${process.env.APP_URL}/api/user/releases/songs`, {
+	return await axios.get(`${getApiUrl()}/api/user/releases/songs`, {
 		headers: apiHeaders,
 		params: {
 			...timestampParam(),
@@ -82,7 +86,7 @@ async function getNewSongs() {
 }
 
 async function getUpcomingSongs() {
-	return await axios.get(`${process.env.APP_URL}/api/user/releases/songs`, {
+	return await axios.get(`${getApiUrl()}/api/user/releases/songs`, {
 		headers: apiHeaders,
 		params: {
 			...timestampParam(),
@@ -138,6 +142,12 @@ export default function Test() {
 			>
 				{title} <IoRefreshCircleOutline />
 			</button>
+		)
+	}
+
+	const debug = (): boolean => {
+		return ['true', '1'].includes(
+			String(process.env.APP_DEBUG).toLowerCase()
 		)
 	}
 
@@ -207,14 +217,14 @@ export default function Test() {
 				{refreshButton('Upcoming Songs', loadUpcomingSongs)}
 			</div>
 
-			{process.env.APP_DEBUG && (
+			{debug() && (
 				<>
 					<hr />
 
 					<section className="w-full overflow-hidden">
 						<ul>
 							<li>APP_URL : {process.env.APP_URL}</li>
-							<li>APP_DEBUG : {Number(process.env.APP_DEBUG)}</li>
+							<li>APP_DEBUG : {process.env.APP_DEBUG}</li>
 							<li>
 								DEVELOPER_TOKEN : {process.env.DEVELOPER_TOKEN}
 							</li>
