@@ -15,7 +15,7 @@ npm install # no --production
 cp .env.example .env.production
 npm run build:production
 npm install pm2 -g
-pm2 start npm --name "AM+" -- run start:production # -- -p 3001
+pm2 start npm --name "Apple Music Plus - Front" -- run start:production # -- -p 3001
 pm2 startup
 pm2 save
 ```
@@ -26,7 +26,7 @@ pm2 save
 git reset --hard
 git pull
 npm run build:production
-pm2 restart "AM+"
+pm2 restart <ID> # OR pm2 restart "Apple Music Plus - Front"
 ```
 
 ### Apache conf
