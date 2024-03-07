@@ -1,16 +1,16 @@
 import React from 'react'
 import styles from './Section.module.css'
-import Image from 'next/image'
+import { Item } from '@/types/Items/Items'
 
 export interface SectionProps extends React.HTMLAttributes<HTMLElement> {
 	id: string
 	title: string
-	items?: any[]
+	items?: Item[]
 	seeAll?: () => void
 	children?: React.ReactNode
 }
 
-const Section = ({ children, items, title, ...props }: SectionProps) => {
+const Section = ({ children, title, ...props }: SectionProps) => {
 	return (
 		<>
 			<section className={styles.section}>

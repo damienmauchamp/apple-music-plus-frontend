@@ -16,7 +16,6 @@ const ContentRating = ({
 	fill,
 	styles,
 	type,
-	...props
 }: ContentRatingTypeProps) => {
 	if (!size) size = 9
 	if (!iconSize) iconSize = size

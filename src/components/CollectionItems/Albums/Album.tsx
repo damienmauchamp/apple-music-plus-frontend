@@ -41,9 +41,11 @@ const AlbumComponent = ({
 	artworkUrl,
 	artworkSize,
 	contentRating,
-	...props
+	inLibrary,
 }: AlbumProps) => {
-	const [inLibrary, setInLibrary] = React.useState<boolean | null>(null)
+	const [albumInLibrary, setAlbumInLibrary] = React.useState<boolean | null>(
+		null
+	)
 	const [libraryButtonLoading, setLibraryButtonLoading] =
 		React.useState(false)
 	// const [libraryButtonLoadingText, setLibraryButtonLoadingText] =
@@ -54,8 +56,8 @@ const AlbumComponent = ({
 	) => {
 		e.preventDefault()
 
-		if (inLibrary === null) return
-		if (inLibrary) {
+		if (albumInLibrary === null) return
+		if (albumInLibrary) {
 			console.log('Album already in library')
 			return
 		}
@@ -65,7 +67,7 @@ const AlbumComponent = ({
 		return addResourceToLibrary([storeId])
 			.then((res) => {
 				setLibraryButtonLoading(false)
-				setInLibrary(res.data.added)
+				setAlbumInLibrary(res.data.added)
 			})
 			.catch((err) => {
 				console.error('err', err)
@@ -73,9 +75,8 @@ const AlbumComponent = ({
 	}
 
 	useEffect(() => {
-		if (props.inLibrary === undefined) props.inLibrary = null
-		setInLibrary(props.inLibrary)
-	}, [])
+		setAlbumInLibrary(inLibrary === undefined ? null : inLibrary)
+	}, [setAlbumInLibrary, inLibrary])
 
 	return (
 		<div
@@ -101,21 +102,21 @@ const AlbumComponent = ({
 
 					<div className={styles.artworkOverlay}></div>
 					<div className={styles.artworkOverlayActions}>
-						{inLibrary !== null ? (
+						{albumInLibrary !== null ? (
 							<button
 								className={`${styles.overlayButton} ${styles.libraryButton} ${
 									libraryButtonLoading
 										? styles.libraryButtonLoading
 										: ''
 								}`}
-								data-added={Number(inLibrary)}
+								data-added={Number(albumInLibrary)}
 								onClick={handleAddToLibrary}
 							>
-								{inLibrary ? 'OK' : '+'}
+								{albumInLibrary ? 'OK' : '+'}
 							</button>
 						) : null}
-						{/* <div>{inLibrary}</div> */}
-						{/* <div>{inLibrary}</div> */}
+						{/* <div>{albumInLibrary}</div> */}
+						{/* <div>{albumInLibrary}</div> */}
 						<button
 							className={`${styles.overlayButton}`}
 							onClick={(

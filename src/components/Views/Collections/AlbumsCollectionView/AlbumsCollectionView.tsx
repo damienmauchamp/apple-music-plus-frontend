@@ -1,12 +1,11 @@
 import React from 'react'
-import Image from 'next/image'
 import styles from './AlbumsCollectionView.module.css'
-import { clearLine } from 'readline'
 import Album from '@/src/components/CollectionItems/Albums/Album'
+import { Album as AlbumType } from '@/types/Items/Items'
 
 export type AlbumCollectionViewProps = {
 	id: string
-	items: any[]
+	items: AlbumType[]
 	scroll?: boolean
 	rows?: number
 	mobileScroll?: boolean
@@ -39,7 +38,7 @@ const AlbumCollectionView = ({
 			${classNames}
 			`}
 		>
-			{items.map((item: any) => (
+			{items.map((item: AlbumType) => (
 				<Album
 					{...item}
 					key={`${props.id}-${item.storeId}`}
