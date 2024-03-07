@@ -15,7 +15,7 @@
 	@apply max-sm:auto-cols-1c-song max-lg:auto-cols-2c-song-full auto-cols-3c-song-full;
 	/* endregion song height */
 	@apply overflow-x-auto overflow-y-hidden;
-	@apply scroll-smooth overscroll-x-none snap-x;
+	@apply scroll-smooth overscroll-x-none snap-x snap-mandatory;
 	scrollbar-width: none;
 	@apply items-stretch;
 	@apply grid-rows-4;

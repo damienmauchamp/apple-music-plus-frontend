@@ -22,7 +22,7 @@
 .gridScrollable {
 	@apply grid-flow-col;
 	@apply overflow-x-auto;
-	@apply scroll-smooth overscroll-x-none snap-x;
+	@apply scroll-smooth overscroll-x-none snap-x snap-mandatory;
 }
 
 .gridMobileScrollable {
@@ -30,6 +30,6 @@
 	@apply max-sm:grid-cols-none;
 	@apply max-sm:grid-flow-col;
 	@apply max-sm:overflow-x-auto;
-	@apply max-sm:scroll-smooth max-sm:overscroll-x-none max-sm:snap-x;
+	@apply max-sm:scroll-smooth max-sm:overscroll-x-none max-sm:snap-x max-sm:snap-mandatory;
 	@apply max-sm:auto-cols-2c;
 }
