@@ -8,7 +8,7 @@ import { IoRefreshCircleOutline } from 'react-icons/io5'
 import moment from 'moment'
 import AlbumsGridSection from '@/src/components/Layout/AlbumsGridSection/AlbumsGridSection'
 import SongsListSection from '@/src/components/Layout/SongsListSection/SongsListSection'
-import { Album, Song } from '@/types/Items/Items'
+import { Album, Song } from '@/types/Items'
 import useAPI from '@/lib/useAPI'
 import useAuth from '@/lib/useAuth'
 
@@ -89,8 +89,6 @@ export default function Test({
 	}
 
 	useEffect(() => {
-		console.log('[useEffect] ready', ready)
-
 		// if (isLoading || !user) {
 		// 	return
 		// }
@@ -108,8 +106,6 @@ export default function Test({
 	// isLoading && user
 
 	useEffect(() => {
-		console.log('[useEffect 2]', { isLoading: isLoading, user: user })
-
 		if (!isLoading && user) {
 			setReady(true)
 		}
@@ -212,13 +208,6 @@ export default function Test({
 						<ul>
 							<li>APP_URL : {process.env.APP_URL}</li>
 							<li>APP_DEBUG : {process.env.APP_DEBUG}</li>
-							{/* <li>
-								DEVELOPER_TOKEN : {process.env.DEVELOPER_TOKEN}
-							</li> */}
-							<li>
-								TEST_USER_MUSIC_TOKEN :{' '}
-								{process.env.TEST_USER_MUSIC_TOKEN}
-							</li>
 						</ul>
 					</section>
 				</>

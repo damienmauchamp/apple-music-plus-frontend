@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import Image from 'next/image'
 import styles from './Album.module.css'
 import ContentRating from '../../Elements/ContentRating/ContentRating'
-import { Album } from '@/types/Items/Items'
+import { Album } from '@/types/Items'
 import useAPI from '@/lib/useAPI'
 
 interface AlbumProps extends React.HTMLAttributes<HTMLDivElement>, Album {}

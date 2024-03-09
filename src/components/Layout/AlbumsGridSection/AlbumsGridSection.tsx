@@ -3,7 +3,7 @@ import Section, { SectionProps } from '../../Section/Section'
 import AlbumsCollectionView, {
 	AlbumCollectionViewProps,
 } from '../../Views/Collections/AlbumsCollectionView/AlbumsCollectionView'
-import { Album } from '@/types/Items/Items'
+import { Album } from '@/types/Items'
 
 interface AlbumsGridSectionProps
 	extends SectionProps,

@@ -1,7 +1,7 @@
 import React from 'react'
 import styles from './AlbumsCollectionView.module.css'
 import Album from '@/src/components/CollectionItems/Albums/Album'
-import { Album as AlbumType } from '@/types/Items/Items'
+import { Album as AlbumType } from '@/types/Items'
 
 export type AlbumCollectionViewProps = {
 	id: string

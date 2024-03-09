@@ -1,6 +1,6 @@
 import React from 'react'
 import styles from './Section.module.css'
-import { Item } from '@/types/Items/Items'
+import { Item } from '@/types/Items'
 
 export interface SectionProps extends React.HTMLAttributes<HTMLElement> {
 	id: string

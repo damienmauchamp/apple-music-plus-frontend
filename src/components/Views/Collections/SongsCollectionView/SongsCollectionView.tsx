@@ -1,7 +1,7 @@
 import React from 'react'
 import styles from './SongsCollectionView.module.css'
 import Song from '@/src/components/CollectionItems/Songs/Songs/Song'
-import { Song as SongType } from '@/types/Items/Items'
+import { Song as SongType } from '@/types/Items'
 
 export interface SongsCollectionViewProps {
 	id: string

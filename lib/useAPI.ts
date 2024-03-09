@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { axiosWithCredentialsConfig } from './axios'
+import { useMusicKitContext } from '@/src/context/MusicKitContext'
 
 // const api = axiosWithCredentials
 const api = axios.create({
@@ -7,8 +8,7 @@ const api = axios.create({
 	headers: {
 		Accept: 'application/json',
 		// Authorization: `Bearer ${process.env.TEST_USER_TOKEN}`,
-		// todo : MusicKit
-		'Music-Token': `${process.env.TEST_USER_MUSIC_TOKEN}`,
+		// 'Music-Token': `${process.env.TEST_USER_MUSIC_TOKEN}`,
 	},
 })
 
@@ -19,6 +19,18 @@ const timestamps = () => ({
 })
 
 export default function useAPI() {
+	const { logged, getInstance } = useMusicKitContext()
+
+	// Set the Music-Token token for any request
+	api.interceptors.request.use(function (config) {
+		// config.headers['Authorization'] = `Bearer ${process.env.TEST_USER_TOKEN}`
+		// config.headers['Music-Token'] = process.env.TEST_USER_MUSIC_TOKEN
+		config.headers['Music-Token'] = logged
+			? getInstance().musicUserToken || ''
+			: ''
+		return config
+	})
+
 	const getNewReleases = (from: string) => {
 		return api.get(`/api/user/releases`, {
 			params: {
@@ -101,6 +113,9 @@ export default function useAPI() {
 
 	return {
 		...api,
+		api: api,
+		get: api.get,
+		// post: api.post,
 		getNewReleases,
 		getNewSingles,
 		getUpcoming,
