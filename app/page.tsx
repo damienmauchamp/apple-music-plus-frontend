@@ -1,5 +1,6 @@
 'use client'
 import useAPI from '@/lib/useAPI'
+// import { MusicKitContextProvider } from '@/src/context/MusicKitContext'
 import { useState } from 'react'
 
 export default function Home() {
@@ -18,6 +19,15 @@ export default function Home() {
 			<a href="/tests">/tests</a>
 			<a href="/login">/login</a>
 			<a href="/register">/register</a>
+			<button
+				onClick={() => {
+					api.get('/api/user')
+						.then((res) => console.log(res.data))
+						.catch((err) => console.error(err))
+				}}
+			>
+				/user
+			</button>
 			{/* <a href="#" className="text-gray-700 hover:text-purple-700" onClick={logout}>Log Out</a> */}
 			<div>
 				<button onClick={getUserArtists}>/api/user/artists</button>

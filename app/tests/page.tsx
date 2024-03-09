@@ -212,13 +212,6 @@ export default function Test({
 						<ul>
 							<li>APP_URL : {process.env.APP_URL}</li>
 							<li>APP_DEBUG : {process.env.APP_DEBUG}</li>
-							{/* <li>
-								DEVELOPER_TOKEN : {process.env.DEVELOPER_TOKEN}
-							</li> */}
-							<li>
-								TEST_USER_MUSIC_TOKEN :{' '}
-								{process.env.TEST_USER_MUSIC_TOKEN}
-							</li>
 						</ul>
 					</section>
 				</>
