@@ -1,5 +1,5 @@
 'use client'
-import Head from 'next/head'
+// import Head from 'next/head'
 // import Link from 'next/link'
 import Label from '@/src/components/tests/label'
 import Input from '@/src/components/tests/input'
@@ -7,12 +7,13 @@ import Button from '@/src/components/tests/button'
 import Errors from '@/src/components/tests/errors'
 import { ChangeEvent, FormEvent, useState } from 'react'
 import useAuth from '../../lib/useAuth'
-import { useSearchParams } from 'next/navigation'
+// import { useSearchParams } from 'next/navigation'
 
 export default function Login() {
-	const searchParams = useSearchParams()
-
-	const [email, setEmail] = useState<string>(searchParams.get('email') || '')
+	// todo : <Suspense></Suspense> when extracting to another component
+	// const searchParams = useSearchParams()
+	// const [email, setEmail] = useState<string>(searchParams.get('email') || '')
+	const [email, setEmail] = useState<string>('')
 	const [password, setPassword] = useState<string>('')
 	const [remember, setRemember] = useState<boolean>(false)
 	const [errors, setErrors] = useState<string[]>([])
@@ -31,9 +32,9 @@ export default function Login() {
 
 	return (
 		<>
-			<Head>
+			{/* <Head>
 				<title>ergodnc — Login</title>
-			</Head>
+			</Head> */}
 
 			<div className={'w-1/2 mx-auto bg-white p-5 rounded-lg'}>
 				<Errors className="mb-5" errors={errors} />
@@ -41,7 +42,6 @@ export default function Login() {
 				<form onSubmit={(e) => submitForm(e)} autoComplete="off">
 					<div>
 						<Label htmlFor="email">Email</Label>
-
 						<Input
 							id="email"
 							type="email"
