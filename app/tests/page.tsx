@@ -89,8 +89,6 @@ export default function Test({
 	}
 
 	useEffect(() => {
-		console.log('[useEffect] ready', ready)
-
 		// if (isLoading || !user) {
 		// 	return
 		// }
@@ -108,8 +106,6 @@ export default function Test({
 	// isLoading && user
 
 	useEffect(() => {
-		console.log('[useEffect 2]', { isLoading: isLoading, user: user })
-
 		if (!isLoading && user) {
 			setReady(true)
 		}

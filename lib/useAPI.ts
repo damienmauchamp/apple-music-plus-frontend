@@ -8,7 +8,6 @@ const api = axios.create({
 	headers: {
 		Accept: 'application/json',
 		// Authorization: `Bearer ${process.env.TEST_USER_TOKEN}`,
-		// // todo : MusicKit
 		// 'Music-Token': `${process.env.TEST_USER_MUSIC_TOKEN}`,
 	},
 })
@@ -22,17 +21,13 @@ const timestamps = () => ({
 export default function useAPI() {
 	const { logged, getInstance } = useMusicKitContext()
 
-	// console.log('useAPI', {
-	// 	logged: logged,
-	// 	getInstance: getInstance(),
-	// 	api: getInstance().api,
-	// 	userToken: getInstance().api?.userToken || '',
-	// })
-
 	// Set the Music-Token token for any request
 	api.interceptors.request.use(function (config) {
+		// config.headers['Authorization'] = `Bearer ${process.env.TEST_USER_TOKEN}`
 		// config.headers['Music-Token'] = process.env.TEST_USER_MUSIC_TOKEN
-		config.headers['Music-Token'] = getInstance().api.userToken || ''
+		config.headers['Music-Token'] = logged
+			? getInstance().musicUserToken || ''
+			: ''
 		return config
 	})
 

@@ -17,7 +17,7 @@ interface MusicKitContextProps {
 	getInstance: () => MusicKit.MusicKitInstance
 	isAuthorized: () => boolean
 	musicKit: MusicKit.MusicKitInstance
-	setMusicKit: React.Dispatch<React.SetStateAction<MusicKitInstance>>
+	setMusicKit: React.Dispatch<React.SetStateAction<MusicKit.MusicKitInstance>>
 	loading: boolean
 	setLoading: React.Dispatch<React.SetStateAction<boolean>>
 }
@@ -43,7 +43,7 @@ const defaultContext = {
 	//
 	musicKit: defaultMusicKit,
 	setMusicKit: (() => {}) as React.Dispatch<
-		React.SetStateAction<MusicKitInstance>
+		React.SetStateAction<MusicKit.MusicKitInstance>
 	>,
 	//
 	loading: true,
@@ -86,6 +86,7 @@ export const MusicKitContextProvider = ({
 		})
 
 		updateLogin()
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
 
 	return (
