@@ -8,7 +8,7 @@ import { IoRefreshCircleOutline } from 'react-icons/io5'
 import moment from 'moment'
 import AlbumsGridSection from '@/src/components/Layout/AlbumsGridSection/AlbumsGridSection'
 import SongsListSection from '@/src/components/Layout/SongsListSection/SongsListSection'
-import { Album, Song } from '@/types/Items/Items'
+import { Album, Song } from '@/types/Items'
 import useAPI from '@/lib/useAPI'
 import useAuth from '@/lib/useAuth'
 

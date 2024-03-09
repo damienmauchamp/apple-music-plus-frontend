@@ -2,7 +2,7 @@ import React from 'react'
 import Image from 'next/image'
 import styles from './Song.module.css'
 import ContentRating from '@/src/components/Elements/ContentRating/ContentRating'
-import { Artist, Song } from '@/types/Items/Items'
+import { Artist, Song } from '@/types/Items'
 
 interface SongProps extends React.HTMLAttributes<HTMLDivElement>, Song {
 	wrap?: boolean

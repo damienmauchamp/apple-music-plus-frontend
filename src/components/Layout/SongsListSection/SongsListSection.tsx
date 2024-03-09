@@ -3,7 +3,7 @@ import Section, { SectionProps } from '../../Section/Section'
 import SongsCollectionView, {
 	SongsCollectionViewProps,
 } from '../../Views/Collections/SongsCollectionView/SongsCollectionView'
-import { Song } from '@/types/Items/Items'
+import { Song } from '@/types/Items'
 
 interface SongsListSectionProps extends SectionProps, SongsCollectionViewProps {
 	// key: string
