@@ -1,138 +1,127 @@
 'use client'
-
+/**
+ * @todo remove use client, useEffect/useState & pre-load data with getStaticProps
+ * @link https://youtu.be/Urgstu-mCec?si=0ZDGNtvCBzHy2gQ-&t=398
+ */
 import React, { useEffect, useState } from 'react'
-import axios from 'axios'
 import { IoRefreshCircleOutline } from 'react-icons/io5'
 import moment from 'moment'
 import AlbumsGridSection from '@/src/components/Layout/AlbumsGridSection/AlbumsGridSection'
 import SongsListSection from '@/src/components/Layout/SongsListSection/SongsListSection'
 import { Album, Song } from '@/types/Items/Items'
+import useAPI from '@/lib/useAPI'
+import useAuth from '@/lib/useAuth'
 
-// region api
-const getApiUrl = () => {
-	return String(process.env.APP_URL).replace(/\/+$/, '')
+// export const getStaticProps = async () => {
+// 	return {
+// 		props: {
+// 			newReleasesData: [],
+// 			newSinglesData: [],
+// 			upcomingData: [],
+// 			newSongsData: [],
+// 			upcomingSongsData: [],
+// 		},
+// 	}
+// }
+
+interface TestProps {
+	newReleasesData: Album[]
+	newSinglesData: Album[]
+	upcomingData: Album[]
+	newSongsData: Song[]
+	upcomingSongsData: Song[]
 }
 
-const apiHeaders = {
-	Accept: 'application/json',
-	Authorization: `Bearer ${process.env.TEST_USER_TOKEN}`,
-	'Music-Token': `${process.env.TEST_USER_MUSIC_TOKEN}`,
-}
+// Test.getStaticProps = async () => ({
+// 	props: {
+// 		newReleasesData: await api.getNewReleases(from),
+// 		newSinglesData: [],
+// 		upcomingData: [],
+// 		newSongsData: [],
+// 		upcomingSongsData: [],
+// 	},
+// })
 
-const dateParams = {
-	from: moment().subtract(7, 'days').format('YYYY-MM-DD'),
-}
+export default function Test({
+	newReleasesData = [],
+	newSinglesData = [],
+	upcomingData = [],
+	newSongsData = [],
+	upcomingSongsData = [],
+}: TestProps) {
+	// Auth hook
+	const { user, isLoading } = useAuth({ middleware: 'auth' }) // todo : redirect to previous page after login
 
-const apiParams = {
-	sort: '-releaseDate',
-	// weekly: 1,
-	// weeks: 1,
-}
+	// State
+	const [ready, setReady] = useState<boolean>(false)
+	const [newReleases, setNewReleases] = useState<Album[]>(newReleasesData)
+	const [newSingles, setNewSingles] = useState<Album[]>(newSinglesData)
+	const [upcoming, setUpcoming] = useState<Album[]>(upcomingData)
+	const [newSongs, setNewSongs] = useState<Song[]>(newSongsData)
+	const [upcomingSongs, setUpcomingSongs] =
+		useState<Song[]>(upcomingSongsData)
 
-const timestampParam = () => ({
-	timestamp: new Date().getTime(),
-})
+	// API hook
+	const api = useAPI()
 
-async function getNewReleases() {
-	return await axios.get(`${getApiUrl()}/api/user/releases`, {
-		headers: apiHeaders,
-		params: {
-			...timestampParam(),
-			...dateParams,
-			...apiParams,
-			hide_singles: 1,
-			hide_eps: 0,
-			hide_upcoming: 1,
-		},
-	})
-}
-
-async function getNewSingles() {
-	return await axios.get(`${getApiUrl()}/api/user/releases`, {
-		headers: apiHeaders,
-		params: {
-			...timestampParam(),
-			...dateParams,
-			...apiParams,
-			hide_albums: 1,
-			hide_eps: 1,
-			hide_upcoming: 1,
-		},
-	})
-}
-
-async function getUpcoming() {
-	return await axios.get(`${getApiUrl()}/api/user/releases`, {
-		headers: apiHeaders,
-		params: {
-			...timestampParam(),
-			...dateParams,
-			sort: '-releaseDate',
-			only_upcoming: 1,
-		},
-	})
-}
-
-async function getNewSongs() {
-	return await axios.get(`${getApiUrl()}/api/user/releases/songs`, {
-		headers: apiHeaders,
-		params: {
-			...timestampParam(),
-			...dateParams,
-			...apiParams,
-			hide_upcoming: 1,
-		},
-	})
-}
-
-async function getUpcomingSongs() {
-	return await axios.get(`${getApiUrl()}/api/user/releases/songs`, {
-		headers: apiHeaders,
-		params: {
-			...timestampParam(),
-			...dateParams,
-			sort: '-releaseDate',
-			only_upcoming: 1,
-		},
-	})
-}
-// endregion api
-
-export default function Test() {
-	const [newReleases, setNewReleases] = useState<Album[]>([])
-	const [newSingles, setNewSingles] = useState<Album[]>([])
-	const [upcoming, setUpcoming] = useState<Album[]>([])
-	const [newSongs, setNewSongs] = useState<Song[]>([])
-	const [upcomingSongs, setUpcomingSongs] = useState<Song[]>([])
+	// API calls
+	const from = moment().subtract(7, 'days').format('YYYY-MM-DD')
 
 	const loadNewReleases = async () => {
-		const res = await getNewReleases()
+		const res = await api.getNewReleases(from)
 		setNewReleases(res.data.data)
 	}
 	const loadNewSingles = async () => {
-		const res = await getNewSingles()
+		const res = await api.getNewSingles(from)
 		setNewSingles(res.data.data)
 	}
 	const loadUpcoming = async () => {
-		const res = await getUpcoming()
+		const res = await api.getUpcoming(from)
 		setUpcoming(res.data.data)
 	}
 	const loadNewSongs = async () => {
-		const res = await getNewSongs()
+		const res = await api.getNewSongs(from)
 		setNewSongs(res.data.data)
 	}
 	const loadUpcomingSongs = async () => {
-		const res = await getUpcomingSongs()
+		const res = await api.getUpcomingSongs(from)
 		setUpcomingSongs(res.data.data)
 	}
 
 	useEffect(() => {
-		loadNewReleases()
-		loadNewSingles()
-		loadUpcoming()
-		loadNewSongs()
-		loadUpcomingSongs()
-	}, [])
+		console.log('[useEffect] ready', ready)
+
+		// if (isLoading || !user) {
+		// 	return
+		// }
+
+		if (ready) {
+			loadNewReleases()
+			loadNewSingles()
+			loadUpcoming()
+			loadNewSongs()
+			loadUpcomingSongs()
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [ready])
+
+	// isLoading && user
+
+	useEffect(() => {
+		console.log('[useEffect 2]', { isLoading: isLoading, user: user })
+
+		if (!isLoading && user) {
+			setReady(true)
+		}
+	}, [isLoading, user])
+
+	if (isLoading || !user) {
+		// if (isLoading || !user) {
+		// todo : prevent from fetching data
+		return <>Loading...</>
+	}
+
+	// Helpers
 
 	const refreshButton = (title: string, handleClick: () => void) => {
 		return (
@@ -150,8 +139,6 @@ export default function Test() {
 			String(process.env.APP_DEBUG).toLowerCase()
 		)
 	}
-
-	// throw new Error('testestestes')
 
 	return (
 		<>
@@ -225,12 +212,9 @@ export default function Test() {
 						<ul>
 							<li>APP_URL : {process.env.APP_URL}</li>
 							<li>APP_DEBUG : {process.env.APP_DEBUG}</li>
-							<li>
+							{/* <li>
 								DEVELOPER_TOKEN : {process.env.DEVELOPER_TOKEN}
-							</li>
-							<li>
-								TEST_USER_TOKEN : {process.env.TEST_USER_TOKEN}
-							</li>
+							</li> */}
 							<li>
 								TEST_USER_MUSIC_TOKEN :{' '}
 								{process.env.TEST_USER_MUSIC_TOKEN}

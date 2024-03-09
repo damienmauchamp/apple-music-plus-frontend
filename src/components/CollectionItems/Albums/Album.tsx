@@ -2,40 +2,10 @@ import React, { useEffect } from 'react'
 import Image from 'next/image'
 import styles from './Album.module.css'
 import ContentRating from '../../Elements/ContentRating/ContentRating'
-import axios from 'axios'
 import { Album } from '@/types/Items/Items'
+import useAPI from '@/lib/useAPI'
 
 interface AlbumProps extends React.HTMLAttributes<HTMLDivElement>, Album {}
-
-// region api
-const getApiUrl = () => {
-	return String(process.env.APP_URL).replace(/\/+$/, '')
-}
-
-const apiHeaders = {
-	Accept: 'application/json',
-	Authorization: `Bearer ${process.env.TEST_USER_TOKEN}`,
-	'Music-Token': `${process.env.TEST_USER_MUSIC_TOKEN}`,
-}
-
-async function addResourceToLibrary(
-	storeIds: string[],
-	type: string = 'albums'
-) {
-	// todo : use MusicKit API
-	return await axios.post(
-		`${getApiUrl()}/api/applemusic/library`,
-		{},
-		{
-			headers: apiHeaders,
-			params: {
-				ids: storeIds,
-				type: type,
-			},
-		}
-	)
-}
-// endregion api
 
 const AlbumComponent = ({
 	// identifier,
@@ -55,6 +25,8 @@ const AlbumComponent = ({
 	// const [libraryButtonLoadingText, setLibraryButtonLoadingText] =
 	// 	React.useState('Add to library')
 
+	const api = useAPI()
+
 	const handleAddToLibrary = (
 		e: React.MouseEvent<HTMLButtonElement, MouseEvent>
 	) => {
@@ -68,7 +40,8 @@ const AlbumComponent = ({
 
 		setLibraryButtonLoading(true)
 
-		return addResourceToLibrary([storeId])
+		return api
+			.addResourceToLibrary([storeId])
 			.then((res) => {
 				setLibraryButtonLoading(false)
 				setAlbumInLibrary(res.data.added)
