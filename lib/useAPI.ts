@@ -1,11 +1,13 @@
 import axios from 'axios'
-import { axiosConfig } from './axios'
+import { axiosWithCredentialsConfig } from './axios'
 
+// const api = axiosWithCredentials
 const api = axios.create({
-	...axiosConfig,
+	...axiosWithCredentialsConfig,
 	headers: {
 		Accept: 'application/json',
-		Authorization: `Bearer ${process.env.TEST_USER_TOKEN}`,
+		// Authorization: `Bearer ${process.env.TEST_USER_TOKEN}`,
+		// todo : MusicKit
 		'Music-Token': `${process.env.TEST_USER_MUSIC_TOKEN}`,
 	},
 })
@@ -93,6 +95,10 @@ export default function useAPI() {
 		)
 	}
 
+	//
+
+	const getUserArtists = () => api.get(`/api/user/artists`)
+
 	return {
 		...api,
 		getNewReleases,
@@ -101,5 +107,6 @@ export default function useAPI() {
 		getNewSongs,
 		getUpcomingSongs,
 		addResourceToLibrary,
+		getUserArtists,
 	}
 }
