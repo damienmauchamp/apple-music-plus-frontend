@@ -23,6 +23,7 @@ pm2 save
 ### Update on production
 
 ```bash
+pm2 stop <ID> # OR pm2 stop "Apple Music Plus - Front"
 git reset --hard
 git pull
 npm run build:production
