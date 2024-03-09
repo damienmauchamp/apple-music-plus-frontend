@@ -25,11 +25,11 @@ import useAuth from '@/lib/useAuth'
 // }
 
 interface TestProps {
-	newReleasesData: Album[]
-	newSinglesData: Album[]
-	upcomingData: Album[]
-	newSongsData: Song[]
-	upcomingSongsData: Song[]
+	// newReleasesData: Album[]
+	// newSinglesData: Album[]
+	// upcomingData: Album[]
+	// newSongsData: Song[]
+	// upcomingSongsData: Song[]
 }
 
 // Test.getStaticProps = async () => ({
@@ -42,24 +42,31 @@ interface TestProps {
 // 	},
 // })
 
-export default function Test({
-	newReleasesData = [],
-	newSinglesData = [],
-	upcomingData = [],
-	newSongsData = [],
-	upcomingSongsData = [],
-}: TestProps) {
+export default function Test(
+	{
+		// newReleasesData = [] as Album[],
+		// newSinglesData = [] as Album[],
+		// upcomingData = [] as Album[],
+		// newSongsData = [] as Song[],
+		// upcomingSongsData = [] as Song[],
+	}: TestProps
+) {
 	// Auth hook
 	const { user, isLoading } = useAuth({ middleware: 'auth' }) // todo : redirect to previous page after login
 
 	// State
+	// const [ready, setReady] = useState<boolean>(false)
+	// const [newReleases, setNewReleases] = useState<Album[]>(newReleasesData)
+	// const [newSingles, setNewSingles] = useState<Album[]>(newSinglesData)
+	// const [upcoming, setUpcoming] = useState<Album[]>(upcomingData)
+	// const [newSongs, setNewSongs] = useState<Song[]>(newSongsData)
+	// const [upcomingSongs, setUpcomingSongs] = useState<Song[]>(upcomingSongsData)
 	const [ready, setReady] = useState<boolean>(false)
-	const [newReleases, setNewReleases] = useState<Album[]>(newReleasesData)
-	const [newSingles, setNewSingles] = useState<Album[]>(newSinglesData)
-	const [upcoming, setUpcoming] = useState<Album[]>(upcomingData)
-	const [newSongs, setNewSongs] = useState<Song[]>(newSongsData)
-	const [upcomingSongs, setUpcomingSongs] =
-		useState<Song[]>(upcomingSongsData)
+	const [newReleases, setNewReleases] = useState<Album[]>([])
+	const [newSingles, setNewSingles] = useState<Album[]>([])
+	const [upcoming, setUpcoming] = useState<Album[]>([])
+	const [newSongs, setNewSongs] = useState<Song[]>([])
+	const [upcomingSongs, setUpcomingSongs] = useState<Song[]>([])
 
 	// API hook
 	const api = useAPI()

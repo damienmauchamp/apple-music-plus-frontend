@@ -1,17 +1,13 @@
 'use client'
 import useAuth from '@/lib/useAuth'
-import {
-	MusicKitContextProvider,
-	useMusicKitContext,
-} from '@/src/context/MusicKitContext'
-import React, { useEffect, useState } from 'react'
+import { useMusicKitContext } from '@/src/context/MusicKitContext'
+import React, { useState } from 'react'
 
 // type Props = {}
 
 const Header = ({}) => {
 	const { user, logout, isLoading } = useAuth()
-	const { logged, setLoading, loading, getInstance, updateLogin } =
-		useMusicKitContext()
+	const { logged, loading, getInstance, updateLogin } = useMusicKitContext()
 
 	const [isLoggingIn, setIsLoggingIn] = useState<boolean>(false)
 	const [isLoggingOut, setIsLoggingOut] = useState<boolean>(false)
