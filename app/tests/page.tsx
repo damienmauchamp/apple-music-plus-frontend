@@ -53,6 +53,7 @@ export default function Test({
 	const { user, isLoading } = useAuth({ middleware: 'auth' }) // todo : redirect to previous page after login
 
 	// State
+	const [ready, setReady] = useState<boolean>(false)
 	const [newReleases, setNewReleases] = useState<Album[]>(newReleasesData)
 	const [newSingles, setNewSingles] = useState<Album[]>(newSinglesData)
 	const [upcoming, setUpcoming] = useState<Album[]>(upcomingData)
@@ -88,19 +89,34 @@ export default function Test({
 	}
 
 	useEffect(() => {
-		if (isLoading || !user) {
-			return
-		}
+		console.log('[useEffect] ready', ready)
 
-		loadNewReleases()
-		loadNewSingles()
-		loadUpcoming()
-		loadNewSongs()
-		loadUpcomingSongs()
+		// if (isLoading || !user) {
+		// 	return
+		// }
+
+		if (ready) {
+			loadNewReleases()
+			loadNewSingles()
+			loadUpcoming()
+			loadNewSongs()
+			loadUpcomingSongs()
+		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [])
+	}, [ready])
+
+	// isLoading && user
+
+	useEffect(() => {
+		console.log('[useEffect 2]', { isLoading: isLoading, user: user })
+
+		if (!isLoading && user) {
+			setReady(true)
+		}
+	}, [isLoading, user])
 
 	if (isLoading || !user) {
+		// if (isLoading || !user) {
 		// todo : prevent from fetching data
 		return <>Loading...</>
 	}
@@ -123,8 +139,6 @@ export default function Test({
 			String(process.env.APP_DEBUG).toLowerCase()
 		)
 	}
-
-	// throw new Error('testestestes')
 
 	return (
 		<>
@@ -198,12 +212,9 @@ export default function Test({
 						<ul>
 							<li>APP_URL : {process.env.APP_URL}</li>
 							<li>APP_DEBUG : {process.env.APP_DEBUG}</li>
-							<li>
+							{/* <li>
 								DEVELOPER_TOKEN : {process.env.DEVELOPER_TOKEN}
-							</li>
-							<li>
-								TEST_USER_TOKEN : {process.env.TEST_USER_TOKEN}
-							</li>
+							</li> */}
 							<li>
 								TEST_USER_MUSIC_TOKEN :{' '}
 								{process.env.TEST_USER_MUSIC_TOKEN}

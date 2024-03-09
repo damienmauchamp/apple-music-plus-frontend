@@ -5,11 +5,7 @@ import React from 'react'
 // type Props = {}
 
 const Header = ({}) => {
-	const { user, logout } = useAuth()
-
-	// todo : isLoading
-
-	// console.log('[Header] user', user)
+	const { user, logout, isLoading } = useAuth()
 
 	return (
 		<header className="p-4 bg-gray-200 dark:bg-gray-700">
@@ -18,22 +14,23 @@ const Header = ({}) => {
 					<a href="/">Home</a>
 				</div>
 
-				{user ? (
-					<div>
-						<a href="#" onClick={logout}>
-							Logout
-						</a>
-					</div>
-				) : (
-					<>
+				{!isLoading &&
+					(user ? (
 						<div>
-							<a href="/login">Login</a>
+							<a href="#" onClick={logout}>
+								Logout
+							</a>
 						</div>
-						<div>
-							<a href="/register">Register</a>
-						</div>
-					</>
-				)}
+					) : (
+						<>
+							<div>
+								<a href="/login">Login</a>
+							</div>
+							<div>
+								<a href="/register">Register</a>
+							</div>
+						</>
+					))}
 			</div>
 		</header>
 	)
