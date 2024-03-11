@@ -12,7 +12,7 @@ function Main({
 		<MusicKitContextProvider>
 			<>
 				<Header />
-				{children}
+				<main>{children}</main>
 			</>
 		</MusicKitContextProvider>
 	)

@@ -24,8 +24,14 @@ export default function useAPI() {
 	const intercept = () => {
 		// Set the Music-Token token for any request
 		api.interceptors.request.use(function (config) {
-			// config.headers['Authorization'] = `Bearer ${process.env.TEST_USER_TOKEN}`
-			// config.headers['Music-Token'] = process.env.TEST_USER_MUSIC_TOKEN
+			if (process.env.TEST_USER_TOKEN) {
+				config.headers['Authorization'] =
+					`Bearer ${process.env.TEST_USER_TOKEN}`
+			}
+			if (process.env.TEST_USER_TOKEN) {
+				config.headers['Music-Token'] =
+					process.env.TEST_USER_MUSIC_TOKEN
+			}
 			config.headers['Music-Token'] = logged
 				? getInstance().musicUserToken || ''
 				: ''

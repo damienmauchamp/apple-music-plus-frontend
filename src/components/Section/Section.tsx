@@ -6,17 +6,23 @@ export interface SectionProps extends React.HTMLAttributes<HTMLElement> {
 	id: string
 	title: string
 	items?: Item[]
+	level?: number
 	seeAll?: () => void
 	children?: React.ReactNode
 }
 
-const Section = ({ children, title, ...props }: SectionProps) => {
+const Section = ({ children, title, level, ...props }: SectionProps) => {
+	level = level || 2
+	const SectionTitle = `h${level}` as keyof JSX.IntrinsicElements
+
 	return (
 		<>
 			<section className={styles.section}>
 				<div className={styles.sectionContent}>
 					<div className={styles.sectionHeader}>
-						<h2 className={styles.sectionTitle}>{title}</h2>
+						<SectionTitle className={styles.sectionTitle}>
+							{title}
+						</SectionTitle>
 						{props.seeAll && (
 							<button onClick={props.seeAll}>See all</button>
 						)}

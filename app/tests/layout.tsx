@@ -1,3 +1,5 @@
+import Section from '@/src/components/Section/Section'
+
 export default function DashboardLayout({
 	children, // will be a page or nested layout
 }: {
@@ -5,10 +7,9 @@ export default function DashboardLayout({
 }) {
 	return (
 		<>
-			<section>
-				<h1>Layout.tsx</h1>
-				<div>{children}</div>
-			</section>
+			<Section id={'home'} title={'Home'} level={1}>
+				{children}
+			</Section>
 		</>
 	)
 }

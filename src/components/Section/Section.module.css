@@ -6,6 +6,15 @@
 	@apply mx-4 mb-3;
 }
 .sectionTitle {
+	@apply font-bold;
+}
+h1.sectionTitle {
+	@apply text-4xl font-bold;
+}
+h2.sectionTitle {
+	@apply text-xl font-bold;
+}
+h3.sectionTitle {
 	@apply text-lg font-bold;
 }
 .sectionItems {
@@ -13,7 +22,7 @@
 	@apply overflow-x-hidden;
 }
 
-/** @todo : max results : 56px x n =>
+/** @todo : songs.max results : 56px x n =>
  * {
     max-height: 560px;
     overflow-y: auto;
