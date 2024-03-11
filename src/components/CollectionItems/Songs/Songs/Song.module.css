@@ -104,13 +104,28 @@
 /* region general */
 .artistName > a,
 .albumName > a {
-	@apply hover:underline;
+	@apply hover:md:underline;
 }
 /* endregion general */
 
 /* region list */
 .container:not(.gridContainer) {
 	@apply w-full max-w-full;
+}
+
+.container:not(.gridContainer):hover {
+	@apply bg-white bg-opacity-[0.06];
+}
+.container:not(.gridContainer).selected {
+	@apply bg-[#a60012] bg-opacity-100;
+}
+
+.container:not(.gridContainer) .artworkNameCell {
+	@apply rounded-l-md;
+}
+
+.container:not(.gridContainer) .durationCell {
+	@apply rounded-r-md;
 }
 /* endregion list */
 

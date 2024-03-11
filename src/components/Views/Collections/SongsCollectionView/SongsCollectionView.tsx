@@ -12,6 +12,28 @@ export interface SongsCollectionViewProps {
 	// mobileScroll?: boolean
 }
 
+const artworkSize = 50
+
+const useOutsideClick = (
+	ref: React.MutableRefObject<any>,
+	callback: () => void
+) => {
+	React.useEffect(() => {
+		const handleClick = (event: MouseEvent) => {
+			if (ref.current && !ref.current.contains(event.target)) {
+				callback()
+			}
+		}
+
+		document.addEventListener('click', handleClick)
+
+		return () => {
+			document.removeEventListener('click', handleClick)
+		}
+	}, [ref, callback])
+	return ref
+}
+
 const SongsCollectionView = ({
 	items,
 	scroll,
@@ -19,20 +41,27 @@ const SongsCollectionView = ({
 	// mobileScroll,
 	...props
 }: SongsCollectionViewProps) => {
-	// todo : property & global parameter
-	const artworkSize = 50
-
+	// default props
 	if (scroll === undefined) scroll = false
 	if (props.header === undefined) props.header = true
-
-	const getRows = () => rows || 4
-
-	if (!rows) rows = getRows()
 	let classNames = ''
+
+	// highlight songs
+	const [active, setActive] = React.useState<number | null>(null)
+	const ref = React.useRef()
+	const listRef = useOutsideClick(ref, () => {
+		// On click outside
+		setActive(null)
+	})
+
+	// rows
+	const getRows = () => rows || 4
+	if (!rows) rows = getRows()
 	if (rows) {
 		classNames += ` !grid-rows-${rows}`
 	}
 
+	// list header
 	const header = () => {
 		if (scroll) return null
 
@@ -58,6 +87,7 @@ const SongsCollectionView = ({
 
 	return (
 		<ul
+			ref={listRef}
 			className={`
 			${styles.SongsCollectionView}
 			${scroll ? styles.gridScrollable : styles.list}
@@ -70,6 +100,8 @@ const SongsCollectionView = ({
 				<Song
 					{...item}
 					key={`${props.id}-${item.storeId}`}
+					selected={index === active}
+					onClick={() => setActive(index)}
 					// identifier={`${props.id}-${item.storeId}`}
 					storeId={item.storeId}
 					name={item.name}

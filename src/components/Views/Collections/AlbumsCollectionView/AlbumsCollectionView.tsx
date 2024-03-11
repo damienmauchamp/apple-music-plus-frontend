@@ -11,6 +11,8 @@ export type AlbumCollectionViewProps = {
 	mobileScroll?: boolean
 }
 
+const artworkSize = 316
+
 const AlbumCollectionView = ({
 	items,
 	scroll,
@@ -18,15 +20,13 @@ const AlbumCollectionView = ({
 	mobileScroll,
 	...props
 }: AlbumCollectionViewProps) => {
-	// todo : property & global parameter
-	const artworkSize = 316
-
 	let classNames = ''
+
+	// rows
 	if (rows) {
 		if (items.length < 8) {
 			rows = 1
 		}
-
 		classNames += ` !grid-rows-${rows}`
 	}
 

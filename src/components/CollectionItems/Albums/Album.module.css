@@ -4,8 +4,8 @@
 	@apply p-4 -m-4;
 }
 
-.album {
-}
+/* .album {
+} */
 
 .artworkContainer {
 	@apply relative;
@@ -23,11 +23,15 @@
 }
 
 .album:hover .artworkOverlay {
-	@apply bg-black opacity-20;
+	@apply bg-black md:opacity-20;
 }
 
 .artworkOverlayActions {
 	@apply flex items-end justify-between p-4;
+}
+
+.album:hover .artworkOverlayActions {
+	@apply md:opacity-100;
 }
 
 .overlayButton {
@@ -45,10 +49,6 @@
 	@apply bg-gray-500 pointer-events-none cursor-default;
 }
 
-.album:hover .artworkOverlayActions {
-	@apply opacity-100;
-}
-
 .albumDetails {
 	@apply flex flex-col py-1;
 }
@@ -57,7 +57,7 @@
 }
 
 .albumName {
-	@apply line-clamp-2 hover:underline;
+	@apply line-clamp-2 hover:md:underline;
 }
 
 .albumBadge {
@@ -65,5 +65,5 @@
 }
 
 .artistName {
-	@apply line-clamp-1 hover:underline;
+	@apply line-clamp-1 hover:md:underline;
 }

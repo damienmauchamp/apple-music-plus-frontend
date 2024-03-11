@@ -5,6 +5,7 @@ import ContentRating from '@/src/components/Elements/ContentRating/ContentRating
 import { Artist, Song } from '@/types/Items'
 
 interface SongProps extends React.HTMLAttributes<HTMLDivElement>, Song {
+	selected?: boolean
 	wrap?: boolean
 	last?: boolean
 }
@@ -64,7 +65,7 @@ const SongComponent = ({
 			<>
 				<div className={styles.artworkNameCell}>
 					<div className={styles.artworkNameContainer}>
-						<div className="block">
+						<div className="flex">
 							<a
 								className={styles.artworkContainer}
 								target="_blank"
@@ -141,7 +142,11 @@ const SongComponent = ({
 	return (
 		<div
 			className={` ${styles.container} ${props.wrap ? styles.gridContainer : ''}
-			${props.last ? styles.last : ''}`}
+			${props.selected ? styles.selected : ''}
+			${props.last ? styles.last : ''}
+			`}
+			onClick={props.onClick || (() => {})}
+			// {...props}
 			// key={identifier}
 		>
 			{render()}
