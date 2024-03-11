@@ -81,25 +81,25 @@
 	@apply ml-2;
 }
 
-.container:not(.gridContainer) .artworkNameCell {
-	/* @apply w-[42%]; */
-	/* @apply w-64; */
-}
-.container:not(.gridContainer) .artistNameCell {
-	/* @apply w-[29%]; */
-	/* @apply w-12; */
-	/* min-width: 29rem; */
-	/* @apply w-64; */
-}
-.container:not(.gridContainer) .albumNameCell {
-	/* @apply w-[29%]; */
-	/* @apply w-[29%]; */
-	/* min-width: 29rem; */
-	/* @apply w-64; */
-}
-.container:not(.gridContainer) .durationCell {
-	/* @apply w-[141px]; */
-}
+/* .container:not(.gridContainer) .artworkNameCell { */
+/* @apply w-[42%]; */
+/* @apply w-64; */
+/* } */
+/* .container:not(.gridContainer) .artistNameCell { */
+/* @apply w-[29%]; */
+/* @apply w-12; */
+/* min-width: 29rem; */
+/* @apply w-64; */
+/* } */
+/* .container:not(.gridContainer) .albumNameCell { */
+/* @apply w-[29%]; */
+/* @apply w-[29%]; */
+/* min-width: 29rem; */
+/* @apply w-64; */
+/* } */
+/* .container:not(.gridContainer) .durationCell { */
+/* @apply w-[141px]; */
+/* } */
 
 /* region general */
 .artistName > a,
@@ -135,9 +135,9 @@
 	@apply flex w-full;
 }
 
-.container.gridContainer .artworkNameCell {
-	/* @apply mr-3; */
-}
+/* .container.gridContainer .artworkNameCell { */
+/* @apply mr-3; */
+/* } */
 
 .container.gridContainer .artworkNameContainer {
 	@apply pr-2 py-2 h-auto;
