@@ -52,7 +52,7 @@ const SongComponent = ({
 	artists.forEach((artist: Artist) => {
 		artistsNames = artistsNames.replace(
 			artist.name,
-			`<a target="_blank" href="https://music.apple.com/${process.env.STOREFRONT}/artist/${artist.storeId}">${artist.name}</a>`
+			`<a target="_blank" className="underline" href="https://music.apple.com/${process.env.STOREFRONT}/artist/${artist.storeId}">${artist.name}</a>`
 		)
 	})
 
@@ -106,7 +106,15 @@ const SongComponent = ({
 					/>
 				</div>
 				<div className={styles.albumNameCell}>
-					<div className={styles.albumName}>{albumName}</div>
+					<div className={styles.albumName}>
+						<a
+							// className={styles.artworkContainer}
+							target="_blank"
+							href={albumId ? albumLink : '#'}
+						>
+							{albumName}
+						</a>
+					</div>
 				</div>
 				<div className={styles.durationCell}>
 					<div className={styles.durationContainer}>

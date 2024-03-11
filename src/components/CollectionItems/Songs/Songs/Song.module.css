@@ -56,14 +56,14 @@
 }
 
 .artistName {
-	@apply truncate;
+	@apply truncate p-1;
 }
 
 .albumNameCell {
 	@apply max-md:hidden truncate pr-4;
 }
 .albumName {
-	@apply truncate;
+	@apply truncate p-1;
 }
 
 .durationCell {
@@ -100,6 +100,13 @@
 .container:not(.gridContainer) .durationCell {
 	/* @apply w-[141px]; */
 }
+
+/* region general */
+.artistName > a,
+.albumName > a {
+	@apply hover:underline;
+}
+/* endregion general */
 
 /* region list */
 .container:not(.gridContainer) {
