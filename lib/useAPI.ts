@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
 import { axiosWithCredentialsConfig } from './axios'
 import { useMusicKitContext } from '@/src/context/MusicKitContext'
 
@@ -21,18 +21,56 @@ const timestamps = () => ({
 export default function useAPI() {
 	const { logged, getInstance } = useMusicKitContext()
 
-	// Set the Music-Token token for any request
-	api.interceptors.request.use(function (config) {
-		// config.headers['Authorization'] = `Bearer ${process.env.TEST_USER_TOKEN}`
-		// config.headers['Music-Token'] = process.env.TEST_USER_MUSIC_TOKEN
-		config.headers['Music-Token'] = logged
-			? getInstance().musicUserToken || ''
-			: ''
-		return config
-	})
+	const intercept = () => {
+		// Set the Music-Token token for any request
+		api.interceptors.request.use(function (config) {
+			// config.headers['Authorization'] = `Bearer ${process.env.TEST_USER_TOKEN}`
+			// config.headers['Music-Token'] = process.env.TEST_USER_MUSIC_TOKEN
+			config.headers['Music-Token'] = logged
+				? getInstance().musicUserToken || ''
+				: ''
+			return config
+		})
+	}
 
+	intercept()
+
+	/* region extending axios */
+	const get = <T = any, R = AxiosResponse<T>, D = any>(
+		url: string,
+		config?: AxiosRequestConfig<D>
+	): Promise<R> => {
+		intercept()
+		return api.get(url, config)
+	}
+	const post = <T = any, R = AxiosResponse<T>, D = any>(
+		url: string,
+		data?: D,
+		config?: AxiosRequestConfig<D>
+	): Promise<R> => {
+		intercept()
+		return api.post(url, data, config)
+	}
+	const put = <T = any, R = AxiosResponse<T>, D = any>(
+		url: string,
+		data?: D,
+		config?: AxiosRequestConfig<D>
+	): Promise<R> => {
+		intercept()
+		return api.put(url, data, config)
+	}
+	const del = <T = any, R = AxiosResponse<T>, D = any>(
+		url: string,
+		config?: AxiosRequestConfig<D>
+	): Promise<R> => {
+		intercept()
+		return api.delete(url, config)
+	}
+	/* endregion extending axios */
+
+	/* region API */
 	const getNewReleases = (from: string) => {
-		return api.get(`/api/user/releases`, {
+		return get(`/api/user/releases`, {
 			params: {
 				...timestamps(),
 				from: from,
@@ -47,7 +85,7 @@ export default function useAPI() {
 	}
 
 	const getNewSingles = (from: string) => {
-		return api.get(`/api/user/releases`, {
+		return get(`/api/user/releases`, {
 			params: {
 				...timestamps(),
 				from: from,
@@ -58,7 +96,7 @@ export default function useAPI() {
 		})
 	}
 	const getUpcoming = (from: string) => {
-		return api.get(`/api/user/releases`, {
+		return get(`/api/user/releases`, {
 			params: {
 				...timestamps(),
 				from: from,
@@ -68,7 +106,7 @@ export default function useAPI() {
 		})
 	}
 	const getNewSongs = (from: string) => {
-		return api.get(`/api/user/releases/songs`, {
+		return get(`/api/user/releases/songs`, {
 			params: {
 				...timestamps(),
 				from: from,
@@ -78,7 +116,7 @@ export default function useAPI() {
 		})
 	}
 	const getUpcomingSongs = (from: string) => {
-		return api.get(`/api/user/releases/songs`, {
+		return get(`/api/user/releases/songs`, {
 			params: {
 				...timestamps(),
 				from: from,
@@ -109,13 +147,18 @@ export default function useAPI() {
 
 	//
 
-	const getUserArtists = () => api.get(`/api/user/artists`)
+	const getUserArtists = () => get(`/api/user/artists`)
+	/* endregion API */
 
 	return {
 		...api,
 		api: api,
-		get: api.get,
-		// post: api.post,
+		//
+		get: get,
+		post: post,
+		put: put,
+		delete: del,
+		//
 		getNewReleases,
 		getNewSingles,
 		getUpcoming,

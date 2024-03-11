@@ -67,7 +67,6 @@ const SongComponent = ({
 						<div className="block">
 							<a
 								className={styles.artworkContainer}
-								// className="flex flex-col basis-auto cols-3 shrink-0"
 								target="_blank"
 								href={songLink}
 							>

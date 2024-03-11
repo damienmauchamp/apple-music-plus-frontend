@@ -69,10 +69,11 @@ export const MusicKitContextProvider = ({
 			return
 		}
 
-		console.log('updateLogin', {
-			isAuthorized: isAuthorized(),
-			instanceIsLoaded: instanceIsLoaded(),
-		})
+		// console.log('updateLogin', {
+		// 	isAuthorized: isAuthorized(),
+		// 	instanceIsLoaded: instanceIsLoaded(),
+		// 	musicToken: getInstance().musicUserToken,
+		// })
 
 		setLogged(isAuthorized())
 		setMusicKit(getInstance())

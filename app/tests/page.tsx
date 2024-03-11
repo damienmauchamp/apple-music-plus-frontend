@@ -11,6 +11,7 @@ import SongsListSection from '@/src/components/Layout/SongsListSection/SongsList
 import { Album, Song } from '@/types/Items'
 import useAPI from '@/lib/useAPI'
 import useAuth from '@/lib/useAuth'
+import { useMusicKitContext } from '@/src/context/MusicKitContext'
 
 // export const getStaticProps = async () => {
 // 	return {
@@ -51,6 +52,9 @@ export default function Test(
 		// upcomingSongsData = [] as Song[],
 	}: TestProps
 ) {
+	// Hooks
+	const { logged } = useMusicKitContext()
+
 	// Auth hook
 	const { user, isLoading } = useAuth({ middleware: 'auth' }) // todo : redirect to previous page after login
 
@@ -95,22 +99,26 @@ export default function Test(
 		setUpcomingSongs(res.data.data)
 	}
 
-	useEffect(() => {
-		// if (isLoading || !user) {
-		// 	return
-		// }
+	const loadData = () => {
+		if (!ready) return
+		loadNewReleases()
+		loadNewSingles()
+		loadUpcoming()
+		loadNewSongs()
+		loadUpcomingSongs()
+	}
 
-		if (ready) {
-			loadNewReleases()
-			loadNewSingles()
-			loadUpcoming()
-			loadNewSongs()
-			loadUpcomingSongs()
-		}
+	useEffect(() => {
+		// if (ready) {
+		loadData()
+		// }
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [ready])
 
-	// isLoading && user
+	useEffect(() => {
+		loadData()
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [logged])
 
 	useEffect(() => {
 		if (!isLoading && user) {
@@ -119,10 +127,12 @@ export default function Test(
 	}, [isLoading, user])
 
 	if (isLoading || !user) {
-		// if (isLoading || !user) {
-		// todo : prevent from fetching data
 		return <>Loading...</>
 	}
+
+	// if (!user && !isLoading) {
+	// 	return <>Please log in</>
+	// }
 
 	// Helpers
 

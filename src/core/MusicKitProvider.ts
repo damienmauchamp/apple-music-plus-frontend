@@ -13,10 +13,10 @@ export default class MusicProvider {
 			return
 		}
 
-		console.log(process.env.DEVELOPER_TOKEN)
+		// console.log(process.env.DEVELOPER_TOKEN)
 
 		window.MusicKit.configure({
-			// todo : fetch ?
+			// TODO : fetch /api/developer_token + storefront ?
 			developerToken: process.env.DEVELOPER_TOKEN,
 			app: {
 				name: process.env.APP_NAME,
