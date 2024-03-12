@@ -1,10 +1,10 @@
 'use client'
 // import Head from 'next/head'
 // import Link from 'next/link'
-import Label from '@/src/components/tests/label'
-import Input from '@/src/components/tests/input'
-import Button from '@/src/components/tests/button'
-import Errors from '@/src/components/tests/errors'
+import Label from '@/src/components/Components/label'
+import Input from '@/src/components/Components/input'
+import Button from '@/src/components/Components/button'
+import FormErrors from '@/src/components/Components/formErrors'
 import { ChangeEvent, FormEvent, useState } from 'react'
 import useAuth from '../../lib/useAuth'
 // import { useSearchParams } from 'next/navigation'
@@ -37,7 +37,7 @@ export default function Login() {
 			</Head> */}
 
 			<div className={'w-1/2 mx-auto bg-white p-5 rounded-lg'}>
-				<Errors className="mb-5" errors={errors} />
+				<FormErrors className="mb-5" errors={errors} />
 
 				<form onSubmit={(e) => submitForm(e)} autoComplete="off">
 					<div>
