@@ -100,14 +100,14 @@ const Header = ({}) => {
 					) : !logged ? (
 						<div>
 							<a href="#" onClick={handleLogin}>
-								Login
+								AM Login
 								{isLoggingIn && '...'}
 							</a>
 						</div>
 					) : (
 						<div>
 							<a href="#" onClick={handleLogout}>
-								Logout
+								AM Logout
 								{isLoggingOut && '...'}
 							</a>
 						</div>

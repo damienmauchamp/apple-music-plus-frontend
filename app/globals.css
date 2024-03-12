@@ -4,6 +4,12 @@
 
 :root {
 	--foreground-rgb: 0, 0, 0;
+	--background-rgb: 255, 255, 255;
+
+	/* input */
+	--input-text-rgb: 255, 255, 255;
+
+	/* defaults */
 	--background-start-rgb: 214, 219, 220;
 	--background-end-rgb: 255, 255, 255;
 }
@@ -11,6 +17,12 @@
 @media (prefers-color-scheme: dark) {
 	:root {
 		--foreground-rgb: 255, 255, 255;
+		--background-rgb: 0, 0, 0;
+
+		/* input */
+		--input-text-rgb: 0, 0, 0;
+
+		/* defaults */
 		--background-start-rgb: 0, 0, 0;
 		--background-end-rgb: 0, 0, 0;
 	}
@@ -18,13 +30,18 @@
 
 body {
 	color: rgb(var(--foreground-rgb));
-	background: linear-gradient(
-			to bottom,
-			transparent,
-			rgb(var(--background-end-rgb))
-		)
-		rgb(var(--background-start-rgb));
+	background: rgb(var(--background-rgb));
 	font-size: 12px;
+	font-family:
+		-apple-system,
+		BlinkMacSystemFont,
+		Apple Color Emoji,
+		SF Pro,
+		SF Pro Icons,
+		Helvetica Neue,
+		Helvetica,
+		Arial,
+		sans-serif;
 }
 
 @layer utilities {
@@ -33,8 +50,86 @@ body {
 	}
 }
 
-/**/
+/* CUSTOM */
 html,
 body {
 	@apply min-h-screen;
+}
+
+input {
+	color: rgb(var(--input-text-rgb));
+}
+
+/* SF Pro */
+@font-face {
+	font-family: 'SF Pro';
+	font-weight: 300;
+	font-style: 'italic';
+	src: url('../public/assets/fonts/SFPro/SFProText-LightItalic.ttf');
+}
+@font-face {
+	font-family: 'SF Pro';
+	font-weight: 300;
+	font-style: normal;
+	src: url('../public/assets/fonts/SFPro/SFProText-Light.ttf');
+}
+@font-face {
+	font-family: 'SF Pro';
+	font-weight: 400;
+	font-style: 'italic';
+	src: url('../public/assets/fonts/SFPro/SFProText-RegularItalic.ttf');
+}
+@font-face {
+	font-family: 'SF Pro';
+	font-weight: 400;
+	font-style: normal;
+	src: url('../public/assets/fonts/SFPro/SFProText-Regular.ttf');
+}
+@font-face {
+	font-family: 'SF Pro';
+	font-weight: 500;
+	font-style: 'italic';
+	src: url('../public/assets/fonts/SFPro/SFProText-MediumItalic.ttf');
+}
+@font-face {
+	font-family: 'SF Pro';
+	font-weight: 500;
+	font-style: normal;
+	src: url('../public/assets/fonts/SFPro/SFProText-Medium.ttf');
+}
+@font-face {
+	font-family: 'SF Pro';
+	font-weight: 600;
+	font-style: 'italic';
+	src: url('../public/assets/fonts/SFPro/SFProText-SemiboldItalic.ttf');
+}
+@font-face {
+	font-family: 'SF Pro';
+	font-weight: 600;
+	font-style: normal;
+	src: url('../public/assets/fonts/SFPro/SFProText-Semibold.ttf');
+}
+@font-face {
+	font-family: 'SF Pro';
+	font-weight: 700;
+	font-style: 'italic';
+	src: url('../public/assets/fonts/SFPro/SFProText-BoldItalic.ttf');
+}
+@font-face {
+	font-family: 'SF Pro';
+	font-weight: 700;
+	font-style: normal;
+	src: url('../public/assets/fonts/SFPro/SFProText-Bold.ttf');
+}
+@font-face {
+	font-family: 'SF Pro';
+	font-weight: 900;
+	font-style: 'italic';
+	src: url('../public/assets/fonts/SFPro/SFProText-HeavyItalic.ttf');
+}
+@font-face {
+	font-family: 'SF Pro';
+	font-weight: 900;
+	font-style: normal;
+	src: url('../public/assets/fonts/SFPro/SFProText-Heavy.ttf');
 }

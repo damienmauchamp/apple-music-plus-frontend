@@ -1,12 +1,12 @@
 'use client'
-import Header from '@/src/components/tests/header'
-import { MusicKitContextProvider } from '@/src/context/MusicKitContext'
 import React from 'react'
+import Header from './Header'
+import { MusicKitContextProvider } from '@/src/context/MusicKitContext'
 
 function Main({
 	children,
 }: Readonly<{
-	children: React.ReactNode
+	children?: React.ReactNode
 }>) {
 	return (
 		<MusicKitContextProvider>
