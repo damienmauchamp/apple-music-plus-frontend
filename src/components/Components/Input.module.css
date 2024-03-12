@@ -1,0 +1,16 @@
+/* .inputTextStyle { */
+/* @apply text-searchInputText-light dark:text-searchInputText-dark text-opacity-60; */
+/* @apply bg-transparent; */
+/* } */
+
+.input {
+	/* @apply text-black dark:text-white; */
+	@apply bg-input-bg-light dark:bg-input-bg-dark;
+	@apply placeholder:text-input-elements-light placeholder:dark:text-input-elements-dark;
+
+	/* ... */
+	@apply self-stretch justify-start items-center inline-flex w-full;
+	/* @apply inputTextStyle; */
+	@apply h-full py-[7px] px-8 truncate; /* todo : p si icones g & d */
+	@apply outline-none border-none;
+}

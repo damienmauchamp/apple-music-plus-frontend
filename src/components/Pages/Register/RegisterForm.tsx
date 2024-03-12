@@ -6,6 +6,7 @@ import Label from '@/src/components/Components/Label'
 import Input from '@/src/components/Components/Input'
 import Button from '@/src/components/Components/Button'
 import FormErrors from '@/src/components/Components/FormErrors'
+import { IoSearch } from 'react-icons/io5'
 
 interface RegisterFormProps {
 	onSubmit?: (event: FormEvent<HTMLFormElement>) => void
@@ -21,6 +22,14 @@ const RegisterForm = ({ onSubmit, register, ...props }: RegisterFormProps) => {
 	// const [password_confirmation, setPasswordConfirmation] = useState('')
 	const [errors, setErrors] = useState<string[]>([])
 
+	// const nameRef = useRef()
+	// const emailRef = useRef()
+	// const passwordRef = useRef()
+
+	// const nameRef = useRef<HTMLDivElement>()
+	// const emailRef = useRef<HTMLDivElement>()
+	// const passwordRef = useRef<HTMLDivElement>()
+
 	const submitForm = async (event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault()
 
@@ -35,7 +44,11 @@ const RegisterForm = ({ onSubmit, register, ...props }: RegisterFormProps) => {
 				<title>ergodnc — Register</title>
 			</Head>
 
-			<div className={'w-1/2 mx-auto bg-white p-5 rounded-lg'}>
+			<div
+				className={
+					'w-1/2 mx-auto bg-white dark:bg-black p-5 rounded-lg'
+				}
+			>
 				<FormErrors className="mb-5" errors={errors} />
 
 				<form onSubmit={submitForm} autoComplete="off" {...props}>
@@ -43,16 +56,23 @@ const RegisterForm = ({ onSubmit, register, ...props }: RegisterFormProps) => {
 						<Label htmlFor="email">Name</Label>
 
 						<Input
+							// ref={nameRef}
+							speechToText={true} // todo : del
+							onTranscript={(val: string) => {
+								console.log('onTranscript.name:', val)
+							}} // todo : del
 							id="name"
 							type="text"
 							value={name}
-							className="block mt-1 w-full"
+							className="mt-1"
 							onChange={(event: ChangeEvent<HTMLInputElement>) =>
 								setName(event.target.value)
 							}
 							required
 							autoFocus
 							autoComplete="off"
+							placeholder="Your name"
+							rightIcon={IoSearch}
 						/>
 					</div>
 
@@ -60,13 +80,19 @@ const RegisterForm = ({ onSubmit, register, ...props }: RegisterFormProps) => {
 						<Label htmlFor="email">Email</Label>
 
 						<Input
+							// ref={emailRef}
+							speechToText={true} // todo : del
+							onTranscript={(val: string) => {
+								console.log('onTranscript.email:', val)
+							}} // todo : del
 							id="email"
 							type="email"
 							value={email}
-							className="block mt-1 w-full"
+							className="mt-1"
 							onChange={(event: ChangeEvent<HTMLInputElement>) =>
 								setEmail(event.target.value)
 							}
+							placeholder="Email"
 							required
 						/>
 					</div>
@@ -75,13 +101,15 @@ const RegisterForm = ({ onSubmit, register, ...props }: RegisterFormProps) => {
 						<Label htmlFor="password">Password</Label>
 
 						<Input
+							// ref={passwordRef}
 							id="password"
 							type="password"
 							value={password}
-							className="block mt-1 w-full"
+							className="mt-1"
 							onChange={(event: ChangeEvent<HTMLInputElement>) =>
 								setPassword(event.target.value)
 							}
+							placeholder="Password"
 							required
 						/>
 					</div>
@@ -93,7 +121,7 @@ const RegisterForm = ({ onSubmit, register, ...props }: RegisterFormProps) => {
 							id="password_confirmation"
 							type="password"
 							value={password_confirmation}
-							className="block mt-1 w-full"
+							className="mt-1"
 							onChange={(event) =>
 								setPasswordConfirmation(event.target.value)
 							}

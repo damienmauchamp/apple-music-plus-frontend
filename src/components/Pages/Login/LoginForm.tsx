@@ -29,7 +29,7 @@ const LoginForm = ({ onSubmit, login, ...props }: LoginFormProps) => {
 	}
 
 	return (
-		<div className={'w-1/2 mx-auto bg-white p-5 rounded-lg'}>
+		<div className={'w-1/2 mx-auto bg-white dark:bg-black p-5 rounded-lg'}>
 			<FormErrors className="mb-5" errors={errors} />
 
 			<form onSubmit={(e) => submitForm(e)} autoComplete="off" {...props}>

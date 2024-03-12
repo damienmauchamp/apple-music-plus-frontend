@@ -19,6 +19,28 @@ const config: Config = {
 				'gradient-conic':
 					'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
 			},
+			colors: {
+				input: {
+					bg: {
+						// light: '#71717a',
+						// DEFAULT: '#71717a',
+						// dark: '#262629', // todo
+						light: '#EEEEEF',
+						DEFAULT: '#EEEEEF',
+						dark: '#1C1C1E',
+					},
+					elements: {
+						light: '#838387',
+						DEFAULT: '#838387',
+						dark: '#98989F',
+					},
+					// text: {
+					// 	light: '#fff',
+					// 	DEFAULT: '#fff',
+					// 	dark: '#000',
+					// },
+				},
+			},
 			gridAutoColumns: {
 				'6c': 'calc(100% / 6 - 1rem)',
 				'5c': 'calc(100% / 5 - 1rem)',

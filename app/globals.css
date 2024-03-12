@@ -6,9 +6,6 @@
 	--foreground-rgb: 0, 0, 0;
 	--background-rgb: 255, 255, 255;
 
-	/* input */
-	--input-text-rgb: 255, 255, 255;
-
 	/* defaults */
 	--background-start-rgb: 214, 219, 220;
 	--background-end-rgb: 255, 255, 255;
@@ -18,9 +15,6 @@
 	:root {
 		--foreground-rgb: 255, 255, 255;
 		--background-rgb: 0, 0, 0;
-
-		/* input */
-		--input-text-rgb: 0, 0, 0;
 
 		/* defaults */
 		--background-start-rgb: 0, 0, 0;
@@ -54,10 +48,6 @@ body {
 html,
 body {
 	@apply min-h-screen;
-}
-
-input {
-	color: rgb(var(--input-text-rgb));
 }
 
 /* SF Pro */
