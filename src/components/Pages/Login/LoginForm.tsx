@@ -1,14 +1,13 @@
 import React, { ChangeEvent, FormEvent, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
+import useAuth from '@/lib/useAuth'
 import Label from '@/src/components/Components/Label'
 import Input from '@/src/components/Components/Input'
 import Button from '@/src/components/Components/Button'
 import FormErrors from '@/src/components/Components/FormErrors'
-import useAuth from '@/lib/useAuth'
 
 interface LoginFormProps {
 	onSubmit?: (event: FormEvent<HTMLFormElement>) => void
-	errors?: string[]
 }
 
 const LoginForm = ({ onSubmit, ...props }: LoginFormProps) => {
