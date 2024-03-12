@@ -3,7 +3,7 @@ import useAuth from '@/lib/useAuth'
 import RegisterForm from '@/src/components/Pages/Register/RegisterForm'
 
 export default function Register() {
-	const { isLoading, user } = useAuth({ middleware: 'guest' })
+	const { register, isLoading, user } = useAuth({ middleware: 'guest' })
 
 	if (isLoading || user) {
 		return <>Loading...</>
@@ -13,7 +13,7 @@ export default function Register() {
 		<>
 			<h1>Register</h1>
 
-			<RegisterForm />
+			<RegisterForm register={register} />
 		</>
 	)
 }

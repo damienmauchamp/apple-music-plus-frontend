@@ -1,6 +1,6 @@
 import React, { ChangeEvent, FormEvent, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
-import useAuth from '@/lib/useAuth'
+import { LoginFunction } from '@/lib/useAuth'
 import Label from '@/src/components/Components/Label'
 import Input from '@/src/components/Components/Input'
 import Button from '@/src/components/Components/Button'
@@ -8,10 +8,11 @@ import FormErrors from '@/src/components/Components/FormErrors'
 
 interface LoginFormProps {
 	onSubmit?: (event: FormEvent<HTMLFormElement>) => void
+	login: LoginFunction
 }
 
-const LoginForm = ({ onSubmit, ...props }: LoginFormProps) => {
-	const { login } = useAuth({ middleware: 'guest' })
+const LoginForm = ({ onSubmit, login, ...props }: LoginFormProps) => {
+	// const { login } = useAuth({ middleware: 'guest' })
 
 	const searchParams = useSearchParams()
 	const [email, setEmail] = useState<string>(searchParams.get('email') || '')

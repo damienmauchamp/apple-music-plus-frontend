@@ -1,5 +1,5 @@
 import { ChangeEvent, FormEvent, useState } from 'react'
-import useAuth from '@/lib/useAuth'
+import { RegisterFunction } from '@/lib/useAuth'
 import Link from 'next/link'
 import Head from 'next/head'
 import Label from '@/src/components/Components/Label'
@@ -9,10 +9,11 @@ import FormErrors from '@/src/components/Components/FormErrors'
 
 interface RegisterFormProps {
 	onSubmit?: (event: FormEvent<HTMLFormElement>) => void
+	register: RegisterFunction
 }
 
-const RegisterForm = ({ onSubmit, ...props }: RegisterFormProps) => {
-	const { register } = useAuth({ middleware: 'guest' })
+const RegisterForm = ({ onSubmit, register, ...props }: RegisterFormProps) => {
+	// const { register } = useAuth({ middleware: 'guest' })
 
 	const [name, setName] = useState<string>('')
 	const [email, setEmail] = useState<string>('')

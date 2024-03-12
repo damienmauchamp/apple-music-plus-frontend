@@ -18,26 +18,37 @@ interface User {
 	updated_at: string
 }
 
-interface RegisterType {
+export interface RegisterType {
 	name: string
 	email: string
 	password: string
 	setErrors: Dispatch<SetStateAction<string[]>>
 }
 
-interface LoginType {
+export interface LoginType {
 	email: string
 	password: string
 	remember: boolean
 	setErrors: Dispatch<SetStateAction<string[]>>
 }
 
+export type RegisterFunction = ({
+	setErrors,
+	...props
+}: RegisterType) => Promise<void>
+export type LoginFunction = ({
+	setErrors,
+	...props
+}: LoginType) => Promise<void>
+export type LogoutFunction = () => Promise<void>
+
 interface AuthType {
 	user: User
 	csrf: () => Promise<AxiosResponse>
-	register: ({ setErrors, ...props }: RegisterType) => Promise<void>
-	login: ({ setErrors, ...props }: LoginType) => Promise<void>
-	logout: () => Promise<void>
+	register: RegisterFunction
+	// login: ({ setErrors, ...props }: LoginType) => Promise<void>
+	login: LoginFunction
+	logout: LogoutFunction
 	isLoading: boolean
 }
 

@@ -3,7 +3,7 @@ import useAuth from '@/lib/useAuth'
 import LoginForm from '@/src/components/Pages/Login/LoginForm'
 
 export default function Login() {
-	const { isLoading, user } = useAuth({ middleware: 'guest' })
+	const { login, isLoading, user } = useAuth({ middleware: 'guest' })
 
 	if (isLoading || user) {
 		return <>Loading...</>
@@ -13,7 +13,7 @@ export default function Login() {
 		<>
 			<h1>Login</h1>
 
-			<LoginForm />
+			<LoginForm login={login} />
 		</>
 	)
 }
