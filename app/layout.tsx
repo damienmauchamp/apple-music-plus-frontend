@@ -28,6 +28,7 @@ export default function RootLayout({
 }: Readonly<{
 	children: React.ReactNode
 }>) {
+	const musicKitVersion = `v${process.env.MUSICKIT_VERSION || 1}`
 	return (
 		<html lang="en" suppressHydrationWarning>
 			<Head>
@@ -41,7 +42,8 @@ export default function RootLayout({
 			<body className={''}>
 				<Main>{children}</Main>
 				<script
-					src="https://js-cdn.music.apple.com/musickit/v1/musickit.js"
+					// src="https://js-cdn.music.apple.com/musickit/v1/musickit.js"
+					src={`https://js-cdn.music.apple.com/musickit/${musicKitVersion}/musickit.js`}
 					defer
 				></script>
 			</body>

@@ -8,14 +8,12 @@ export default class MusicProvider {
 		return MusicProvider.instance
 	}
 
-	configure(force: boolean = false) {
+	async configure(force: boolean = false) {
 		if (MusicProvider.configured && !force) {
 			return
 		}
 
-		// console.log(process.env.DEVELOPER_TOKEN)
-
-		window.MusicKit.configure({
+		const configuration: MusicKit.Configuration = {
 			// TODO : fetch /api/developer_token + storefront ?
 			developerToken: process.env.DEVELOPER_TOKEN,
 			app: {
@@ -24,7 +22,13 @@ export default class MusicProvider {
 			},
 			// storefrontId: '143442'// process.env.APP_STOREFRONT
 			// storefrontId: 'fr'// process.env.APP_STOREFRONT
-		})
+		}
+
+		if (Number(process.env.MUSICKIT_VERSION) === 3) {
+			await window.MusicKit.configure(configuration)
+		} else {
+			window.MusicKit.configure(configuration)
+		}
 		MusicProvider.configured = true
 	}
 

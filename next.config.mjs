@@ -21,6 +21,8 @@ const nextConfig = {
 		// api
 		DEVELOPER_TOKEN: process.env.DEVELOPER_TOKEN,
 		STOREFRONT: process.env.STOREFRONT,
+		// musicKit
+		MUSICKIT_VERSION: 3,
 		// tests
 		// TEST_USER_TOKEN: process.env.TEST_USER_TOKEN,
 		// TEST_USER_MUSIC_TOKEN: process.env.TEST_USER_MUSIC_TOKEN,

@@ -7,8 +7,10 @@ import SpeechRecognition, {
 	useSpeechRecognition,
 } from 'react-speech-recognition'
 
-interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+// interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+interface InputProps extends React.ComponentProps<'input'> {
 	// input
+	id: string
 	value: string
 	// onInput: React.FormEventHandler<HTMLInputElement> | undefined
 	onTranscript?: (value: string) => void
@@ -20,9 +22,10 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 	rightIcon?: IconType
 }
 
-const Input = forwardRef(
+const Input = forwardRef<HTMLInputElement, InputProps>(
 	(
 		{
+			id,
 			value = '',
 			classNameContainer = '',
 			className = '',
@@ -31,8 +34,7 @@ const Input = forwardRef(
 			speechToText,
 			rightIcon,
 			...props
-		}: InputProps,
-		// ref: ForwardedRef<HTMLDivElement>
+		},
 		ref: ForwardedRef<HTMLInputElement>
 	) => {
 		// icons
@@ -44,14 +46,9 @@ const Input = forwardRef(
 
 		// text
 		const [inputValue, setInputValue] = useState<string>(value)
-		const updateInputValue = (text: string) => {
-			console.log(`(Input[${props.id}]) >updateInputValue:`, text)
-			setInputValue(text)
-		}
 
 		useEffect(() => {
-			console.log(`(Input[${props.id}].useEffect[value]):`, value)
-			updateInputValue(value)
+			setInputValue(value)
 		}, [value])
 
 		// region transcript
@@ -78,36 +75,55 @@ const Input = forwardRef(
 		// transcript : speech to text listening
 		const [speechToTextIsListening, setSpeechToTextIsListening] =
 			useState<boolean>(false)
+		const [speechToTextCurrentId, setSpeechToTextCurrentId] =
+			useState<string>('')
 
-		const startListening =
-			(/*event: React.MouseEventHandler<HTMLDivElement>*/) => {
-				if (!isMicrophoneAvailable || !speechToTextEnabled) {
-					// todo : handle error ?
-					setSpeechToTextEnabled(false)
-					console.error('Mic not available')
-					return
-				}
-				setSpeechToTextIsListening(true)
-				SpeechRecognition.startListening()
+		const startListening = (listeningId: string) => {
+			// (/*event: React.MouseEventHandler<HTMLDivElement>*/) => {
+			if (!isMicrophoneAvailable || !speechToTextEnabled) {
+				// todo : handle error ?
+				setSpeechToTextEnabled(false)
+				console.error('Mic not available')
+				return
 			}
+			setSpeechToTextIsListening(true)
+			setSpeechToTextCurrentId(listeningId)
+			SpeechRecognition.startListening()
+		}
 		const stopListening =
 			(/*event: React.MouseEventHandler<HTMLDivElement>*/) => {
 				SpeechRecognition.stopListening()
 				setSpeechToTextIsListening(false)
-				updateInputValue(transcript)
+				setSpeechToTextCurrentId('')
+				setInputValue(transcript)
 			}
 
 		useEffect(() => {
-			console.log(`(Input[${props.id}]) transcript:`, transcript, props)
-			updateInputValue(transcript)
+			if (!speechToTextEnabled) return
+
+			if (speechToTextCurrentId !== id) {
+				console.log('Not the good ID : ', {
+					current: speechToTextCurrentId,
+					inputId: id,
+				})
+				return
+			}
+
+			setInputValue(transcript)
 			onInput &&
 				onInput({
 					currentTarget: { value: transcript },
 					// currentTarget: { value: localTranscript },
 				} as React.FormEvent<HTMLInputElement>)
 			onTranscript && onTranscript(transcript)
-		}, [transcript])
-		// endregion
+		}, [
+			id,
+			onInput,
+			onTranscript,
+			speechToTextCurrentId,
+			speechToTextEnabled,
+			transcript,
+		])
 
 		const renderMic = () => {
 			return (
@@ -122,7 +138,7 @@ const Input = forwardRef(
 						return speechToTextEnabled
 							? speechToTextIsListening
 								? stopListening()
-								: startListening()
+								: startListening(id)
 							: {}
 					}}
 				>
@@ -133,42 +149,44 @@ const Input = forwardRef(
 				</div>
 			)
 		}
+		// endregion
 
 		// render
 
 		return (
-			<div
-				// ref={ref}
-				// 	{...props}
-				className={`${classNameContainer} ${styles.searchbar}`}
-			>
-				<div className={styles.inputContainer}>
-					<input
-						ref={ref}
-						// disabled={disabled}
-						// className={`${className} outline-none border rounded border-gray-200 h-10 px-2 `}
-						className={`${className} ${styles.input}`}
-						value={inputValue}
-						onInput={(event: React.FormEvent<HTMLInputElement>) => {
-							// updateInputValue(e.currentTarget.value)
-							return onInput && onInput(event)
-						}}
-						{...props}
-					/>
+			<>
+				<div
+					// ref={ref}
+					// 	{...props}
+					className={`${classNameContainer} ${styles.searchbar}`}
+				>
+					<div className={styles.inputContainer}>
+						<input
+							ref={ref}
+							id={id}
+							// className={`${className} outline-none border rounded border-gray-200 h-10 px-2 `}
+							className={`${className} ${styles.input}`}
+							value={inputValue}
+							onInput={(
+								event: React.FormEvent<HTMLInputElement>
+							) => onInput && onInput(event)}
+							{...props}
+						/>
 
-					<div className={styles.inputIcons}>
-						<div className={styles.inputIconsContainer}>
-							<div className={styles.inputSearchIcon}>
-								{/* todo */}
-								{renderRightIcon()}
-								{/* <RightIconComponent size={18} /> */}
-								{/* <IoSearch size={18} /> */}
+						<div className={styles.inputIcons}>
+							<div className={styles.inputIconsContainer}>
+								<div className={styles.inputSearchIcon}>
+									{/* todo */}
+									{renderRightIcon()}
+									{/* <RightIconComponent size={18} /> */}
+									{/* <IoSearch size={18} /> */}
+								</div>
+								{speechToText && renderMic()}
 							</div>
-							{speechToText && renderMic()}
 						</div>
 					</div>
 				</div>
-			</div>
+			</>
 		)
 	}
 )

@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useState } from 'react'
+import { ChangeEvent, FormEvent, useRef, useState } from 'react'
 import { RegisterFunction } from '@/lib/useAuth'
 import Link from 'next/link'
 import Head from 'next/head'
@@ -22,13 +22,9 @@ const RegisterForm = ({ onSubmit, register, ...props }: RegisterFormProps) => {
 	// const [password_confirmation, setPasswordConfirmation] = useState('')
 	const [errors, setErrors] = useState<string[]>([])
 
-	// const nameRef = useRef()
-	// const emailRef = useRef()
-	// const passwordRef = useRef()
-
-	// const nameRef = useRef<HTMLDivElement>()
-	// const emailRef = useRef<HTMLDivElement>()
-	// const passwordRef = useRef<HTMLDivElement>()
+	const nameRef = useRef<HTMLInputElement>(null)
+	const emailRef = useRef<HTMLInputElement>(null)
+	const passwordRef = useRef<HTMLInputElement>(null)
 
 	const submitForm = async (event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault()
@@ -56,10 +52,11 @@ const RegisterForm = ({ onSubmit, register, ...props }: RegisterFormProps) => {
 						<Label htmlFor="email">Name</Label>
 
 						<Input
-							// ref={nameRef}
+							ref={nameRef}
 							speechToText={true} // todo : del
 							onTranscript={(val: string) => {
 								console.log('onTranscript.name:', val)
+								// setName(val)
 							}} // todo : del
 							id="name"
 							type="text"
@@ -80,11 +77,7 @@ const RegisterForm = ({ onSubmit, register, ...props }: RegisterFormProps) => {
 						<Label htmlFor="email">Email</Label>
 
 						<Input
-							// ref={emailRef}
-							speechToText={true} // todo : del
-							onTranscript={(val: string) => {
-								console.log('onTranscript.email:', val)
-							}} // todo : del
+							ref={emailRef}
 							id="email"
 							type="email"
 							value={email}
@@ -94,6 +87,7 @@ const RegisterForm = ({ onSubmit, register, ...props }: RegisterFormProps) => {
 							}
 							placeholder="Email"
 							required
+							rightIcon={IoSearch}
 						/>
 					</div>
 
@@ -101,7 +95,7 @@ const RegisterForm = ({ onSubmit, register, ...props }: RegisterFormProps) => {
 						<Label htmlFor="password">Password</Label>
 
 						<Input
-							// ref={passwordRef}
+							ref={passwordRef}
 							id="password"
 							type="password"
 							value={password}
@@ -123,6 +117,7 @@ const RegisterForm = ({ onSubmit, register, ...props }: RegisterFormProps) => {
 							value={password_confirmation}
 							className="mt-1"
 							onChange={(event) =>
+								console.log('onChange', event.target.value, );
 								setPasswordConfirmation(event.target.value)
 							}
 							required
