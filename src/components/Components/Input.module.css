@@ -30,9 +30,9 @@
 	@apply pl-8;
 }
 
-.input.inputWithMic {
-	/* @apply pr-8; */
-}
+/* .input.inputWithMic { */
+/* @apply pr-8; */
+/* } */
 
 .inputIcons {
 	@apply absolute top-0 left-0 right-0 bottom-0;
