@@ -1,14 +1,14 @@
 import React, { ForwardedRef, forwardRef, useEffect, useState } from 'react'
 import styles from './Input.module.css'
 import { IconType } from 'react-icons'
-import { IoMic } from 'react-icons/io5'
+import { IoCloseCircle, IoMic } from 'react-icons/io5'
 import 'regenerator-runtime/runtime'
 import SpeechRecognition, {
 	useSpeechRecognition,
 } from 'react-speech-recognition'
 
-// interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-interface InputProps extends React.ComponentProps<'input'> {
+interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+	// interface InputProps extends React.ComponentProps<'input'> {
 	// input
 	id: string
 	value: string
@@ -18,8 +18,9 @@ interface InputProps extends React.ComponentProps<'input'> {
 	// container
 	classNameContainer?: string
 	// icons
-	// rightIcon?: JSX.IntrinsicElements | IconType
-	rightIcon?: IconType
+	// leftIcon?: JSX.IntrinsicElements | IconType
+	leftIcon?: IconType
+	// allowClear?: boolean
 }
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
@@ -32,16 +33,20 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
 			onInput,
 			onTranscript,
 			speechToText,
-			rightIcon,
+			leftIcon,
+			// allowClear = true,
 			...props
 		},
 		ref: ForwardedRef<HTMLInputElement>
 	) => {
+		// defaults
+		// const allowClear = true
+
 		// icons
-		const renderRightIcon = () => {
-			if (!rightIcon) return null
-			const RightIconComponent = rightIcon
-			return <RightIconComponent size={18} />
+		const renderLeftIcon = () => {
+			if (!leftIcon) return null
+			const LeftIconComponent = leftIcon
+			return <LeftIconComponent size={18} />
 		}
 
 		// text
@@ -125,28 +130,48 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
 			transcript,
 		])
 
+		const renderRightIcon = (
+			icon: React.ReactNode,
+			onClick: React.MouseEventHandler<HTMLDivElement> | undefined
+		) => (
+			<div
+				className={styles.inputRightIcon}
+				style={{
+					background: speechToTextIsListening ? 'green' : '',
+					cursor: 'pointer',
+				}}
+				onClick={onClick}
+			>
+				{icon}
+			</div>
+		)
+
+		const renderClearable = () => {
+			const clearable = inputValue && !speechToTextIsListening
+			if (!clearable) return null
+
+			return renderRightIcon(<IoCloseCircle size={18} />, () =>
+				setInputValue('')
+			)
+		}
+
 		const renderMic = () => {
-			return (
-				<div
-					className={styles.inputMicIcon}
-					style={{
-						background: speechToTextIsListening ? 'green' : '',
-						cursor: 'pointer',
-					}}
-					onClick={(event: React.MouseEvent<HTMLDivElement>) => {
-						console.log('click Mic', event)
-						return speechToTextEnabled
-							? speechToTextIsListening
-								? stopListening()
-								: startListening(id)
-							: {}
-					}}
-				>
-					<IoMic
-						size={18}
-						className={`${speechToTextIsListening ? 'text-green' : ''}`}
-					/>
-				</div>
+			const clearable = inputValue && !speechToTextIsListening
+			if (clearable) return null
+
+			return renderRightIcon(
+				<IoMic
+					size={18}
+					className={`${speechToTextIsListening ? 'text-green' : ''}`}
+				/>,
+				(event: React.MouseEvent<HTMLDivElement>) => {
+					console.log('click Mic', event)
+					return speechToTextEnabled
+						? speechToTextIsListening
+							? stopListening()
+							: startListening(id)
+						: {}
+				}
 			)
 		}
 		// endregion
@@ -155,37 +180,40 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
 
 		return (
 			<>
-				<div
+				{/* <div
 					// ref={ref}
 					// 	{...props}
 					className={`${classNameContainer} ${styles.searchbar}`}
+				> */}
+				<div
+					className={`${styles.inputContainer} ${classNameContainer}`}
 				>
-					<div className={styles.inputContainer}>
-						<input
-							ref={ref}
-							id={id}
-							// className={`${className} outline-none border rounded border-gray-200 h-10 px-2 `}
-							className={`${className} ${styles.input}`}
-							value={inputValue}
-							onInput={(
-								event: React.FormEvent<HTMLInputElement>
-							) => onInput && onInput(event)}
-							{...props}
-						/>
+					<input
+						ref={ref}
+						id={id}
+						// className={`${className} outline-none border rounded border-gray-200 h-10 px-2 `}
+						className={`${className} ${styles.input}
+							${leftIcon ? styles.inputWithIcon : ''}
+							${speechToText ? styles.inputWithMic : ''}
+							`}
+						value={inputValue}
+						onInput={(event: React.FormEvent<HTMLInputElement>) =>
+							onInput && onInput(event)
+						}
+						{...props}
+					/>
 
-						<div className={styles.inputIcons}>
-							<div className={styles.inputIconsContainer}>
-								<div className={styles.inputSearchIcon}>
-									{/* todo */}
-									{renderRightIcon()}
-									{/* <RightIconComponent size={18} /> */}
-									{/* <IoSearch size={18} /> */}
-								</div>
-								{speechToText && renderMic()}
+					<div className={styles.inputIcons}>
+						<div className={styles.inputIconsContainer}>
+							<div className={styles.inputSearchIcon}>
+								{renderLeftIcon()}
 							</div>
+							{speechToText && renderMic()}
+							{renderClearable()}
 						</div>
 					</div>
 				</div>
+				{/* </div> */}
 			</>
 		)
 	}

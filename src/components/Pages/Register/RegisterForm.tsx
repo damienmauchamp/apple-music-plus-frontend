@@ -62,14 +62,20 @@ const RegisterForm = ({ onSubmit, register, ...props }: RegisterFormProps) => {
 							type="text"
 							value={name}
 							className="mt-1"
-							onChange={(event: ChangeEvent<HTMLInputElement>) =>
+							// onChange={(event: ChangeEvent<HTMLInputElement>) =>
+							// 	setName(event.target.value)
+							// }
+							onChange={(
+								event: ChangeEvent<HTMLInputElement>
+							) => {
 								setName(event.target.value)
-							}
+								console.log('onChange', event.target.value)
+							}}
 							required
 							autoFocus
 							autoComplete="off"
 							placeholder="Your name"
-							rightIcon={IoSearch}
+							leftIcon={IoSearch}
 						/>
 					</div>
 
@@ -87,7 +93,7 @@ const RegisterForm = ({ onSubmit, register, ...props }: RegisterFormProps) => {
 							}
 							placeholder="Email"
 							required
-							rightIcon={IoSearch}
+							leftIcon={IoSearch}
 						/>
 					</div>
 

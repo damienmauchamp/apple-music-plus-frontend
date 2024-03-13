@@ -3,14 +3,58 @@
 /* @apply bg-transparent; */
 /* } */
 
+.inputContainer {
+	@apply self-stretch justify-start items-center inline-flex;
+	/* @apply inputTextStyle; */
+	/* @apply bg-searchInputBg-light dark:bg-searchInputBg-dark; */
+	@apply bg-opacity-10 dark:bg-opacity-60;
+	@apply rounded-[10px];
+	@apply relative;
+}
+
 .input {
+	@apply self-stretch justify-start items-center inline-flex w-full truncate;
+	@apply outline-none border-none;
 	/* @apply text-black dark:text-white; */
 	@apply bg-input-bg-light dark:bg-input-bg-dark;
 	@apply placeholder:text-input-elements-light placeholder:dark:text-input-elements-dark;
 
+	@apply h-full p-[7px];
+	@apply pr-8;
 	/* ... */
-	@apply self-stretch justify-start items-center inline-flex w-full;
 	/* @apply inputTextStyle; */
-	@apply h-full py-[7px] px-8 truncate; /* todo : p si icones g & d */
-	@apply outline-none border-none;
+	/* @apply px-[7px] py-[7px]; */
+}
+
+.input.inputWithIcon {
+	@apply pl-8;
+}
+
+.input.inputWithMic {
+	/* @apply pr-8; */
+}
+
+.inputIcons {
+	@apply absolute top-0 left-0 right-0 bottom-0;
+	@apply pointer-events-none;
+}
+
+.inputIconsContainer {
+	@apply flex justify-between items-center content-center self-stretch w-full h-full;
+}
+
+.inputIcon {
+	@apply px-2 self-stretch flex items-center justify-center;
+	@apply inline-flex;
+}
+
+.inputSearchIcon {
+	@apply inputIcon;
+	@apply justify-self-start;
+}
+.inputRightIcon {
+	/* .inputMicIcon { */
+	@apply inputIcon;
+	@apply justify-self-end;
+	@apply pointer-events-auto;
 }
