@@ -213,7 +213,7 @@
 .content {
 	@apply contentBackground;
 	/* @apply px-uiNavigation; */
-	@apply defaultPaddingY;
+	/* @apply defaultPaddingY; */
 	/* todo : global variable */
 	@apply self-stretch overflow-auto;
 	/* @apply flex w-full text-black font-normal bg-grey; */

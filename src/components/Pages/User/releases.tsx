@@ -166,7 +166,8 @@ export default function ReleasesPage(
 					scroll={false}
 					mobileScroll={true}
 					rows={2}
-					seeAll={() => console.log('see all 1')}
+					seeAllPath={'/new-releases'}
+					// seeAll={() => console.log('see all 1')}
 				/>
 				<AlbumsGridSection
 					id={'newSingles'}
@@ -176,7 +177,6 @@ export default function ReleasesPage(
 					scroll={true}
 					// mobileScroll={true}
 					rows={2}
-					//
 					seeAllPath={'/new-singles'}
 					// seeAll={() => console.log('see all 2')}
 				/>
@@ -188,6 +188,7 @@ export default function ReleasesPage(
 					scroll={false}
 					mobileScroll={true}
 					rows={1}
+					seeAllPath={'/upcoming'}
 				/>
 				<SongsListSection
 					id={'newSongs'}
@@ -198,6 +199,7 @@ export default function ReleasesPage(
 					//
 					scroll={true}
 					rows={4}
+					seeAllPath={'/new-songs'}
 				/>
 				<SongsListSection
 					id={'newSongsList'}
@@ -205,12 +207,16 @@ export default function ReleasesPage(
 					key={'newSongsList'}
 					items={newSongs}
 					header={false}
+					// todo
+					seeAllPath={'/new-songs'}
 				/>
 				<SongsListSection
 					id={'upcomingSongs'}
 					title={'Upcoming Songs'}
 					key={'upcomingSongs'}
 					items={upcomingSongs}
+					// todo
+					seeAllPath={'/upcoming-songs'}
 				/>
 			</div>
 

@@ -10,10 +10,22 @@ interface SongsListSectionProps extends SectionProps, SongsCollectionViewProps {
 	items: Song[]
 }
 
-const SongsListSection = ({ id, title, ...props }: SongsListSectionProps) => {
+const SongsListSection = ({
+	id,
+	title,
+	seeAll,
+	seeAllPath,
+	...props
+}: SongsListSectionProps) => {
 	return (
 		<>
-			<Section id={id} title={title}>
+			<Section
+				id={id}
+				title={title}
+				// todo : see all => send data & type, server component
+				seeAll={seeAll}
+				seeAllPath={seeAllPath}
+			>
 				<SongsCollectionView id={id} {...props} />
 			</Section>
 		</>
