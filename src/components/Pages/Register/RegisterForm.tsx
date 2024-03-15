@@ -42,7 +42,7 @@ const RegisterForm = ({ onSubmit, register, ...props }: RegisterFormProps) => {
 
 			<div
 				className={
-					'w-1/2 mx-auto bg-white dark:bg-black p-5 rounded-lg'
+					'w-3/4 mx-auto bg-white dark:bg-black p-5 rounded-lg'
 				}
 			>
 				<FormErrors className="mb-5" errors={errors} />
@@ -61,7 +61,6 @@ const RegisterForm = ({ onSubmit, register, ...props }: RegisterFormProps) => {
 							id="name"
 							type="text"
 							value={name}
-							className="mt-1"
 							// onChange={(event: ChangeEvent<HTMLInputElement>) =>
 							// 	setName(event.target.value)
 							// }
@@ -87,7 +86,6 @@ const RegisterForm = ({ onSubmit, register, ...props }: RegisterFormProps) => {
 							id="email"
 							type="email"
 							value={email}
-							className="mt-1"
 							onChange={(event: ChangeEvent<HTMLInputElement>) =>
 								setEmail(event.target.value)
 							}
@@ -105,7 +103,6 @@ const RegisterForm = ({ onSubmit, register, ...props }: RegisterFormProps) => {
 							id="password"
 							type="password"
 							value={password}
-							className="mt-1"
 							onChange={(event: ChangeEvent<HTMLInputElement>) =>
 								setPassword(event.target.value)
 							}
@@ -121,7 +118,6 @@ const RegisterForm = ({ onSubmit, register, ...props }: RegisterFormProps) => {
 							id="password_confirmation"
 							type="password"
 							value={password_confirmation}
-							className="mt-1"
 							onChange={(event) =>
 								console.log('onChange', event.target.value, );
 								setPasswordConfirmation(event.target.value)

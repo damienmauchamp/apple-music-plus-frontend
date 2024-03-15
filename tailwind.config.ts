@@ -41,6 +41,26 @@ const config: Config = {
 					// },
 				},
 			},
+			fontSize: {
+				// 'text-sm': [
+				// 	'0.875rem' /* 14px */,
+				// 	{
+				// 		lineHeight: '1.25rem' /* 20px */,
+				// 	},
+				// ],
+				global: [
+					'0.9375rem' /* 15px */,
+					{
+						lineHeight: '1.375rem' /* 22px */,
+					},
+				],
+				// 'text-base': [
+				// 	'1rem' /* 16px */,
+				// 	{
+				// 		lineHeight: '1.5rem' /* 24px */,
+				// 	},
+				// ],
+			},
 			gridAutoColumns: {
 				'6c': 'calc(100% / 6 - 1rem)',
 				'5c': 'calc(100% / 5 - 1rem)',

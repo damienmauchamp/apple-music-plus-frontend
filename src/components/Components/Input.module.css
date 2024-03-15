@@ -4,11 +4,10 @@
 /* } */
 
 .inputContainer {
-	@apply self-stretch justify-start items-center inline-flex;
+	@apply justify-start items-center inline-flex w-full;
 	/* @apply inputTextStyle; */
 	/* @apply bg-searchInputBg-light dark:bg-searchInputBg-dark; */
 	@apply bg-opacity-10 dark:bg-opacity-60;
-	@apply rounded-[10px];
 	@apply relative;
 }
 
@@ -21,6 +20,7 @@
 
 	@apply h-full p-[7px];
 	@apply pr-8;
+	@apply rounded-[10px];
 	/* ... */
 	/* @apply inputTextStyle; */
 	/* @apply px-[7px] py-[7px]; */

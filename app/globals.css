@@ -25,7 +25,9 @@
 body {
 	color: rgb(var(--foreground-rgb));
 	background: rgb(var(--background-rgb));
-	@apply text-base;
+	/* @apply text-base; */
+	/* @apply text-sm; */
+	@apply text-global;
 	font-family:
 		-apple-system,
 		BlinkMacSystemFont,
