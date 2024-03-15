@@ -1,11 +1,6 @@
 import type { Metadata, Viewport } from 'next'
-// import { Inter } from 'next/font/google'
 import './globals.css'
-// import Header from '@/src/components/tests/header'
 import Head from 'next/head'
-import Main from '../src/components/Layout/Main'
-
-// const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
 	title: process.env.APP_NAME,
@@ -38,9 +33,8 @@ export default function RootLayout({
 					key="title"
 				/>
 			</Head>
-			{/* <body className={inter.className}> */}
 			<body className={''}>
-				<Main>{children}</Main>
+				{children}
 				<script
 					// src="https://js-cdn.music.apple.com/musickit/v1/musickit.js"
 					src={`https://js-cdn.music.apple.com/musickit/${musicKitVersion}/musickit.js`}

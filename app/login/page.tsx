@@ -1,6 +1,7 @@
 'use client'
 import useAuth from '@/lib/useAuth'
 import LoginForm from '@/src/components/Pages/Login/LoginForm'
+import Page from '@/src/components/Pages/PageNavigation/Page'
 
 export default function Login() {
 	const { login, isLoading, user } = useAuth({ middleware: 'guest' })
@@ -10,10 +11,10 @@ export default function Login() {
 	}
 
 	return (
-		<>
+		<Page>
 			<h1>Login</h1>
 
 			<LoginForm login={login} />
-		</>
+		</Page>
 	)
 }

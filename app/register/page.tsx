@@ -1,5 +1,6 @@
 'use client'
 import useAuth from '@/lib/useAuth'
+import Page from '@/src/components/Pages/PageNavigation/Page'
 import RegisterForm from '@/src/components/Pages/Register/RegisterForm'
 
 export default function Register() {
@@ -10,10 +11,10 @@ export default function Register() {
 	}
 
 	return (
-		<>
+		<Page>
 			<h1>Register</h1>
 
 			<RegisterForm register={register} />
-		</>
+		</Page>
 	)
 }

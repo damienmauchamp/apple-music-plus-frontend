@@ -28,7 +28,7 @@ type onSearchInputType = (event: React.FormEvent<HTMLInputElement>) => void
 /**
  * @property {boolean} faded fade BG
  */
-type UINavBarProps = {
+export type UINavigationProps = {
 	children?: ReactNode
 	headerContent?: ReactNode
 	//
@@ -77,22 +77,8 @@ const UINavigation = ({
 	speechToText = true,
 	onSearchTranscript,
 	...props
-}: UINavBarProps) => {
+}: UINavigationProps) => {
 	// const [isMounted, setIsMounted] = useState(false)
-
-	// region tests
-	// const segments = useSelectedLayoutSegments()
-	// console.log('segments', segments)
-	// console.log(isMounted ? document.title : 'no')
-	// endregion
-
-	// region title
-	const [navTitle, setNavTitle] = useState<string>(title)
-	useEffect(() => {
-		// setIsMounted(true)
-		setNavTitle(document.title)
-	}, [])
-	// endregion
 
 	// region Utils
 	const generateUniqId = (prefix: string = '') =>
@@ -336,7 +322,7 @@ const UINavigation = ({
 							style={{ opacity: Number(smallTitleVisible) }}
 							className={styles.uiSmallTitle}
 						>
-							{navTitle}
+							{title}
 						</div>
 
 						{/* Top right icons */}
@@ -381,7 +367,7 @@ const UINavigation = ({
 								}}
 								className={styles.uiLargeTitle}
 							>
-								{navTitle}
+								{title}
 							</div>
 							<div
 								className={styles.uiLargeTitleRight}
