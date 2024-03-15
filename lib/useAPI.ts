@@ -95,6 +95,7 @@ export default function useAPI() {
 			params: {
 				...timestamps(),
 				from: from,
+				sort: '-releaseDate',
 				hide_albums: 1,
 				hide_eps: 1,
 				hide_upcoming: 1,
@@ -106,7 +107,7 @@ export default function useAPI() {
 			params: {
 				...timestamps(),
 				from: from,
-				sort: '-releaseDate',
+				sort: 'releaseDate',
 				only_upcoming: 1,
 			},
 		})
