@@ -166,15 +166,19 @@ export default function ReleasesPage(
 					scroll={false}
 					mobileScroll={true}
 					rows={2}
+					seeAll={() => console.log('see all 1')}
 				/>
 				<AlbumsGridSection
 					id={'newSingles'}
 					title={'New Singles'}
 					key={'newSingles'}
-					items={newSingles.slice(0, 14)}
+					items={newSingles}
 					scroll={true}
 					// mobileScroll={true}
 					rows={2}
+					//
+					seeAllPath={'/new-singles'}
+					// seeAll={() => console.log('see all 2')}
 				/>
 				<AlbumsGridSection
 					id={'upcoming'}

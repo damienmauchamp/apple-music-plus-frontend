@@ -71,6 +71,10 @@
 	@apply contentBackground;
 }
 
+.uiMain[data-large='0'] .uiTop {
+	@apply barOpacity barBackdrop;
+}
+
 :not([data-search='1'])[data-fixed='1'] .uiBottomTop {
 	@apply borderBottom;
 }

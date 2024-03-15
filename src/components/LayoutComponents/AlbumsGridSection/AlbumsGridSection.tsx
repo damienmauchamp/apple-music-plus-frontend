@@ -12,7 +12,13 @@ interface AlbumsGridSectionProps
 	items: Album[]
 }
 
-const AlbumsGridSection = ({ id, title, ...props }: AlbumsGridSectionProps) => {
+const AlbumsGridSection = ({
+	id,
+	title,
+	seeAll,
+	seeAllPath,
+	...props
+}: AlbumsGridSectionProps) => {
 	if (!props.items.length) {
 		return null
 	}
@@ -23,6 +29,9 @@ const AlbumsGridSection = ({ id, title, ...props }: AlbumsGridSectionProps) => {
 				id={id}
 				title={title}
 				style={!props.items.length ? { display: 'none' } : {}}
+				// todo : see all => send data & type, server component
+				seeAll={seeAll}
+				seeAllPath={seeAllPath}
 			>
 				<AlbumsCollectionView id={id} {...props} />
 			</Section>

@@ -34,6 +34,7 @@ export type UINavigationProps = {
 	//
 	title?: string
 	titleRightContent?: ReactNode
+	largeTitle?: boolean
 	//
 	goBack?: boolean
 	goBackLabel?: string
@@ -65,9 +66,12 @@ const UINavigation = ({
 	headerContent,
 	title = '',
 	titleRightContent,
+	largeTitle = true,
 	goBack = false,
 	goBackLabel = '',
-	onBack = () => {},
+	onBack = () => {
+		history.back()
+	},
 	topCornerIcons = [] as UINavBarTopCornerIconProps[],
 	faded = true,
 	search = false,
@@ -79,6 +83,10 @@ const UINavigation = ({
 	...props
 }: UINavigationProps) => {
 	// const [isMounted, setIsMounted] = useState(false)
+
+	if (!largeTitle) {
+		search = false
+	}
 
 	// region Utils
 	const generateUniqId = (prefix: string = '') =>
@@ -126,17 +134,25 @@ const UINavigation = ({
 
 	// endregion Top bar
 
+	const defaultTitle = largeTitle ? 'large' : 'small'
+
 	// region Titles toggling
-	const [searchBarIsFixed, setSearchBarIsFixed] = useState<boolean>(false)
+	const [searchBarIsFixed, setSearchBarIsFixed] = useState<boolean>(
+		defaultTitle !== 'large'
+	)
 	const searchBarRef = useRef<HTMLDivElement>(null)
 
 	// small title
 	const smallTitleRef = useRef<HTMLDivElement>(null)
-	const [smallTitleVisible, setSmallTitleVisible] = useState<boolean>(false)
+	const [smallTitleVisible, setSmallTitleVisible] = useState<boolean>(
+		defaultTitle !== 'large'
+	)
 
 	// large title
 	const largeTitleRef = useRef<HTMLDivElement>(null)
-	const [largeTitleVisible, setLargeTitleVisible] = useState<boolean>(true)
+	const [largeTitleVisible, setLargeTitleVisible] = useState<boolean>(
+		defaultTitle === 'large'
+	)
 	const topRef = useRef<HTMLDivElement>(null)
 
 	const bottomTopContentRef = useRef<HTMLDivElement>(null)
@@ -164,7 +180,6 @@ const UINavigation = ({
 	// scroll
 	const [scrollY, setScrollY] = useState<number>(0)
 
-	// const toggleSearchBarFixation = () => {
 	const toggleSearchBarFixation = useCallback(() => {
 		// if (!search) {
 		// 	return
@@ -195,8 +210,15 @@ const UINavigation = ({
 		// setSearchBarIsFixed(true)
 		setSearchBarIsFixed(searchBarShouldBeFixed)
 	}, [])
-	// }
+
 	useEffect(() => {
+		if (!largeTitle) {
+			setSmallTitleVisible(true)
+			setLargeTitleVisible(false)
+			toggleSearchBarFixation()
+			return
+		}
+
 		const handleScroll = () => {
 			setScrollY(window.scrollY)
 
@@ -216,7 +238,7 @@ const UINavigation = ({
 			window.removeEventListener('scroll', handleScroll)
 		}
 		// }, [])
-	}, [toggleSearchBarFixation])
+	}, [toggleSearchBarFixation, largeTitle])
 	// endregion Titles toggling
 
 	// region SearchBar
@@ -285,6 +307,7 @@ const UINavigation = ({
 				data-fixed={Number(searchBarIsFixed)}
 				data-backdrop={Number(faded)}
 				data-search={Number(search)}
+				data-large={Number(largeTitle)}
 			>
 				{/* Topbar */}
 				<div
@@ -292,6 +315,7 @@ const UINavigation = ({
 					ref={topRef}
 					className={styles.uiTop}
 					data-visible={Number(smallTitleVisible)}
+					data-large={Number(largeTitle)}
 				>
 					<div className={styles.uiSmallTitleContainer}>
 						{/* Go Back */}
@@ -354,6 +378,7 @@ const UINavigation = ({
 						id="uiBottomTop"
 						data-fixed={Number(searchBarIsFixed)}
 						className={styles.uiBottomTop}
+						style={largeTitle ? {} : { display: 'none' }}
 					>
 						{/* Large title */}
 						<div
