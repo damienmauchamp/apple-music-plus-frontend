@@ -19,7 +19,7 @@ const timestamps = () => ({
 })
 
 export default function useAPI() {
-	const { logged, getInstance } = useMusicKitContext()
+	const { logged, isAuthorized, getInstance } = useMusicKitContext()
 
 	const intercept = () => {
 		// Set the Music-Token token for any request
@@ -28,13 +28,16 @@ export default function useAPI() {
 				config.headers['Authorization'] =
 					`Bearer ${process.env.TEST_USER_TOKEN}`
 			}
-			// if (process.env.TEST_USER_MUSIC_TOKEN) {
-			// 	config.headers['Music-Token'] =
-			// 		process.env.TEST_USER_MUSIC_TOKEN
-			// }
-			config.headers['Music-Token'] = logged
-				? getInstance().musicUserToken || ''
-				: ''
+			if (process.env.TEST_USER_MUSIC_TOKEN) {
+				config.headers['Music-Token'] =
+					process.env.TEST_USER_MUSIC_TOKEN
+			}
+
+			if (logged || isAuthorized()) {
+				config.headers['Music-Token'] =
+					getInstance().musicUserToken || ''
+			}
+
 			return config
 		})
 	}
