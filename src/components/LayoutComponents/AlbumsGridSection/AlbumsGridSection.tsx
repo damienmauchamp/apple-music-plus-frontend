@@ -13,9 +13,17 @@ interface AlbumsGridSectionProps
 }
 
 const AlbumsGridSection = ({ id, title, ...props }: AlbumsGridSectionProps) => {
+	if (!props.items.length) {
+		return null
+	}
+
 	return (
 		<>
-			<Section id={id} title={title}>
+			<Section
+				id={id}
+				title={title}
+				style={!props.items.length ? { display: 'none' } : {}}
+			>
 				<AlbumsCollectionView id={id} {...props} />
 			</Section>
 		</>
