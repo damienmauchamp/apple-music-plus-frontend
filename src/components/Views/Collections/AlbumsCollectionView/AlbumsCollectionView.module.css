@@ -13,6 +13,9 @@
 	@apply py-4 px-4;
 	/* @apply py-4 px-7; */
 	scrollbar-width: none;
+
+	@apply gap-x-2;
+	@apply py-safe px-safe;
 }
 
 .gridNotScrollable {

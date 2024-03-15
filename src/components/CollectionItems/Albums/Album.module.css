@@ -2,6 +2,7 @@
 	@apply flex flex-col basis-auto;
 	@apply snap-start self-start;
 	@apply p-4 -m-4;
+	@apply p-safe -m-safe;
 }
 
 /* .album {

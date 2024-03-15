@@ -4,6 +4,7 @@
 } */
 .sectionHeader {
 	@apply mx-4 mb-3;
+	@apply mx-safe;
 }
 .sectionTitle {
 	@apply font-bold;

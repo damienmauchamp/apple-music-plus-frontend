@@ -62,12 +62,20 @@ const config: Config = {
 				// ],
 			},
 			gridAutoColumns: {
-				'6c': 'calc(100% / 6 - 1rem)',
-				'5c': 'calc(100% / 5 - 1rem)',
-				'4c': 'calc(100% / 4 - 1rem)',
-				'3c': 'calc(100% / 3 - 1rem)',
-				'2c': 'calc(100% / 2 - 1rem)',
-				'1c': 'calc(100% - 1rem)',
+				// colum-gap: 1rem + safe: 1rem
+				// '6c': 'calc(100% / 6 - 1rem)',
+				// '5c': 'calc(100% / 5 - 1rem)',
+				// '4c': 'calc(100% / 4 - 1rem)',
+				// '3c': 'calc(100% / 3 - 1rem)',
+				// '2c': 'calc(100% / 2 - 1rem)',
+				// '1c': 'calc(100% - 1rem)',
+				// colum-gap: 0.5rem + safe: 1.25rem
+				'6c': 'calc(100% / 6 - .5rem + .5rem / 6)',
+				'5c': 'calc(100% / 5 - .5rem + .5rem / 5)',
+				'4c': 'calc(100% / 4 - .5rem + .5rem / 4)',
+				'3c': 'calc(100% / 3 - .5rem + .5rem / 3)',
+				'2c': 'calc(100% / 2 - .5rem + .5rem / 2)',
+				'1c': 'calc(100% / 1 - .5rem + .5rem / 1)',
 				//
 				'6c-album-full': 'calc(100% / 6 - 1rem + 1rem / 6)',
 				'5c-album-full': 'calc(100% / 5 - 1rem + 1rem / 5)',
@@ -89,6 +97,12 @@ const config: Config = {
 				'3c-song-full': 'calc(100% / 3 - (1rem * (3 - 1)) / 3)',
 				'2c-song-full': 'calc(100% / 2 - (1rem * (2 - 1)) / 2)',
 				'1c-song-full': 'calc(100%)',
+			},
+			margin: {
+				safe: '1.25rem',
+			},
+			padding: {
+				safe: '1.25rem',
 			},
 		},
 	},
