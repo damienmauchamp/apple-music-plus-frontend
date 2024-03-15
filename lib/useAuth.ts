@@ -50,6 +50,7 @@ interface AuthType {
 	login: LoginFunction
 	logout: LogoutFunction
 	isLoading: boolean
+	hasTestToken: boolean
 }
 
 const useAuth = ({ middleware }: MiddlewareType = {}): AuthType => {
@@ -65,14 +66,18 @@ const useAuth = ({ middleware }: MiddlewareType = {}): AuthType => {
 		axios.get('/api/user').then((response) => response.data)
 	)
 
+	// todo : env ?
+	const hasTestToken = Boolean(process.env.TEST_USER_TOKEN)
+
 	useEffect(() => {
 		if (user || error) {
 			setIsLoading(false)
 		}
 
 		if (middleware == 'guest' && user) router.push('/')
-		if (middleware == 'auth' && !user && error) router.push('/login')
-	}, [user, error, middleware, router])
+		if (middleware == 'auth' && !user && !hasTestToken && error)
+			router.push('/login')
+	}, [user, error, middleware, router, hasTestToken])
 
 	const csrf = () => axios.get('/sanctum/csrf-cookie')
 
@@ -121,6 +126,7 @@ const useAuth = ({ middleware }: MiddlewareType = {}): AuthType => {
 		login,
 		logout,
 		isLoading,
+		hasTestToken,
 	}
 }
 

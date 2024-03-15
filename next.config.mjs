@@ -24,8 +24,8 @@ const nextConfig = {
 		// musicKit
 		MUSICKIT_VERSION: "3",
 		// tests
-		// TEST_USER_TOKEN: process.env.TEST_USER_TOKEN,
-		// TEST_USER_MUSIC_TOKEN: process.env.TEST_USER_MUSIC_TOKEN,
+		TEST_USER_TOKEN: process.env.TEST_USER_TOKEN,
+		TEST_USER_MUSIC_TOKEN: process.env.TEST_USER_MUSIC_TOKEN,
 	}
 };
 

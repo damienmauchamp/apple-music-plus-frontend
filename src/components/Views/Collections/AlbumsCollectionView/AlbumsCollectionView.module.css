@@ -14,7 +14,7 @@
 	/* @apply py-4 px-7; */
 	scrollbar-width: none;
 
-	@apply gap-x-2;
+	@apply gap-x-gridX;
 	@apply py-safe px-safe;
 }
 

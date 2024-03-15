@@ -30,6 +30,8 @@ const AlbumCollectionView = ({
 		classNames += ` !grid-rows-${rows}`
 	}
 
+	if (scroll) mobileScroll = true
+
 	return (
 		<ul
 			className={`${styles.gridSection} 

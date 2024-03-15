@@ -28,7 +28,7 @@ export default function useAPI() {
 				config.headers['Authorization'] =
 					`Bearer ${process.env.TEST_USER_TOKEN}`
 			}
-			if (process.env.TEST_USER_TOKEN) {
+			if (process.env.TEST_USER_MUSIC_TOKEN) {
 				config.headers['Music-Token'] =
 					process.env.TEST_USER_MUSIC_TOKEN
 			}

@@ -1,5 +1,10 @@
 import type { Config } from 'tailwindcss'
 
+// const safe = '1.25rem',
+// 	gridGapX = '.5rem'
+const safe = '1rem',
+	gridGapX = '1rem'
+
 const config: Config = {
 	content: [
 		'./pages/**/*.{js,ts,jsx,tsx,mdx}',
@@ -52,6 +57,7 @@ const config: Config = {
 					'0.9375rem' /* 15px */,
 					{
 						lineHeight: '1.375rem' /* 22px */,
+						letterSpacing: '0px',
 					},
 				],
 				// 'text-base': [
@@ -63,25 +69,51 @@ const config: Config = {
 			},
 			gridAutoColumns: {
 				// colum-gap: 1rem + safe: 1rem
-				// '6c': 'calc(100% / 6 - 1rem)',
-				// '5c': 'calc(100% / 5 - 1rem)',
-				// '4c': 'calc(100% / 4 - 1rem)',
-				// '3c': 'calc(100% / 3 - 1rem)',
-				// '2c': 'calc(100% / 2 - 1rem)',
-				// '1c': 'calc(100% - 1rem)',
+				// '6c': 'calc(100% / 6 - 1rem - .5rem / 6)',
+				// '5c': 'calc(100% / 5 - 1rem - .5rem / 5)',
+				// '4c': 'calc(100% / 4 - 1rem - .5rem / 4)',
+				// '3c': 'calc(100% / 3 - 1rem - .5rem / 3)',
+				// '2c': 'calc(100% / 2 - 1rem - .5rem / 2)',
+				// '1c': 'calc(100% - 1rem - .5rem / 1)',
 				// colum-gap: 0.5rem + safe: 1.25rem
-				'6c': 'calc(100% / 6 - .5rem + .5rem / 6)',
-				'5c': 'calc(100% / 5 - .5rem + .5rem / 5)',
-				'4c': 'calc(100% / 4 - .5rem + .5rem / 4)',
-				'3c': 'calc(100% / 3 - .5rem + .5rem / 3)',
-				'2c': 'calc(100% / 2 - .5rem + .5rem / 2)',
-				'1c': 'calc(100% / 1 - .5rem + .5rem / 1)',
+				//
+				// '6c': 'calc(100% / 6 - .5rem + .5rem / 6)',
+				// '5c': 'calc(100% / 5 - .5rem + .5rem / 5)',
+				// '4c': 'calc(100% / 4 - .5rem + .5rem / 4)',
+				// '3c': 'calc(100% / 3 - .5rem + .5rem / 3)',
+				// '2c': 'calc(100% / 2 - .5rem + .5rem / 2)',
+				// '2c': 'calc(100% / 2 - .5rem - .5rem / 2)',
+				// '1c': 'calc(100% / 1 - .5rem + .5rem / 1)',
+
+				// '6c': 'calc(100% / 6 - .5rem / 6 - 1.25rem / 2)',
+				// '5c': 'calc(100% / 5 - .5rem / 5 - 1.25rem / 2)',
+				// '4c': 'calc(100% / 4 - .5rem / 4 - 1.25rem / 2)',
+				// '3c': 'calc(100% / 3 - .5rem / 3 - 1.25rem / 2)',
+				// '2c': 'calc(100% / 2 - .5rem / 2 - 1.25rem / 2)',
+				// '1c': 'calc(100% / 1 - .5rem / 1 - 1.25rem / 2)',
+				//
+				// //
+				// '6c-album-full': 'calc(100% / 6 - 1rem + 1rem / 6)',
+				// '5c-album-full': 'calc(100% / 5 - 1rem + 1rem / 5)',
+				// '4c-album-full': 'calc(100% / 4 - 1rem + 1rem / 4)',
+				// '3c-album-full': 'calc(100% / 3 - 1rem + 1rem / 3)',
+				// '2c-album-full': 'calc(100% / 2 - 1rem + 1rem / 2)',
+				// '1c-album-full': 'calc(100% - 1rem + 1rem)',
+				//
+				'6c': 'calc(100% / 6 - 1rem - .5rem / 6)',
+				'5c': 'calc(100% / 5 - 1rem - .5rem / 5)',
+				'4c': 'calc(100% / 4 - 1rem - .5rem / 4)',
+				'3c': 'calc(100% / 3 - 1rem - .5rem / 3)',
+				'2c': 'calc(100% / 2 - 1rem - .5rem / 2)',
+				'1c': 'calc(100% - .5rem / 1)',
 				//
 				'6c-album-full': 'calc(100% / 6 - 1rem + 1rem / 6)',
 				'5c-album-full': 'calc(100% / 5 - 1rem + 1rem / 5)',
 				'4c-album-full': 'calc(100% / 4 - 1rem + 1rem / 4)',
+				// '4c-album-full': `calc(100% / 4 - ${gridGapX} + ${gridGapX} / 4)`,
 				'3c-album-full': 'calc(100% / 3 - 1rem + 1rem / 3)',
 				'2c-album-full': 'calc(100% / 2 - 1rem + 1rem / 2)',
+				// '2c-album-full': `calc(100% / 2 - ${gridGapX} + ${gridGapX} / 2)`,
 				'1c-album-full': 'calc(100% - 1rem + 1rem)',
 				//
 				'6c-song': 'calc(100% / 6 - 1rem)',
@@ -98,11 +130,17 @@ const config: Config = {
 				'2c-song-full': 'calc(100% / 2 - (1rem * (2 - 1)) / 2)',
 				'1c-song-full': 'calc(100%)',
 			},
+			gap: {
+				safe: safe,
+				gridX: gridGapX,
+			},
 			margin: {
-				safe: '1.25rem',
+				safe: safe,
+				gridX: gridGapX,
 			},
 			padding: {
-				safe: '1.25rem',
+				safe: safe,
+				gridX: gridGapX,
 			},
 		},
 	},

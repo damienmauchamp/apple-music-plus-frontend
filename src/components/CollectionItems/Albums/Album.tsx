@@ -4,6 +4,12 @@ import styles from './Album.module.css'
 import ContentRating from '../../Elements/ContentRating/ContentRating'
 import { Album } from '@/types/Items'
 import useAPI from '@/lib/useAPI'
+import {
+	// BrowserView,
+	// MobileView,
+	// isBrowser,
+	isMobile,
+} from 'react-device-detect'
 
 interface AlbumProps extends React.HTMLAttributes<HTMLDivElement>, Album {}
 
@@ -58,6 +64,7 @@ const AlbumComponent = ({
 	return (
 		<div
 			className={styles.container}
+			data-m={Number(isMobile)}
 			// key={identifier}
 		>
 			<a

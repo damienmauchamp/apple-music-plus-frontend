@@ -56,7 +56,7 @@ export default function Test(
 	const { logged } = useMusicKitContext()
 
 	// Auth hook
-	const { user, isLoading } = useAuth({ middleware: 'auth' }) // todo : redirect to previous page after login
+	const { user, isLoading, hasTestToken } = useAuth({ middleware: 'auth' }) // todo : redirect to previous page after login
 
 	// State
 	// const [ready, setReady] = useState<boolean>(false)
@@ -121,12 +121,15 @@ export default function Test(
 	}, [logged])
 
 	useEffect(() => {
-		if (!isLoading && user) {
+		if (!isLoading && (user || hasTestToken)) {
 			setReady(true)
 		}
-	}, [isLoading, user])
+	}, [isLoading, user, hasTestToken])
 
-	if (isLoading || !user) {
+	console.log('hasTestToken', hasTestToken)
+
+	// if (isLoading || !user) {
+	if (isLoading || !(user || hasTestToken)) {
 		return <>Loading...</>
 	}
 
@@ -169,8 +172,9 @@ export default function Test(
 					id={'newSingles'}
 					title={'New Singles'}
 					key={'newSingles'}
-					items={newSingles}
+					items={newSingles.slice(0, 14)}
 					scroll={true}
+					// mobileScroll={true}
 					rows={2}
 				/>
 				<AlbumsGridSection
