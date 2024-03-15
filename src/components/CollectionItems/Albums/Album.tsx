@@ -10,6 +10,7 @@ import {
 	// isBrowser,
 	isMobile,
 } from 'react-device-detect'
+import { IoCheckmarkCircle } from 'react-icons/io5'
 
 interface AlbumProps extends React.HTMLAttributes<HTMLDivElement>, Album {}
 
@@ -115,6 +116,14 @@ const AlbumComponent = ({
 							...
 						</button>
 					</div>
+
+					{albumInLibrary && (
+						<IoCheckmarkCircle
+							size={12}
+							className={styles.inLibraryIcon}
+							color="#3478F6"
+						/>
+					)}
 				</div>
 				<div className={styles.albumDetails}>
 					<div className={styles.albumNameContainer}>
