@@ -22,7 +22,7 @@ const UISearchBar = ({
 	return (
 		<div
 			// ref={ref}
-			{...props}
+			// {...props}
 			className={`${props.className} ${styles.searchbar}`}
 		>
 			<Input

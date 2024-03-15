@@ -126,8 +126,6 @@ export default function Test(
 		}
 	}, [isLoading, user, hasTestToken])
 
-	console.log('hasTestToken', hasTestToken)
-
 	// if (isLoading || !user) {
 	if (isLoading || !(user || hasTestToken)) {
 		return <>Loading...</>

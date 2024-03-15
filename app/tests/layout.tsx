@@ -1,4 +1,4 @@
-import Section from '@/src/components/Section/Section'
+// import Section from '@/src/components/Section/Section'
 
 export default function DashboardLayout({
 	children, // will be a page or nested layout
@@ -7,9 +7,9 @@ export default function DashboardLayout({
 }) {
 	return (
 		<>
-			<Section id={'home'} title={'Home'} level={1}>
-				{children}
-			</Section>
+			{/* <Section id={'home'} title={'Home'} level={1}> */}
+			{children}
+			{/* </Section> */}
 		</>
 	)
 }

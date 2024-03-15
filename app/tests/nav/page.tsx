@@ -7,12 +7,14 @@ const page = (props: Props) => {
 	console.log('props', props)
 	return (
 		<>
+			<hr />
+			<hr />
+			<hr />
 			<div>
-				<div>nav</div>
+				<div>Page.UISearchBar : </div>
 				<div className="gap-8 bg-gray-500">
 					<UISearchBar />
 				</div>
-				<div className="min-h-[1800px] bg-gray-200"></div>
 			</div>
 		</>
 	)

@@ -106,13 +106,8 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
 		useEffect(() => {
 			if (!speechToTextEnabled) return
 
-			if (speechToTextCurrentId !== id) {
-				console.log('Not the good ID : ', {
-					current: speechToTextCurrentId,
-					inputId: id,
-				})
-				return
-			}
+			// not the good id
+			if (speechToTextCurrentId !== id) return
 
 			setInputValue(transcript)
 			onInput &&
