@@ -70,7 +70,7 @@ const UINavigation = ({
 	onBack = () => {},
 	topCornerIcons = [] as UINavBarTopCornerIconProps[],
 	faded = true,
-	search,
+	search = false,
 	searchText = '',
 	searchPlaceholder = 'Search',
 	onSearchInput,

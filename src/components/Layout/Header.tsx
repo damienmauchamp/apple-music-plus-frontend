@@ -2,11 +2,12 @@
 import useAuth from '@/lib/useAuth'
 import { useMusicKitContext } from '@/src/context/MusicKitContext'
 import React, { useState } from 'react'
+import { IoEllipse } from 'react-icons/io5'
 
 // type Props = {}
 
 const Header = ({}) => {
-	const { user, logout, isLoading } = useAuth()
+	const { user, logout, isLoading, hasTestToken } = useAuth()
 	const { logged, loading, getInstance, updateLogin } = useMusicKitContext()
 
 	const [isLoggingIn, setIsLoggingIn] = useState<boolean>(false)
@@ -73,6 +74,15 @@ const Header = ({}) => {
 					<div>
 						<a href="/">Home</a>
 					</div>
+
+					{hasTestToken && (
+						<div>
+							<IoEllipse
+								color="yellow"
+								title="DEV MODE"
+							></IoEllipse>
+						</div>
+					)}
 
 					{!isLoading &&
 						(user ? (
