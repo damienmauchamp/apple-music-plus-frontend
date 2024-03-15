@@ -142,6 +142,9 @@ const config: Config = {
 				safe: safe,
 				gridX: gridGapX,
 			},
+			spacing: {
+				uiNavigation: '1.25rem', // px-5
+			},
 		},
 	},
 	plugins: [],

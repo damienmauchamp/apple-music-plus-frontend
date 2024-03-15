@@ -1,0 +1,25 @@
+/* */
+
+.stickTop {
+	@apply sticky top-0;
+}
+.borderBottom {
+	/* todo : make default colors */
+	/* @apply border-grey3 dark:border-[#333]; */
+	@apply border-[#333] dark:border-[#333];
+	@apply border-b border-opacity-50;
+}
+
+/* */
+
+.searchbar {
+	@apply self-stretch;
+	@apply flex flex-col justify-start items-start;
+	@apply px-uiNavigation pt-2 pb-[15px];
+}
+
+/* .searchbar[data-fixed='1'] { */
+[data-fixed='1'] .searchbar {
+	@apply stickTop;
+	@apply borderBottom;
+}
