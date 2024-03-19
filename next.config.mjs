@@ -1,3 +1,5 @@
+import withPWA from 'next-pwa'
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
 	images: {
@@ -26,7 +28,13 @@ const nextConfig = {
 		// tests
 		TEST_USER_TOKEN: process.env.TEST_USER_TOKEN,
 		TEST_USER_MUSIC_TOKEN: process.env.TEST_USER_MUSIC_TOKEN,
-	}
+	}, ...withPWA({
+		dest: 'public',
+		register: true,
+		skipWaiting: true,
+		// disable: process.env.NODE_ENV === "development"
+		disable: false
+	})
 };
 
 export default nextConfig;

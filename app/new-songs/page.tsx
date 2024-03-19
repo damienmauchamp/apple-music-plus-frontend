@@ -1,6 +1,7 @@
 'use client'
 import useAPI from '@/lib/useAPI'
 import useAuth from '@/lib/useAuth'
+import Loading from '@/src/components/Components/Loading/Loading'
 import SongsListSection from '@/src/components/LayoutComponents/SongsListSection/SongsListSection'
 import PageNavigation from '@/src/components/Pages/PageNavigation/PageNavigation'
 import { Song } from '@/types/Items'
@@ -45,7 +46,7 @@ export default function Home() {
 	}, [ready])
 
 	if (isLoading || !(user || hasTestToken)) {
-		return <>Loading...</>
+		return <Loading subText="Loading new songs page" />
 	}
 
 	return (

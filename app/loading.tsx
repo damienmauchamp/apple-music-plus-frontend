@@ -1,8 +1,10 @@
-export default function Loading() {
+import Loading from '@/src/components/Components/Loading/Loading'
+
+export default function AppLoading() {
 	// You can add any UI inside Loading, including a Skeleton.
 	return (
-		<div>
-			<h2>Loading.tsx</h2>
-		</div>
+		<>
+			<Loading subText="App loading" />
+		</>
 	)
 }

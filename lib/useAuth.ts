@@ -51,6 +51,8 @@ interface AuthType {
 	logout: LogoutFunction
 	isLoading: boolean
 	hasTestToken: boolean
+	authLoading: () => boolean
+	authIsLoading: boolean
 }
 
 const useAuth = ({ middleware }: MiddlewareType = {}): AuthType => {
@@ -119,6 +121,15 @@ const useAuth = ({ middleware }: MiddlewareType = {}): AuthType => {
 		return router.push('/login')
 	}
 
+	const authLoading = () => {
+		console.log('xxx', {
+			isLoading: isLoading,
+			user: user,
+			hasTestToken: hasTestToken,
+		})
+		return isLoading && (Boolean(user) || hasTestToken)
+	}
+
 	return {
 		user,
 		csrf,
@@ -127,6 +138,9 @@ const useAuth = ({ middleware }: MiddlewareType = {}): AuthType => {
 		logout,
 		isLoading,
 		hasTestToken,
+		//
+		authLoading,
+		authIsLoading: isLoading && (Boolean(user) || hasTestToken),
 	}
 }
 

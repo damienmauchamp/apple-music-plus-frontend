@@ -15,9 +15,12 @@ export default function Error({
 
 	return (
 		<div>
-			<h2>Error.tsx</h2>
-			<h2>Something went wrong!</h2>
-			<button onClick={() => reset()}>Try again</button>
+			<div className="flex flex-col justify-center items-center w-full bg-red p-8">
+				<h2 className="text-2xl">Error.tsx</h2>
+				<h2>Something went wrong!</h2>
+				<p>{error.message}</p>
+				<button onClick={() => reset()}>Try again</button>
+			</div>
 		</div>
 	)
 }
