@@ -61,10 +61,6 @@ const IOSTestPage = (/*props: Props*/) => {
 
 	const [pages, setPages] = useState<IOSPageProps[]>([page1()])
 
-	useEffect(() => {
-		console.log('UE.pages', pages.length)
-	}, [pages])
-
 	return (
 		<>
 			<IOSApp>
