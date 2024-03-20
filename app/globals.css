@@ -7,6 +7,10 @@
 	--background-rgb: 255, 255, 255;
 
 	/* defaults */
+	--title-bar-background: rgba(255, 255, 255, 0.75);
+	--scrollbar-color: rgba(60, 60, 67, 0.3);
+
+	/* defaults */
 	--background-start-rgb: 214, 219, 220;
 	--background-end-rgb: 255, 255, 255;
 }
@@ -15,6 +19,10 @@
 	:root {
 		--foreground-rgb: 255, 255, 255;
 		--background-rgb: 0, 0, 0;
+
+		/* defaults */
+		--title-bar-background: rgba(0, 0, 0, 0.75);
+		--scrollbar-color: rgba(235, 235, 245, 0.3);
 
 		/* defaults */
 		--background-start-rgb: 0, 0, 0;
@@ -124,4 +132,11 @@ body {
 	font-weight: 900;
 	font-style: normal;
 	src: url('../public/assets/fonts/SFPro/SFProText-Heavy.ttf');
+}
+
+/* - */
+.i-material-chrome {
+	background: rgba(0, 0, 0, 0.75);
+	background: rgba(255, 255, 255, 0.75);
+	backdrop-filter: blur(25px);
 }

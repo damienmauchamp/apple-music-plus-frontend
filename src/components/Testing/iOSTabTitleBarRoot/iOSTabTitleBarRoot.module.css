@@ -1,0 +1,30 @@
+.topMenuAnimInvisible {
+	/* visibility: hidden !important;
+	transition: none !important; */
+	visibility: hidden !important;
+	transition: none 0s ease 0s !important;
+}
+.iTitleBarRoot .animElement {
+	position: absolute;
+	z-index: 100;
+	transform-origin: top left;
+}
+.iTitleBarRoot .animBackArrow {
+	transform-origin: bottom right;
+}
+.iTitleBarRoot .topMenuAnimInvisible {
+	display: none !important;
+}
+.iTitleBarRoot .animTools {
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	overflow: hidden;
+	flex: 1 0 0;
+	padding: 11px 16px 11px 0px;
+	gap: 36px;
+	color: var(--i-accent);
+	font-size: 17px;
+	font-weight: 400;
+	letter-spacing: -0.4px;
+}
