@@ -18,7 +18,7 @@ export const backArrowSVG = (props?: {
 	</svg>
 )
 
-interface IOSPageProps extends IOSElementProps {
+export interface IOSPageProps extends IOSElementProps {
 	page?: string
 	//
 	title: string

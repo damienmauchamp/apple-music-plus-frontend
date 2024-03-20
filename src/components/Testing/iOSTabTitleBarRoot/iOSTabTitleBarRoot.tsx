@@ -11,10 +11,10 @@ const IOSTitleBarRoot = ({}: iOSTitleBarRootProps) => {
 		useIOSAppContext()
 	const { test, setTest } = useIOSTabContext()
 
-	console.log({
-		test: test,
-		setTest: setTest,
-	})
+	// console.log({
+	// 	test: test,
+	// 	setTest: setTest,
+	// })
 
 	//
 	const title1Ref = useRef<HTMLDivElement>(null) // #anim-title-1

@@ -2,34 +2,27 @@
 
 import { useEffect, useState } from 'react'
 import IOSApp from './iOSApp/IOSApp'
-import IOSPage from './iOSPage/iOSPage'
+import { IOSPageProps } from './iOSPage/iOSPage'
 import IOSTab from './iOSTab/iOSTab'
 
 // interface Props {}
 
 const IOSTestPage = (/*props: Props*/) => {
-	// console.log(props)
-
-	// const testOpenPage = () => {
-	// 	setPages([...pages, page2()])
-	// }
-	// const testClosePage = () => {
-	// 	setPages(pages.slice(0, -1))
-	// }
-
 	const testOpenClosePage = () => {
-		console.log('pages.length', pages.length, pages)
-
-		if (pages.length > 1) {
-			setPages(pages.slice(0, -1)) // Supprimer la dernière page
-		} else {
-			setPages([...pages, page2()]) // Ajouter une nouvelle page
-		}
+		setPages((prevPages) =>
+			prevPages.length > 1
+				? [...prevPages.slice(0, -1)]
+				: [...prevPages, page2()]
+		)
 	}
 
-	const page1 = () => {
-		return (
-			<IOSPage key="tab1/page1" title="Page 1" page="tab1/page1">
+	const page1 = (): IOSPageProps => ({
+		// key: 'tab1/page1',
+		id: 'tab1/page1',
+		title: 'Page 1',
+		page: 'tab1/page1',
+		children: (
+			<>
 				Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 				{/* <button onClick={testOpenPage}>Test Open (Page 1)</button> */}
 				{/* <button onClick={testClosePage}>Test Close (Page 1)</button> */}
@@ -52,39 +45,37 @@ const IOSTestPage = (/*props: Props*/) => {
 					<p>Second line</p>
 					<p>Third line</p>
 				</div>
-			</IOSPage>
-		)
-	}
-	const page2 = () => (
-		<IOSPage
-			key="tab1/page1/subpage1"
-			title="SubPage 1.1"
-			page="tab1/page1/subpage1"
-			prevPage="tab1/page1"
-			backTitle="Go back"
-		>
-			{/* <button onClick={testClosePage}>Test (Page 2)</button> */}
-			<button onClick={testOpenClosePage}>Test (Page 2)</button>
-		</IOSPage>
-	)
+			</>
+		),
+	})
 
-	const [pages, setPages] = useState<any[]>([page1()])
-	useEffect(() => {
-		setPages([page1()])
-	}, [])
+	const page2 = () => ({
+		// key: 'tab1/page1/subpage1',
+		id: 'tab1/page1/subpage1',
+		title: 'SubPage 1.1',
+		page: 'tab1/page1/subpage1',
+		prevPage: 'tab1/page1',
+		backTitle: 'Go back',
+		children: <button onClick={testOpenClosePage}>Test (Page 2)</button>,
+	})
+
+	const [pages, setPages] = useState<IOSPageProps[]>([page1()])
 
 	useEffect(() => {
 		console.log('UE.pages', pages.length)
-		setPages(pages)
 	}, [pages])
 
 	return (
 		<>
 			<IOSApp>
-				<IOSTab id="test" name="Tab 1" page="tab1" selected={true}>
-					{pages.map((page) => page)}
-					{/* */}
-					{/* <IOSPage title="Test page 2" back="Go back"></IOSPage> */}
+				<IOSTab
+					id="test"
+					name="Tab 1"
+					page="tab1"
+					selected={true}
+					pages={pages}
+				>
+					{/* {pages.map((page) => page)} */}
 				</IOSTab>
 			</IOSApp>
 		</>
