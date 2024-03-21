@@ -5,6 +5,29 @@
 	@apply absolute;
 }
 
+.iPage.slideAnimation {
+	transform: translateX(100%);
+	overflow: hidden;
+}
+
+.iPage.slideAnimation.animate {
+	transition: transform 1s ease; /* Transition pour smooth animation */
+	transform: translateX(0%);
+}
+
+.slideAnimation {
+	animation: slideAnimation 0.3s ease forwards;
+}
+
+@keyframes slideAnimation {
+	from {
+		transform: translateX(100%);
+	}
+	to {
+		transform: translateX(0%);
+	}
+}
+
 /* i-titlebar-titled */
 
 .titlebarDefault {

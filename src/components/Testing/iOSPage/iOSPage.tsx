@@ -1,5 +1,5 @@
 'use client'
-import React, { useCallback, useEffect, useRef } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { IOSElementProps } from '../iOSApp/IOSApp'
 import styles from './iOSPage.module.css'
 import { useIOSTabContext } from '../iOSTab/iOSTabContext'
@@ -38,11 +38,66 @@ const IOSPage = ({
 	...props
 }: IOSPageProps) => {
 	//
-	const { tabRef, addPageRef } = useIOSTabContext()
+	const { tabRef, addPageRef, getCurrentPage } = useIOSTabContext()
 	const pageRef = addPageRef && addPageRef(props.page)
 	useEffect(() => {
 		console.log('PAGE', tabRef)
 	}, [tabRef])
+
+	// init
+	const [animationActive, setAnimationActive] = useState<boolean>(false)
+	// const [isDisplayed, setIsDisplayed] = useState<boolean>(false)
+
+	let pageStyleNotDisplayedYet = {}
+	if (prevPage) {
+		pageStyleNotDisplayedYet = {
+			transform: `translateX(100%)`,
+			overflow: 'hidden',
+		}
+	}
+	const startAnimation = () => {
+		if (pageRef && pageRef.current) {
+			pageRef.current.classList.add(styles.slideAnimation)
+		}
+	}
+
+	const stopAnimation = () => {
+		if (pageRef && pageRef.current) {
+			pageRef.current.classList.remove(styles.slideAnimation)
+			// setIsDisplayed(true)
+		}
+	}
+
+	useEffect(() => {
+		if (animationActive) {
+			// setIsDisplayed(false)
+			startAnimation()
+			const timer = setTimeout(() => {
+				setAnimationActive(false)
+			}, 2000)
+			return () => clearTimeout(timer)
+		} else {
+			stopAnimation()
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [animationActive])
+
+	useEffect(() => {
+		console.log('page', props.page, 'is displayed')
+		if (!prevPage) {
+			console.log('TABHOME !')
+			return
+		}
+
+		// starting animation
+		const timer = setTimeout(() => {
+			setAnimationActive(true)
+		}, 200)
+		return () => clearTimeout(timer)
+	}, [])
+	useEffect(() => {
+		console.log('We changed page', getCurrentPage())
+	}, [getCurrentPage])
 
 	//
 	const titlebarRef = useRef<HTMLDivElement>(null)
@@ -206,6 +261,7 @@ const IOSPage = ({
 			data-element="i-page"
 			className={`${styles.iPage}`}
 			data-titlebar={titlebar}
+			style={prevPage ? pageStyleNotDisplayedYet : {}}
 			{...props}
 		>
 			{/* region i-titlebar-titled */}
@@ -313,7 +369,6 @@ const IOSPage = ({
 				<div data-element="page-body" className={styles.pageBody}>
 					{children}
 					{/* region testing */}
-
 					{prevPage && (
 						<button onClick={goBack}>
 							{'>>>'}goBackgoBackgoBack{'<<<'}
