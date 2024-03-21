@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { IOSElementProps } from '../iOSApp/IOSApp'
 import styles from './iOSTab.module.css'
-import { IOSTabContextProvider } from './iOSTabContext'
+import { IOSTabContextProvider, useIOSTabContext } from './iOSTabContext'
 import IOSTitleBarRoot from '../iOSTabTitleBarRoot/iOSTabTitleBarRoot'
 import { useIOSAppContext } from '../iOSApp/iOSAppContext'
 import IOSPage, { IOSPageProps } from '../iOSPage/iOSPage'
@@ -20,18 +20,21 @@ const IOSTab = ({
 	...props
 }: IOSTabProps) => {
 	const { addTabRef } = useIOSAppContext()
-	// const { getTabsRefs } = useIOSTabContext()
-
 	const tabRef = addTabRef(props.name)
+	useIOSTabContext({ tabRef: tabRef })
+
+	useEffect(() => {
+		console.log('[Tab] pages', pages)
+	}, [pages])
 
 	return (
-		<div
-			ref={tabRef}
-			data-element="i-tab"
-			className={`${styles.iTab} ${selected ? styles.selected : ''}`}
-			{...props}
-		>
-			<IOSTabContextProvider>
+		<IOSTabContextProvider tabRef={tabRef}>
+			<div
+				ref={tabRef}
+				data-element="i-tab"
+				className={`${styles.iTab} ${selected ? styles.selected : ''}`}
+				{...props}
+			>
 				<IOSTitleBarRoot />
 				<slot>
 					{pages.map((page) => (
@@ -39,8 +42,8 @@ const IOSTab = ({
 					))}
 				</slot>
 				{/* <slot>{children}</slot> */}
-			</IOSTabContextProvider>
-		</div>
+			</div>
+		</IOSTabContextProvider>
 	)
 }
 

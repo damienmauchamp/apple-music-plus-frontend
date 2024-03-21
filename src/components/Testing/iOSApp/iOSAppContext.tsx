@@ -67,8 +67,9 @@ export const IOSAppContextProvider = ({
 				appRef,
 				//
 				addTabRef,
-				// tabRefs,
 				getTabsRefs,
+				//
+				// openPage: () => {},
 			}}
 		>
 			{children}

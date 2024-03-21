@@ -1,9 +1,10 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import IOSApp from './iOSApp/IOSApp'
 import { IOSPageProps } from './iOSPage/iOSPage'
 import IOSTab from './iOSTab/iOSTab'
+import IOSPageLink from './IOSPageLink/IOSPageLink'
 
 // interface Props {}
 
@@ -16,6 +17,8 @@ const IOSTestPage = (/*props: Props*/) => {
 		)
 	}
 
+	const page2Path = 'tab1/page1/subpage1'
+
 	const page1 = (): IOSPageProps => ({
 		// key: 'tab1/page1',
 		id: 'tab1/page1',
@@ -23,7 +26,9 @@ const IOSTestPage = (/*props: Props*/) => {
 		page: 'tab1/page1',
 		children: (
 			<>
-				Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+				PAGE 1 - Lorem ipsum dolor sit amet, consectetur adipiscing
+				elit.
+				<IOSPageLink nextPage={page2Path}>Go to page 2</IOSPageLink>
 				{/* <button onClick={testOpenPage}>Test Open (Page 1)</button> */}
 				{/* <button onClick={testClosePage}>Test Close (Page 1)</button> */}
 				<button onClick={testOpenClosePage}>Test (Page 1)</button>
@@ -50,10 +55,10 @@ const IOSTestPage = (/*props: Props*/) => {
 	})
 
 	const page2 = () => ({
-		// key: 'tab1/page1/subpage1',
-		id: 'tab1/page1/subpage1',
+		// key: page2Path,
+		id: page2Path,
 		title: 'SubPage 1.1',
-		page: 'tab1/page1/subpage1',
+		page: page2Path,
 		prevPage: 'tab1/page1',
 		backTitle: 'Go back',
 		children: <button onClick={testOpenClosePage}>Test (Page 2)</button>,

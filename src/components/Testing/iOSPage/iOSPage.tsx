@@ -2,6 +2,7 @@
 import React, { useCallback, useEffect, useRef } from 'react'
 import { IOSElementProps } from '../iOSApp/IOSApp'
 import styles from './iOSPage.module.css'
+import { useIOSTabContext } from '../iOSTab/iOSTabContext'
 // import { useIOSTabContext } from '../iOSTab/iOSTabContext'
 
 export const backArrowSVG = (props?: {
@@ -19,7 +20,7 @@ export const backArrowSVG = (props?: {
 )
 
 export interface IOSPageProps extends IOSElementProps {
-	page?: string
+	page: string
 	//
 	title: string
 	titlebar?: string // titled
@@ -36,6 +37,14 @@ const IOSPage = ({
 	backTitle = 'Back',
 	...props
 }: IOSPageProps) => {
+	//
+	const { tabRef, addPageRef } = useIOSTabContext()
+	const pageRef = addPageRef && addPageRef(props.page)
+	useEffect(() => {
+		console.log('PAGE', tabRef)
+	}, [tabRef])
+
+	//
 	const titlebarRef = useRef<HTMLDivElement>(null)
 	const headerTitleRef = useRef<HTMLDivElement>(null)
 	const pageContainerRef = useRef<HTMLDivElement>(null)
@@ -188,8 +197,11 @@ const IOSPage = ({
 
 	// const { test, setTest } = useIOSTabContext()
 
+	// console.log('[IOSPage]', props.id, ':', children)
+
 	return (
 		<div
+			ref={pageRef}
 			data-element="i-page"
 			className={`${styles.iPage}`}
 			data-titlebar={titlebar}
