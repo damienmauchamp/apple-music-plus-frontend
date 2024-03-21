@@ -14,7 +14,7 @@ function IOSApp({ children, ...props }: IOSAppProps) {
 
 	useEffect(() => {
 		console.log('App.getTabsRefs', getTabsRefs())
-	}, [])
+	}, [getTabsRefs])
 
 	return (
 		<IOSAppContextProvider>

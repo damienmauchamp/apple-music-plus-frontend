@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+// import { useState } from 'react'
 import IOSApp from './iOSApp/IOSApp'
 import { IOSPageProps } from './iOSPage/iOSPage'
 import IOSTab from './iOSTab/iOSTab'
@@ -9,13 +9,13 @@ import IOSPageLink from './IOSPageLink/IOSPageLink'
 // interface Props {}
 
 const IOSTestPage = (/*props: Props*/) => {
-	const testOpenClosePage = () => {
-		setPages((prevPages) =>
-			prevPages.length > 1
-				? [...prevPages.slice(0, -1)]
-				: [...prevPages, page2()]
-		)
-	}
+	// const testOpenClosePage = () => {
+	// 	setPages((prevPages) =>
+	// 		prevPages.length > 1
+	// 			? [...prevPages.slice(0, -1)]
+	// 			: [...prevPages, page2()]
+	// 	)
+	// }
 
 	const page2Path = 'tab1/page1/subpage1'
 
@@ -28,10 +28,12 @@ const IOSTestPage = (/*props: Props*/) => {
 			<>
 				PAGE 1 - Lorem ipsum dolor sit amet, consectetur adipiscing
 				elit.
-				<IOSPageLink nextPage={page2Path}>Go to page 2</IOSPageLink>
+				<IOSPageLink nextPage={page2Path}>
+					Go to page 2 {page2Path}
+				</IOSPageLink>
 				{/* <button onClick={testOpenPage}>Test Open (Page 1)</button> */}
 				{/* <button onClick={testClosePage}>Test Close (Page 1)</button> */}
-				<button onClick={testOpenClosePage}>Test (Page 1)</button>
+				{/* <button onClick={testOpenClosePage}>Test (Page 1)</button> */}
 				Tableview is list with a variety of functionality, where you can
 				change the text and controls.
 				{Array(25)
@@ -61,10 +63,11 @@ const IOSTestPage = (/*props: Props*/) => {
 		page: page2Path,
 		prevPage: 'tab1/page1',
 		backTitle: 'Go back',
-		children: <button onClick={testOpenClosePage}>Test (Page 2)</button>,
+		children: <button onClick={() => {}}>BACKKKK todo</button>,
 	})
 
-	const [pages, setPages] = useState<IOSPageProps[]>([page1()])
+	// const [pages, setPages] = useState<IOSPageProps[]>([page1()])
+	const pages = [page1(), page2()]
 
 	return (
 		<>

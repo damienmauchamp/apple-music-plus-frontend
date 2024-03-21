@@ -7,10 +7,12 @@ import React, {
 	useEffect,
 	useState,
 } from 'react'
+import { IOSPageProps } from '../iOSPage/iOSPage'
 
 export interface iOSTabContextProviderProps {
 	children?: ReactElement | ReactNode
 	tabRef?: React.RefObject<HTMLDivElement>
+	tabInfo?: TabInfoType
 }
 
 export interface PageRefType {
@@ -18,9 +20,15 @@ export interface PageRefType {
 	ref: React.RefObject<HTMLDivElement>
 }
 
+export interface TabInfoType {
+	name: string
+	pages: IOSPageProps[]
+}
+
 export interface iOSTabContextProps {
 	tabRef?: React.RefObject<HTMLDivElement>
 	setTabRef?: (ref: React.RefObject<HTMLDivElement>) => void
+	tabInfo?: TabInfoType
 	//
 	addPageRef?: (name: string) => React.RefObject<HTMLDivElement>
 	getPagesRefs?: () => PageRefType[]
@@ -49,6 +57,7 @@ const getPagesRefs = () => {
 const defaultContext = {
 	tabRef: createRef<HTMLDivElement>(),
 	setTabRef: () => {},
+	// tabInfo: {},
 	addPageRef: addPageRef,
 	getPagesRefs: getPagesRefs,
 	// tests
@@ -62,6 +71,7 @@ const iOSTabContext = createContext<iOSTabContextProps>(
 
 export const IOSTabContextProvider = ({
 	children,
+	tabInfo,
 	...props
 }: iOSTabContextProviderProps) => {
 	const [tabRef, setTabRef] = useState<React.RefObject<HTMLDivElement>>(
@@ -80,6 +90,8 @@ export const IOSTabContextProvider = ({
 			value={{
 				tabRef,
 				setTabRef,
+				tabInfo,
+				//
 				addPageRef,
 				getPagesRefs,
 				// tests
