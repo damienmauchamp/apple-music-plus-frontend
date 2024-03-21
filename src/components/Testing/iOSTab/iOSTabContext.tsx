@@ -64,7 +64,7 @@ const addPageRef = (name: string) => {
 	return ref
 }
 const getPagesRefs = () => {
-	return pageRefs.filter((pageRef) => (pageRef.ref.current || null) !== null)
+	return pageRefs.filter((pageRef) => pageRef.ref.current !== null)
 }
 
 //

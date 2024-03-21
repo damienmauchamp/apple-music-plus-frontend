@@ -19,6 +19,11 @@ const IOSTab = ({
 	/*children,*/ selected,
 	...props
 }: IOSTabProps) => {
+	//
+	const { addTabRef } = useIOSAppContext()
+	const tabRef = addTabRef(props.name)
+	const { getPagesRefs } = useIOSTabContext()
+
 	// PAGES
 	const [tabPages, setTabPages] = useState<IOSPageProps[]>(
 		[pages[0]] || ([] as IOSPageProps[])
@@ -75,16 +80,16 @@ const IOSTab = ({
 	const goBack = () => {
 		const previousPage = getPreviousPage()
 
+		// todo : animation previous translate
+		console.log('GOBACK', {
+			getPagesRefs: getPagesRefs(),
+		})
+
 		if (!previousPage) return
 		setTabPages([...tabPages.slice(0, -1)])
 
 		return previousPage
 	}
-
-	//
-	const { addTabRef } = useIOSAppContext()
-	const tabRef = addTabRef(props.name)
-	useIOSTabContext()
 
 	useEffect(() => {
 		console.log('[Tab] pages', pages)
@@ -109,6 +114,9 @@ const IOSTab = ({
 			>
 				<IOSTitleBarRoot />
 				<slot>
+					<button onClick={() => console.log(getPagesRefs())}>
+						getPagesRefs
+					</button>
 					{tabPages.map((page) => (
 						<IOSPage key={page.id} {...page} />
 					))}

@@ -38,10 +38,17 @@ const IOSPage = ({
 	...props
 }: IOSPageProps) => {
 	//
-	const { tabRef, addPageRef, getCurrentPage } = useIOSTabContext()
+	const {
+		tabRef,
+		addPageRef,
+		getPreviousPage,
+		getCurrentPage,
+		getPagesRefs,
+	} = useIOSTabContext()
 	const pageRef = addPageRef && addPageRef(props.page)
 	useEffect(() => {
-		console.log('PAGE', tabRef)
+		console.log('PAGE.tabRef', tabRef)
+		console.log('PAGE.pageRef', pageRef)
 	}, [tabRef])
 
 	// init
@@ -51,18 +58,43 @@ const IOSPage = ({
 	let pageStyleNotDisplayedYet = {}
 	if (prevPage) {
 		pageStyleNotDisplayedYet = {
-			transform: `translateX(100%)`,
-			overflow: 'hidden',
+			// transform: `translateX(100%)`,
+			// overflow: 'hidden',
 		}
 	}
 	const startAnimation = () => {
+		// current page
 		if (pageRef && pageRef.current) {
 			pageRef.current.classList.add(styles.slideAnimation)
 		}
+
+		// previous page
+		const previousPage = getPreviousPage && getPreviousPage()
+		const previousPageRef =
+			getPagesRefs &&
+			getPagesRefs().find(
+				(pageRef) => pageRef.name === previousPage?.page
+			)?.ref
+
+		if (previousPageRef && previousPageRef.current) {
+			// todo : fix animation
+			previousPageRef.current.classList.add(styles.slideAnimationOut)
+		}
+
+		console.log('[newPage] previousPage', previousPage)
+		console.log('[newPage] previousPageRef', previousPageRef)
+
+		// // start animation on current page
+		// if (getPagesRefs) {
+		// 	const currentPage = getPagesRefs().find(
+		// 		(pageRef) => pageRef.name === getCurrentPage()?.page
+		// 	)
+		// }
 	}
 
 	const stopAnimation = () => {
 		if (pageRef && pageRef.current) {
+			// todo : animate
 			pageRef.current.classList.remove(styles.slideAnimation)
 			// setIsDisplayed(true)
 		}
@@ -95,8 +127,18 @@ const IOSPage = ({
 		}, 200)
 		return () => clearTimeout(timer)
 	}, [])
+
 	useEffect(() => {
 		console.log('We changed page', getCurrentPage())
+
+		if (getCurrentPage()?.page === props.page) {
+			console.log('We are on the same page !', pageRef?.current)
+			if (pageRef && pageRef.current) {
+				// todo : animate
+				pageRef.current.classList.remove(styles.slideAnimationOut)
+			}
+			return
+		}
 	}, [getCurrentPage])
 
 	//
