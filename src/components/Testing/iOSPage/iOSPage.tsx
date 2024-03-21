@@ -198,6 +198,7 @@ const IOSPage = ({
 	// const { test, setTest } = useIOSTabContext()
 
 	// console.log('[IOSPage]', props.id, ':', children)
+	const { goBack } = useIOSTabContext()
 
 	return (
 		<div
@@ -310,15 +311,15 @@ const IOSPage = ({
 
 				{/* page-body */}
 				<div data-element="page-body" className={styles.pageBody}>
-					{/* region testing */}
-					{/* <div>
-						<button onClick={() => setTest(test + '-xxx')}>
-							setTest(+=-xxx) - {test}
-						</button>
-						<hr />
-					</div> */}
-					{/* endregion testing */}
 					{children}
+					{/* region testing */}
+
+					{prevPage && (
+						<button onClick={goBack}>
+							{'>>>'}goBackgoBackgoBack{'<<<'}
+						</button>
+					)}
+					{/* endregion testing */}
 				</div>
 			</div>
 			{/* endregion page-container */}

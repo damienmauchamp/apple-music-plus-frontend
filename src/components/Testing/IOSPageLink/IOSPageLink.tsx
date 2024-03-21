@@ -1,13 +1,19 @@
 import React, { ReactNode, useEffect } from 'react'
 import { useIOSTabContext } from '../iOSTab/iOSTabContext'
 
-interface Props {
+export interface iOSPageLinkProps {
+	back?: boolean
 	nextPage?: any
 	children?: ReactNode
 }
 
-const IOSPageLink = ({ children, nextPage }: Props) => {
-	const { tabRef, tabInfo, getPagesRefs } = useIOSTabContext()
+const IOSPageLink = ({
+	children,
+	back = false,
+	nextPage,
+}: iOSPageLinkProps) => {
+	const { tabRef, tabInfo, getPagesRefs, goBack, openPage } =
+		useIOSTabContext()
 
 	useEffect(() => {
 		console.log('[IOSPageLink] tabRef:', tabRef)
@@ -18,6 +24,11 @@ const IOSPageLink = ({ children, nextPage }: Props) => {
 	}, [tabInfo])
 
 	const nextPageHandler = () => {
+		if (back) {
+			console.log('[iOSPageLink] going back')
+			goBack()
+			return
+		}
 		console.log('[iOSPageLink] nextPage:', nextPage)
 		console.log('[iOSPageLink] tabRef:', tabRef)
 		console.log('[iOSPageLink] tabInfo:', tabInfo)
@@ -25,6 +36,8 @@ const IOSPageLink = ({ children, nextPage }: Props) => {
 			'[iOSPageLink] getPagesRefs:',
 			getPagesRefs && getPagesRefs()
 		)
+
+		openPage(nextPage)
 	}
 
 	return (

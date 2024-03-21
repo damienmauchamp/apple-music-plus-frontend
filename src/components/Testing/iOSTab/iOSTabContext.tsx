@@ -9,12 +9,6 @@ import React, {
 } from 'react'
 import { IOSPageProps } from '../iOSPage/iOSPage'
 
-export interface iOSTabContextProviderProps {
-	children?: ReactElement | ReactNode
-	tabRef?: React.RefObject<HTMLDivElement>
-	tabInfo?: TabInfoType
-}
-
 export interface PageRefType {
 	name: string
 	ref: React.RefObject<HTMLDivElement>
@@ -25,10 +19,29 @@ export interface TabInfoType {
 	pages: IOSPageProps[]
 }
 
+export interface iOSTabContextProviderProps {
+	children?: ReactElement | ReactNode
+	tabRef?: React.RefObject<HTMLDivElement>
+	tabInfo?: TabInfoType
+	tabPages: IOSPageProps[]
+	// setTabPages: React.Dispatch<React.SetStateAction<IOSPageProps[]>>
+	openPage: (name: string) => IOSPageProps | undefined
+	goBack: () => IOSPageProps | undefined
+	getPreviousPage: () => IOSPageProps | undefined
+	getCurrentPage: () => IOSPageProps | undefined
+}
+
 export interface iOSTabContextProps {
 	tabRef?: React.RefObject<HTMLDivElement>
 	setTabRef?: (ref: React.RefObject<HTMLDivElement>) => void
 	tabInfo?: TabInfoType
+	//
+	tabPages: IOSPageProps[]
+	// setTabPages: React.Dispatch<React.SetStateAction<IOSPageProps[]>>
+	openPage: (name: string) => IOSPageProps | undefined
+	goBack: () => IOSPageProps | undefined
+	getPreviousPage: () => IOSPageProps | undefined
+	getCurrentPage: () => IOSPageProps | undefined
 	//
 	addPageRef?: (name: string) => React.RefObject<HTMLDivElement>
 	getPagesRefs?: () => PageRefType[]
@@ -54,26 +67,20 @@ const getPagesRefs = () => {
 	return pageRefs.filter((pageRef) => (pageRef.ref.current || null) !== null)
 }
 
-const defaultContext = {
-	tabRef: createRef<HTMLDivElement>(),
-	setTabRef: () => {},
-	// tabInfo: {},
-	addPageRef: addPageRef,
-	getPagesRefs: getPagesRefs,
-	// tests
-	test: '',
-	setTest: () => {},
-}
-
-const iOSTabContext = createContext<iOSTabContextProps>(
-	defaultContext as iOSTabContextProps
-)
+//
 
 export const IOSTabContextProvider = ({
 	children,
 	tabInfo,
+	tabPages,
+	// setTabPages,
+	openPage,
+	goBack,
+	getPreviousPage,
+	getCurrentPage,
 	...props
 }: iOSTabContextProviderProps) => {
+	//
 	const [tabRef, setTabRef] = useState<React.RefObject<HTMLDivElement>>(
 		props.tabRef || createRef<HTMLDivElement>()
 	)
@@ -81,6 +88,20 @@ export const IOSTabContextProvider = ({
 	useEffect(() => {
 		setTabRef(tabRef)
 	}, [tabRef])
+
+	// //
+	// //
+	// const [goBackFn, setGoBackFn] =
+	// 	useState<() => IOSPageProps | undefined>(goBack)
+	//
+	// useEffect(() => {
+	// 	setGoBackFn(goBack)
+	// }, [goBack])
+
+	//
+	console.log('Context tabPages', tabPages)
+	// console.log('Context props', props, props.goBack.toString())
+	// console.log('Context goBack', goBack)
 
 	// tests
 	const [test, setTest] = useState<string>('init')
@@ -91,6 +112,21 @@ export const IOSTabContextProvider = ({
 				tabRef,
 				setTabRef,
 				tabInfo,
+				//
+				tabPages,
+				// setTabPages: props.setTabPages,
+				// openPage: props.openPage,
+				openPage: openPage,
+				goBack: goBack,
+				getPreviousPage: getPreviousPage,
+				getCurrentPage: getCurrentPage,
+				// getPreviousPage: props.getPreviousPage,
+				// getCurrentPage: props.getCurrentPage,
+				// setTabPages,
+				// openPage,
+				// goBack: props.goBack,
+				// getPreviousPage,
+				// getCurrentPage,
 				//
 				addPageRef,
 				getPagesRefs,
@@ -104,5 +140,30 @@ export const IOSTabContextProvider = ({
 	)
 }
 
+// defaults
+const defaultContext = {
+	tabRef: createRef<HTMLDivElement>(),
+	setTabRef: () => {},
+	// tabInfo: {},
+	tabPages: [] as IOSPageProps[],
+	setTabPages: () => {},
+	openPage: () => {},
+	goBack: () => {
+		console.log('default goBack')
+	},
+	getPreviousPage: () => {},
+	getCurrentPage: () => {},
+	addPageRef: addPageRef,
+	getPagesRefs: getPagesRefs,
+	// tests
+	test: '',
+	setTest: () => {},
+}
+
+const iOSTabContext = createContext<iOSTabContextProps>(
+	defaultContext as iOSTabContextProps
+)
+
 export const useIOSTabContext = (props?: iOSTabContextProps) =>
+	// useContext({ ...iOSTabContext, ...props })
 	useContext({ ...props, ...iOSTabContext })

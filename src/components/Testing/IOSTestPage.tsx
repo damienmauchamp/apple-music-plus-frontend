@@ -5,6 +5,7 @@ import IOSApp from './iOSApp/IOSApp'
 import { IOSPageProps } from './iOSPage/iOSPage'
 import IOSTab from './iOSTab/iOSTab'
 import IOSPageLink from './IOSPageLink/IOSPageLink'
+import IOSPageBackLink from './IOSPageLink/IOSPageBackLink'
 
 // interface Props {}
 
@@ -63,7 +64,11 @@ const IOSTestPage = (/*props: Props*/) => {
 		page: page2Path,
 		prevPage: 'tab1/page1',
 		backTitle: 'Go back',
-		children: <button onClick={() => {}}>BACKKKK todo</button>,
+		children: (
+			<>
+				<IOSPageBackLink back={true}>Go back !</IOSPageBackLink>
+			</>
+		),
 	})
 
 	// const [pages, setPages] = useState<IOSPageProps[]>([page1()])
