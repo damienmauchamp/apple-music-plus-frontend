@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { IOSElementProps } from '../iOSApp/IOSApp'
 import styles from './iOSTab.module.css'
-import { IOSTabContextProvider, useIOSTabContext } from './iOSTabContext'
+import { IOSTabContextProvider } from './iOSTabContext'
 import IOSTitleBarRoot from '../iOSTabTitleBarRoot/iOSTabTitleBarRoot'
 import { useIOSAppContext } from '../iOSApp/iOSAppContext'
 import IOSPage, { IOSPageProps } from '../iOSPage/iOSPage'
@@ -22,7 +22,8 @@ const IOSTab = ({
 	//
 	const { addTabRef } = useIOSAppContext()
 	const tabRef = addTabRef(props.name)
-	const { getPagesRefs } = useIOSTabContext()
+	// const { getPagesRefs } = useIOSTabContext()
+	// const _getPagesRefs = () => getPagesRefs && getPagesRefs()
 
 	// PAGES
 	const [tabPages, setTabPages] = useState<IOSPageProps[]>(
@@ -80,18 +81,19 @@ const IOSTab = ({
 		return next as IOSPageProps
 	}
 
+	const [closing, setClosing] = useState<boolean>(false)
 	const goBack = (animate: boolean = true) => {
 		const previousPage = getPreviousPage()
-
-		console.log('GOBACK', {
-			getPagesRefs: getPagesRefs(),
-			animate: animate,
-		})
 
 		if (!previousPage) return
 
 		if (animate) {
-			// todo : animate previous page
+			setClosing(true)
+			setTimeout(() => {
+				setTabPages([...tabPages.slice(0, -1)])
+				setClosing(false)
+			}, 400)
+			return previousPage
 		}
 
 		setTabPages([...tabPages.slice(0, -1)])
@@ -122,11 +124,11 @@ const IOSTab = ({
 			>
 				<IOSTitleBarRoot />
 				<slot>
-					<button onClick={() => console.log(getPagesRefs())}>
+					{/* <button onClick={() => console.log(_getPagesRefs())}>
 						getPagesRefs
-					</button>
+					</button> */}
 					{tabPages.map((page) => (
-						<IOSPage key={page.id} {...page} />
+						<IOSPage key={page.id} {...page} closing={closing} />
 					))}
 				</slot>
 				{/* <slot>{children}</slot> */}
