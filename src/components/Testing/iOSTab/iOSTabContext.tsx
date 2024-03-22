@@ -26,7 +26,7 @@ export interface iOSTabContextProviderProps {
 	tabPages: IOSPageProps[]
 	// setTabPages: React.Dispatch<React.SetStateAction<IOSPageProps[]>>
 	openPage: (name: string) => IOSPageProps | undefined
-	goBack: () => IOSPageProps | undefined
+	goBack: (animate?: boolean) => IOSPageProps | undefined
 	getPreviousPage: () => IOSPageProps | undefined
 	getCurrentPage: () => IOSPageProps | undefined
 }
@@ -39,7 +39,7 @@ export interface iOSTabContextProps {
 	tabPages: IOSPageProps[]
 	// setTabPages: React.Dispatch<React.SetStateAction<IOSPageProps[]>>
 	openPage: (name: string) => IOSPageProps | undefined
-	goBack: () => IOSPageProps | undefined
+	goBack: (animate?: boolean) => IOSPageProps | undefined
 	getPreviousPage: () => IOSPageProps | undefined
 	getCurrentPage: () => IOSPageProps | undefined
 	//

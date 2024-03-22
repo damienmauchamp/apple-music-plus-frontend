@@ -383,7 +383,7 @@ const IOSPage = ({
 							(a) => 1 - percent - (1 - percent) * a
 						)
 						setTimeout(() => {
-							goBack()
+							goBack(false)
 							// 	this.tab.removeChild(this)
 							// 	this.tab._setSelectedPage(this.prevPage)
 						}, 400)

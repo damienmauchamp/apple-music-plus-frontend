@@ -72,20 +72,28 @@ const IOSTab = ({
 			...nextPage,
 			prevPage: getCurrentPage()?.page || nextPage.prevPage,
 		}
+
+		// todo : animate next page
+
 		setTabPages([...tabPages, next])
 
 		return next as IOSPageProps
 	}
 
-	const goBack = () => {
+	const goBack = (animate: boolean = true) => {
 		const previousPage = getPreviousPage()
 
-		// todo : animation previous translate
 		console.log('GOBACK', {
 			getPagesRefs: getPagesRefs(),
+			animate: animate,
 		})
 
 		if (!previousPage) return
+
+		if (animate) {
+			// todo : animate previous page
+		}
+
 		setTabPages([...tabPages.slice(0, -1)])
 
 		return previousPage
