@@ -435,8 +435,7 @@ const IOSPage = ({
 
 	const stopAnimation = () => {
 		if (pageRef && pageRef.current) {
-			// todo : animate
-			pageRef.current.classList.remove(styles.slideAnimation)
+			// pageRef.current.classList.remove(styles.slideAnimation)
 			// setIsDisplayed(true)
 		}
 	}
@@ -485,8 +484,7 @@ const IOSPage = ({
 		if (getCurrentPage()?.page === props.page) {
 			console.log('We are on the same page !', pageRef?.current)
 			if (pageRef && pageRef.current) {
-				// todo : animate
-				pageRef.current.classList.remove(styles.slideAnimationOut)
+				// pageRef.current.classList.remove(styles.slideAnimationOut)
 			}
 			return
 		}
