@@ -42,7 +42,7 @@ const IOSPage = ({
 	closing = false,
 	...props
 }: IOSPageProps) => {
-	//
+	// region GLOBALS
 	const { appRef, getCurrentTabRef } = useIOSAppContext()
 	const {
 		tabRef,
@@ -56,7 +56,9 @@ const IOSPage = ({
 		console.log('PAGE.tabRef', tabRef)
 		console.log('PAGE.pageRef', pageRef)
 	}, [tabRef, pageRef])
+	// endregion GLOBALS
 
+	// region UTILS
 	const _isCurrentPage = () => getCurrentPage()?.page === props.page
 
 	const _getPagesRefs = () => getPagesRefs && getPagesRefs()
@@ -81,6 +83,7 @@ const IOSPage = ({
 	const _getTabRef = () => {
 		return tabRef?.current ? tabRef : getCurrentTabRef()?.ref
 	}
+	// endregion UTILS
 
 	// region PAGE ANIMATION
 	interface GestureType {
@@ -402,7 +405,9 @@ const IOSPage = ({
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [closing])
+	// endregion PAGE ANIMATION
 
+	// region PAGE INIT
 	useEffect(() => {
 		//
 		console.log('New page', props.page, 'is displayed')
@@ -420,8 +425,9 @@ const IOSPage = ({
 		_animateTransition(600)
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
+	// endregion PAGE INIT
 
-	//
+	// region PAGE REFS
 	const titlebarRef = useRef<HTMLDivElement>(null)
 	const headerTitleRef = useRef<HTMLDivElement>(null)
 	const pageContainerRef = useRef<HTMLDivElement>(null)
@@ -433,6 +439,7 @@ const IOSPage = ({
 	const backTextElementRef = useRef<HTMLDivElement>(null) // "#back-text"
 	const backArrowElementRef = useRef<HTMLDivElement>(null) // "#back-arrow"
 	const backgroundElementRef = useRef<HTMLDivElement>(null) // "#background"
+	// endregion PAGE REFS
 
 	// region def
 
