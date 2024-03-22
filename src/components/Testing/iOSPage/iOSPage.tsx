@@ -116,7 +116,7 @@ const IOSPage = ({
 		},
 	})
 
-	const _transitionStarted = (_animationId: IOSAnimationId) => {
+	const _transitionStarted = (/*_animationId: IOSAnimationId*/) => {
 		// setAnimationId(_animationId)
 
 		if (appRef?.current) {
@@ -125,10 +125,10 @@ const IOSPage = ({
 					detail: getPageDetails(),
 				})
 			)
-			console.log('_transitionStarted DONE', {
-				_animationId: _animationId,
-				appRef: appRef,
-			})
+			// console.log('_transitionStarted DONE', {
+			// 	_animationId: _animationId,
+			// 	appRef: appRef,
+			// })
 		}
 	}
 
@@ -143,32 +143,31 @@ const IOSPage = ({
 					detail: { ...getPageDetails(), isEnd: isEnd },
 				})
 			)
-			console.log('_transitionCompleted DONE', {
-				_animationId: _animationId,
-				appRef: appRef,
-				isEnd: isEnd,
-			})
+			// console.log('_transitionCompleted DONE', {
+			// 	_animationId: _animationId,
+			// 	appRef: appRef,
+			// 	isEnd: isEnd,
+			// })
 		}
 	}
 
 	const _processTransitionFrame = (
 		_animationId: IOSAnimationId,
-		percent: number | undefined = undefined,
-		isEnd: boolean = false
+		percent: number | undefined = undefined
 	) => {
 		const previousPageRef = _getPreviousPageRef()
 		const _pageRef = _getPageRef()
 
-		console.log('_processTransitionFrame START', {
-			// animationId: animationId,
-			// _animationId: _animationId,
-			// pageRef: pageRef?.current,
-			_pageRef: _pageRef?.current,
-			previousPageRef: previousPageRef?.current,
-			appRef: appRef?.current,
-			percent: percent,
-			isEnd: isEnd,
-		})
+		// console.log('_processTransitionFrame START', {
+		// 	// animationId: animationId,
+		// 	// _animationId: _animationId,
+		// 	// pageRef: pageRef?.current,
+		// 	_pageRef: _pageRef?.current,
+		// 	previousPageRef: previousPageRef?.current,
+		// 	appRef: appRef?.current,
+		// 	percent: percent,
+		// 	isEnd: isEnd,
+		// })
 
 		// if (animationId != _animationId) return
 		if (!_pageRef?.current) return
@@ -201,20 +200,20 @@ const IOSPage = ({
 			})
 		)
 
-		console.log('_processTransitionFrame DONE', {
-			// animationId: animationId,
-			// _animationId: _animationId,
-			// pageRef: pageRef?.current,
-			_pageRef: _pageRef?.current,
-			previousPageRef: previousPageRef?.current,
-			appRef: appRef?.current,
-			percent: percent,
-			isEnd: isEnd,
-			percents: {
-				prev: previousPageTranslateX,
-				current: pageTranslateX,
-			},
-		})
+		// console.log('_processTransitionFrame DONE', {
+		// 	// animationId: animationId,
+		// 	// _animationId: _animationId,
+		// 	// pageRef: pageRef?.current,
+		// 	_pageRef: _pageRef?.current,
+		// 	previousPageRef: previousPageRef?.current,
+		// 	appRef: appRef?.current,
+		// 	percent: percent,
+		// 	isEnd: isEnd,
+		// 	percents: {
+		// 		prev: previousPageTranslateX,
+		// 		current: pageTranslateX,
+		// 	},
+		// })
 	}
 
 	const _animateTransition = (
@@ -224,11 +223,11 @@ const IOSPage = ({
 		const animationId = new IOSAnimationId()
 		const easing = bezier(0.2, 0.8, 0.2, 1)
 		const start = Date.now()
-		_transitionStarted(animationId)
+		_transitionStarted(/*animationId*/)
 		;(function loop() {
 			const p = (Date.now() - start) / duration
 			if (p >= 1) {
-				_processTransitionFrame(transform(1), undefined, true)
+				_processTransitionFrame(transform(1), undefined)
 				_transitionCompleted(animationId, transform(1) == 1)
 			} else {
 				_processTransitionFrame(animationId, transform(easing(p)))
@@ -298,7 +297,7 @@ const IOSPage = ({
 						animationId: gestureAnimationId,
 					}
 
-					_transitionStarted(gestureAnimationId)
+					_transitionStarted(/*gestureAnimationId*/)
 					_processTransitionFrame(gestureAnimationId, 1)
 
 					e.preventDefault()
@@ -406,7 +405,7 @@ const IOSPage = ({
 
 	useEffect(() => {
 		//
-		console.log('page', props.page, 'is displayed')
+		console.log('New page', props.page, 'is displayed')
 
 		onPageScroll()
 		_bindTouchGestures()
@@ -419,17 +418,8 @@ const IOSPage = ({
 
 		// starting animation
 		_animateTransition(600)
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
-	// endregion PAGE ANIMATION
-
-	useEffect(() => {
-		console.log('We changed page', getCurrentPage(), pageRef?.current)
-
-		if (_isCurrentPage()) {
-			// console.log('We are on the same page !', pageRef?.current)
-			return
-		}
-	}, [getCurrentPage])
 
 	//
 	const titlebarRef = useRef<HTMLDivElement>(null)
