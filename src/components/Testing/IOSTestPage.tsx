@@ -86,6 +86,12 @@ const IOSTestPage = (/*props: Props*/) => {
 				>
 					{/* {pages.map((page) => page)} */}
 				</IOSTab>
+				<IOSTab
+					id="tab2"
+					name="Tab 2"
+					page="tab2"
+					selected={true}
+				></IOSTab>
 			</IOSApp>
 		</>
 	)

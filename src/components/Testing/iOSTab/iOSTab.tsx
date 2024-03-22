@@ -15,7 +15,7 @@ interface IOSTabProps extends IOSElementProps {
 }
 
 const IOSTab = ({
-	pages = [],
+	pages = [] as IOSPageProps[],
 	/*children,*/ selected,
 	...props
 }: IOSTabProps) => {
@@ -26,7 +26,7 @@ const IOSTab = ({
 
 	// PAGES
 	const [tabPages, setTabPages] = useState<IOSPageProps[]>(
-		[pages[0]] || ([] as IOSPageProps[])
+		pages && pages[0] ? [pages[0]] : ([] as IOSPageProps[])
 	)
 
 	const getPreviousPage = () => {

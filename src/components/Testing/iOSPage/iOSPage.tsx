@@ -1,9 +1,12 @@
 'use client'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { IOSElementProps } from '../iOSApp/IOSApp'
+import { IOSAnimationId, IOSElementProps } from '../iOSApp/IOSApp'
 import styles from './iOSPage.module.css'
 import { useIOSTabContext } from '../iOSTab/iOSTabContext'
+import { PointerListenerEvent, addPointerListener } from '@/src/helpers/iOSPage'
+import { useIOSAppContext } from '../iOSApp/iOSAppContext'
 // import { useIOSTabContext } from '../iOSTab/iOSTabContext'
+import { bezier } from '@/src/helpers/bezier-easing'
 
 export const backArrowSVG = (props?: {
 	id?: string
@@ -38,6 +41,7 @@ const IOSPage = ({
 	...props
 }: IOSPageProps) => {
 	//
+	const { appRef, getTabsRefs, getCurrentTabRef } = useIOSAppContext()
 	const {
 		tabRef,
 		addPageRef,
@@ -51,7 +55,350 @@ const IOSPage = ({
 		console.log('PAGE.pageRef', pageRef)
 	}, [tabRef])
 
-	// init
+	const _getPreviousPageRef = () => {
+		const previousPage = getPreviousPage && getPreviousPage()
+		const previousPageRef =
+			getPagesRefs &&
+			getPagesRefs().find(
+				(pageRef) => pageRef.name === previousPage?.page
+			)?.ref
+		return previousPageRef
+	}
+	const _getPageRef = () => {
+		if (pageRef?.current) return pageRef
+
+		const _page = getCurrentPage && getCurrentPage()
+		const _pageRef =
+			getPagesRefs &&
+			getPagesRefs().find((pageRef) => pageRef.name === _page?.page)?.ref
+		return _pageRef
+	}
+
+	const _getPagesRefs = () => getPagesRefs && getPagesRefs()
+
+	const _getTabRef = () => {
+		return tabRef?.current ? tabRef : getCurrentTabRef()?.ref
+	}
+
+	// region PAGE ANIMATION
+	interface GestureType {
+		started: boolean
+		percent: number
+		startX: number
+		speed: number
+		previousX?: number
+		currentX: number
+		lastX: number
+		width: number
+		pointerId?: number
+		animationId?: IOSAnimationId
+	}
+	const [animationId, setAnimationId] = useState<IOSAnimationId>(0)
+	const gestureDefault = {
+		started: false,
+		percent: 0,
+		startX: 0,
+		speed: 0,
+		currentX: 0,
+		lastX: 0,
+		width: 0,
+	}
+	const [gesture, setGesture] = useState<GestureType>(gestureDefault)
+	let _gesture = { ...gestureDefault } as GestureType
+
+	// todo
+	const getPageDetails = () => ({
+		page: {
+			prevPage: { titlebar: {} },
+			titlebar: {},
+		},
+	})
+
+	const _transitionStarted = (_animationId: IOSAnimationId) => {
+		setAnimationId(_animationId)
+
+		if (appRef?.current) {
+			appRef?.current.dispatchEvent(
+				new CustomEvent('transition-started', {
+					detail: getPageDetails(),
+				})
+			)
+			console.log('_transitionStarted DONE', {
+				_animationId: _animationId,
+				appRef: appRef,
+			})
+		}
+	}
+
+	const _transitionCompleted = (
+		_animationId: IOSAnimationId,
+		isEnd: boolean
+	) => {
+		// if (animationId != _animationId) return
+		if (appRef?.current) {
+			appRef?.current.dispatchEvent(
+				new CustomEvent('transition-completed', {
+					detail: { ...getPageDetails(), isEnd: isEnd },
+				})
+			)
+			console.log('_transitionCompleted DONE', {
+				_animationId: _animationId,
+				appRef: appRef,
+				isEnd: isEnd,
+			})
+		}
+	}
+
+	const _processTransitionFrame = (
+		_animationId: IOSAnimationId,
+		percent: number | undefined = undefined,
+		isEnd: boolean = false
+	) => {
+		const previousPageRef = _getPreviousPageRef()
+		const _pageRef = _getPageRef()
+
+		console.log('_processTransitionFrame START', {
+			// animationId: animationId,
+			// _animationId: _animationId,
+			// pageRef: pageRef?.current,
+			_pageRef: _pageRef?.current,
+			previousPageRef: previousPageRef?.current,
+			appRef: appRef?.current,
+			percent: percent,
+			isEnd: isEnd,
+		})
+
+		// if (animationId != _animationId) return
+		if (!_pageRef?.current) return
+		if (!previousPageRef?.current) return
+		if (!appRef?.current) return
+
+		// const pageTranslateX = (1 - percent) * 100
+		// const pageTranslateX = !isEnd ? (1 - Number(percent)) * 100 : 100
+		const pageTranslateX = (1 - Number(percent)) * 100
+		_pageRef?.current.style.setProperty(
+			'transform',
+			`translateX(${pageTranslateX}%)`
+			// `translateX(${(1 - percent) * 100}%)`
+			// `translateX(${(1 - (percent || 1)) * 100}%)`
+		)
+
+		// const previousPageTranslateX = (1 - percent) * 100
+		// const previousPageTranslateX = !isEnd ? Number(percent) * -30 : 0
+		const previousPageTranslateX = Number(percent) * -30
+		previousPageRef?.current.style.setProperty(
+			'transform',
+			`translateX(${previousPageTranslateX}%)`
+			// `translateX(${percent * -30}%)`
+			// `translateX(${(percent || 0) * -30}%)`
+		)
+
+		appRef?.current.dispatchEvent(
+			new CustomEvent('transition', {
+				detail: { ...getPageDetails(), percent: percent },
+			})
+		)
+
+		console.log('_processTransitionFrame DONE', {
+			// animationId: animationId,
+			// _animationId: _animationId,
+			// pageRef: pageRef?.current,
+			_pageRef: _pageRef?.current,
+			previousPageRef: previousPageRef?.current,
+			appRef: appRef?.current,
+			percent: percent,
+			isEnd: isEnd,
+			percents: {
+				prev: previousPageTranslateX,
+				current: pageTranslateX,
+			},
+		})
+	}
+
+	const _animateTransition = (
+		duration: number,
+		transform = (percent: number) => percent
+	) => {
+		const animationId = new IOSAnimationId()
+		const easing = bezier(0.2, 0.8, 0.2, 1)
+		const start = Date.now()
+		_transitionStarted(animationId)
+		;(function loop() {
+			const p = (Date.now() - start) / duration
+			if (p >= 1) {
+				_processTransitionFrame(transform(1), undefined, true)
+				_transitionCompleted(animationId, transform(1) == 1)
+			} else {
+				_processTransitionFrame(animationId, transform(easing(p)))
+				requestAnimationFrame(loop)
+			}
+		})()
+	}
+
+	const _bindTouchGestures = () => {
+		console.log('_bindTouchGestures', pageRef)
+		// this.gesture = { started: false, percent: 0, startX: 0, speed: 0, currentX: 0, lastX: 0, width: 0 };
+		setGesture(gestureDefault)
+
+		addPointerListener(
+			pageRef?.current || undefined,
+			'down',
+			(e: PointerListenerEvent) => {
+				// console.log('[IOSPage] down e:', e)
+				// console.log('[IOSPage] down tabRef:', tabRef)
+				// console.log('[IOSPage] down getTabsRefs():', getTabsRefs())
+				// console.log(
+				// 	'[IOSPage] down getCurrentTabRef():',
+				// 	getCurrentTabRef()
+				// )
+
+				const currentTabRef = _getTabRef()
+				// const currentTabRef = tabRef?.current
+				// 	? tabRef
+				// 	: getCurrentTabRef()?.ref
+				// console.log('[IOSPage] down currentTabRef:', currentTabRef)
+				if (!currentTabRef?.current) return
+
+				const touchX =
+					e.clientX -
+					currentTabRef?.current.getBoundingClientRect().left
+				// console.log('[IOSPage] down touchX:', touchX)
+
+				if (
+					prevPage !== undefined &&
+					!gesture.pointerId &&
+					touchX < 25
+				) {
+					const gestureAnimationId = new IOSAnimationId()
+
+					setGesture({
+						...gesture,
+						started: true,
+						pointerId: e.pointerId,
+						percent: 0,
+						startX: touchX,
+						width:
+							currentTabRef?.current.getBoundingClientRect()
+								.right -
+							currentTabRef?.current.getBoundingClientRect().left,
+
+						animationId: gestureAnimationId,
+					})
+					_gesture = {
+						..._gesture,
+						started: true,
+						pointerId: e.pointerId,
+						percent: 0,
+						startX: touchX,
+						width:
+							currentTabRef?.current.getBoundingClientRect()
+								.right -
+							currentTabRef?.current.getBoundingClientRect().left,
+
+						animationId: gestureAnimationId,
+					}
+
+					_transitionStarted(gestureAnimationId)
+					_processTransitionFrame(gestureAnimationId, 1)
+
+					e.preventDefault()
+				}
+			}
+		)
+
+		addPointerListener(
+			pageRef?.current || undefined,
+			'move',
+			(e: PointerListenerEvent) => {
+				// console.log('[IOSPage] move e:', e)
+				// if (gesture.started && gesture.pointerId === e.pointerId) {
+				if (_gesture.started && _gesture.pointerId === e.pointerId) {
+					// console.log('[IOSPage] move OK:', _gesture)
+
+					const _tabRef = _getTabRef()
+
+					// console.log('[IOSPage] move tabRef:', tabRef)
+					// console.log('[IOSPage] move _getTabRef():', _getTabRef())
+
+					const previousX = _gesture.currentX
+					const currentX =
+						e.clientX -
+						(_tabRef.current?.getBoundingClientRect().left || 0)
+					const speed = _gesture.currentX - (_gesture.previousX || 0)
+					const percent =
+						(_gesture.currentX - _gesture.startX) / _gesture.width
+					const gestureAnimationId =
+						_gesture.animationId as IOSAnimationId
+
+					setGesture({
+						...gesture,
+						previousX: previousX,
+						currentX: currentX,
+						speed: speed,
+						percent: percent,
+					})
+					_gesture = {
+						..._gesture,
+						previousX: previousX,
+						currentX: currentX,
+						speed: speed,
+						percent: percent,
+					}
+
+					_processTransitionFrame(gestureAnimationId, 1 - percent)
+
+					e.preventDefault()
+				}
+			}
+		)
+		addPointerListener(
+			pageRef?.current || undefined,
+			'up',
+			(e: PointerListenerEvent) => {
+				// console.log('[IOSPage] up e:', e)
+				// if (gesture.started && gesture.pointerId === e.pointerId) {
+				if (_gesture.started && _gesture.pointerId === e.pointerId) {
+					// console.log('[IOSPage] up OK:', _gesture)
+
+					setGesture({
+						...gesture,
+						started: false,
+						pointerId: 0,
+					})
+					_gesture = {
+						..._gesture,
+						started: false,
+						pointerId: 0,
+					}
+
+					const percent = _gesture.percent
+					// console.log('[IOSPage] up :', {
+					// 	percent: percent,
+					// 	speed: _gesture.speed,
+					// 	_gesture: _gesture,
+					// })
+					if (percent > 0.5 || _gesture.speed > 5) {
+						_animateTransition(
+							400,
+							(a) => 1 - percent - (1 - percent) * a
+						)
+						setTimeout(() => {
+							goBack()
+							// 	this.tab.removeChild(this)
+							// 	this.tab._setSelectedPage(this.prevPage)
+						}, 400)
+					} else {
+						_animateTransition(
+							400,
+							(a) => 1 - percent + percent * a
+						)
+					}
+				}
+			}
+		)
+	}
+
+	// old
 	const [animationActive, setAnimationActive] = useState<boolean>(false)
 	// const [isDisplayed, setIsDisplayed] = useState<boolean>(false)
 
@@ -69,19 +416,13 @@ const IOSPage = ({
 		}
 
 		// previous page
-		const previousPage = getPreviousPage && getPreviousPage()
-		const previousPageRef =
-			getPagesRefs &&
-			getPagesRefs().find(
-				(pageRef) => pageRef.name === previousPage?.page
-			)?.ref
+		const previousPageRef = _getPreviousPageRef()
 
 		if (previousPageRef && previousPageRef.current) {
 			// todo : fix animation
 			previousPageRef.current.classList.add(styles.slideAnimationOut)
 		}
 
-		console.log('[newPage] previousPage', previousPage)
 		console.log('[newPage] previousPageRef', previousPageRef)
 
 		// // start animation on current page
@@ -115,7 +456,13 @@ const IOSPage = ({
 	}, [animationActive])
 
 	useEffect(() => {
+		//
 		console.log('page', props.page, 'is displayed')
+
+		//
+		_bindTouchGestures()
+
+		//
 		if (!prevPage) {
 			console.log('TABHOME !')
 			return
@@ -123,13 +470,17 @@ const IOSPage = ({
 
 		// starting animation
 		const timer = setTimeout(() => {
-			setAnimationActive(true)
+			// setAnimationActive(true)
 		}, 200)
-		return () => clearTimeout(timer)
+		return () => {
+			clearTimeout(timer)
+		}
 	}, [])
 
 	useEffect(() => {
 		console.log('We changed page', getCurrentPage())
+
+		console.log('pageRef?.current', pageRef?.current)
 
 		if (getCurrentPage()?.page === props.page) {
 			console.log('We are on the same page !', pageRef?.current)
@@ -140,6 +491,7 @@ const IOSPage = ({
 			return
 		}
 	}, [getCurrentPage])
+	// endregion PAGE ANIMATION
 
 	//
 	const titlebarRef = useRef<HTMLDivElement>(null)

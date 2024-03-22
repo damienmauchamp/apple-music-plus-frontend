@@ -21,6 +21,7 @@ export interface iOSAppContextProps {
 	addTabRef: (name: string) => React.RefObject<HTMLDivElement>
 	// tabRefs: TabRefType[]
 	getTabsRefs: () => TabRefType[]
+	getCurrentTabRef: () => TabRefType
 }
 
 //
@@ -38,6 +39,16 @@ const getTabsRefs = () => {
 	return tabRefs.filter((tabRef) => (tabRef.ref.current || null) !== null)
 }
 
+// todo : modify when multitabs
+const getCurrentTabRef = () => {
+	// return tabRefs[tabRefs.length - 1]
+	// getTabsRefs().find(
+	// 	_tabRef => _tabRef.ref.current
+	// )
+	// return getTabsRefs()[0]
+	return getTabsRefs()[getTabsRefs().length - 1]
+}
+
 // default
 const defaultContext = {
 	_bindThemeChangingElement: () => {},
@@ -45,6 +56,7 @@ const defaultContext = {
 	addTabRef: addTabRef,
 	tabRefs: tabRefs,
 	getTabsRefs: getTabsRefs,
+	getCurrentTabRef: getCurrentTabRef,
 }
 
 const iOSAppContext = createContext<iOSAppContextProps>(
@@ -68,6 +80,7 @@ export const IOSAppContextProvider = ({
 				//
 				addTabRef,
 				getTabsRefs,
+				getCurrentTabRef,
 				//
 				// openPage: () => {},
 			}}

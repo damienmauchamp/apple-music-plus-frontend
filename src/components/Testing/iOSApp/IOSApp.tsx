@@ -2,7 +2,8 @@ import React, { useEffect } from 'react'
 import styles from './IOSApp.module.css'
 import { IOSAppContextProvider, useIOSAppContext } from './iOSAppContext'
 
-// export class IOSAnimationId {}
+export class IOSAnimationId {}
+
 export interface IOSElementProps extends React.HTMLAttributes<HTMLDivElement> {
 	children?: React.ReactNode
 }
