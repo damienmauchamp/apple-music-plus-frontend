@@ -44,11 +44,6 @@ const IOSTitleBarRoot = ({ titlebar }: iOSTitleBarRootProps) => {
 	} = useIOSAppContext()
 	const { selected } = useIOSTabContext()
 
-	// console.log({
-	// 	test: test,
-	// 	setTest: setTest,
-	// })
-
 	//
 	const title1Ref = useRef<HTMLDivElement>(null) // #anim-title-1
 	const title2Ref = useRef<HTMLDivElement>(null) // #anim-title-2
@@ -57,7 +52,6 @@ const IOSTitleBarRoot = ({ titlebar }: iOSTitleBarRootProps) => {
 	const backArrowRef = useRef<SVGSVGElement>(null) // #anim-back-arrow
 	const toolsRef = useRef<HTMLDivElement>(null) // #anim-tools
 
-	// console.log('setTitleBarRefs selected:', selected, title1Ref)
 	if (selected) {
 		setTitleBarRef('title1Ref', title1Ref)
 		setTitleBarRef('title2Ref', title2Ref)
@@ -66,22 +60,6 @@ const IOSTitleBarRoot = ({ titlebar }: iOSTitleBarRootProps) => {
 		setTitleBarRef('backArrowRef', backArrowRef)
 		setTitleBarRef('toolsRef', toolsRef)
 	}
-
-	//
-	// const [titleElementsVisibility, setTitleElementsVisibility] =
-	// 	useState<boolean>(false)
-
-	//
-
-	// const calcTransition = (page, percent) => {
-	// 	// todo
-	// }
-
-	// const _cloneTextStyle = (element, sourceElement) => {
-	// 	// todo
-	// }
-
-	//
 
 	const _getHeaderPositionPercent = (old: boolean = false) => {
 		const _pageRefs = old ? getPreviousPageRefs() : getCurrentPageRefs()
@@ -92,11 +70,6 @@ const IOSTitleBarRoot = ({ titlebar }: iOSTitleBarRootProps) => {
 		const pageContainerRef = _pageRefs.pageContainerRef
 		const headerTitleRef = _pageRefs.headerTitleRef
 		const titlebarRef = _pageTitleBarRefs.titlebarRef
-
-		// pageContainerRef.current?.scrollTop
-		// const pageContainerRef = getTitleBarRef('pageContainerRef')
-		// const headerTitleRef = getTitleBarRef('headerTitleRef')
-		// const titlebarRef = getTitleBarRef('titlebarRef')
 
 		if (
 			!pageContainerRef?.current ||
@@ -135,6 +108,7 @@ const IOSTitleBarRoot = ({ titlebar }: iOSTitleBarRootProps) => {
 
 		return _titleBarRefs.titleElementRef?.current
 	}
+
 	const _getBackTextElement = (
 		// ref: React.RefObject<SVGSVGElement | HTMLDivElement> | undefined,
 		old: boolean = false
@@ -144,6 +118,7 @@ const IOSTitleBarRoot = ({ titlebar }: iOSTitleBarRootProps) => {
 			: getCurrentPageTitleBarRefs()
 		return _pageTitleBarRefs.backTextElementRef?.current
 	}
+
 	const _getBackArrowElement = (
 		// ref: React.RefObject<SVGSVGElement | HTMLDivElement> | undefined,
 		old: boolean = false
@@ -290,18 +265,6 @@ const IOSTitleBarRoot = ({ titlebar }: iOSTitleBarRootProps) => {
 		page: boolean | null,
 		isVisible: boolean
 	) => {
-		// if (isVisible) {
-
-		// }
-
-		// todo
-
-		// const className = "top-menu-anim-invisible";
-		// [
-		// 	this.title1, this.title2, this.back1, this.back2, this.backArrow, this.tools
-		// ].forEach(e => e.classList.toggle(className, !isVisible));
-
-		// setTitleElementsVisibility(isVisible)
 		const titleElements = [
 			title1Ref.current,
 			title2Ref.current,
@@ -313,20 +276,10 @@ const IOSTitleBarRoot = ({ titlebar }: iOSTitleBarRootProps) => {
 		titleElements.forEach((e) =>
 			e?.classList.toggle(styles.topMenuAnimInvisible, !isVisible)
 		)
-		console.log('[TB1] _switchElementsVisibility', page, isVisible)
 
 		if (page != null) {
 			const oldHeader = getPreviousPageTitleBarRef()
 			const newHeader = getCurrentPageTitleBarRef()
-
-			// console.log(
-			// 	'getTitleElement(OLD)',
-			// 	_getTitleElement(/*oldHeader,*/ true)
-			// )
-			// console.log(
-			// 	'getTitleElement(NEW)',
-			// 	_getTitleElement(/*newHeader,*/ false)
-			// )
 
 			const elements = [
 				_getTitleElement(true), // oldHeader
@@ -397,25 +350,6 @@ const IOSTitleBarRoot = ({ titlebar }: iOSTitleBarRootProps) => {
 	const _animation = { ...animationDefault } as AnimationType
 
 	useEffect(() => {
-		// console.log({
-		// 	appRef: appRef,
-		// 	tabRefs: getTabsRefs(),
-		// })
-		// console.log('[TTB][IOSTitleBarRoot] INIT', {
-		// 	title1Ref: title1Ref,
-		// 	title2Ref: title2Ref,
-		// 	back1Ref: back1Ref,
-		// 	back2Ref: back2Ref,
-		// 	backArrowRef: backArrowRef,
-		// 	toolsRef: toolsRef,
-		// 	_title1Ref: getTitleBarRef('title1Ref'),
-		// 	_title2Ref: getTitleBarRef('title2Ref'),
-		// 	_back1Ref: getTitleBarRef('back1Ref'),
-		// 	_back2Ref: getTitleBarRef('back2Ref'),
-		// 	_backArrowRef: getTitleBarRef('backArrowRef'),
-		// 	_toolsRef: getTitleBarRef('toolsRef'),
-		// })
-
 		//
 		_bindThemeChangingElement()
 
@@ -424,31 +358,7 @@ const IOSTitleBarRoot = ({ titlebar }: iOSTitleBarRootProps) => {
 			if (_animation.started) return
 			if (!_getTitleElement(false) || !_getBackTextElement(true)) return
 
-			// console.log('[TTB][IOSTitleBarRoot] transition-started', {
-			// 	getCurrentTabRef: getCurrentTabRef(),
-			// 	e: e,
-			// getPagesRefs: getPagesRefs(),
-			// getPreviousPage: getPreviousPage(),
-			// getCurrentPage: getCurrentPage(),
-			// })
-
-			// if (!this.tab.hasAttribute('selected')) return
-
-			// const event = e as CustomEvent as CustomTransitionStartedEventType
-
-			// console.log('[NEWPAGE][TTB][IOSTitleBarRoot] INIT', {
-			// 	getPreviousPageRef: getPreviousPageRef()?.current,
-			// 	getCurrentPageRef: getCurrentPageRef()?.current,
-			// 	getPreviousPageTitleBarRef:
-			// 		getPreviousPageTitleBarRef()?.current,
-			// 	getCurrentPageTitleBarRef: getCurrentPageTitleBarRef()?.current,
-			// 	event: event,
-			// })
-
-			// const page = event.detail.page
-			// const oldHeader = page.prevPage.titlebar // i-titlebar-${this.titlebarType}
 			const oldHeader = getPreviousPageTitleBarRef()
-			// const newHeader = page.titlebar
 			const newHeader = getCurrentPageTitleBarRef()
 
 			//
@@ -460,25 +370,6 @@ const IOSTitleBarRoot = ({ titlebar }: iOSTitleBarRootProps) => {
 			_switchElementsVisibility(true, true)
 
 			const rectToArr = (r: DOMReactPos) => [r.left, r.top]
-
-			// console.log('[TransitionStarted] STARTED', event.detail, {
-			// 	oldHeader: oldHeader,
-			// 	newHeader: newHeader,
-			// })
-
-			// console.log('HHH _getTitleElement(false)', _getTitleElement(false))
-			// console.log(
-			// 	'HHH _getBackTextElement(true)',
-			// 	_getBackTextElement(true)
-			// )
-
-			// const TITLE_GAP = 0
-
-			// const _oldTitleElementPositionTmp = _getTitleElementPosition(false)
-			// const _oldTitleElementPosition = {
-			// 	..._oldTitleElementPositionTmp,
-			// 	top: _oldTitleElementPositionTmp.top - TITLE_GAP,
-			// }
 
 			_animation.title1Transition = new StyleTransition(
 				title1Ref.current,
@@ -499,12 +390,6 @@ const IOSTitleBarRoot = ({ titlebar }: iOSTitleBarRootProps) => {
 				}
 			)
 
-			// console.log(
-			// 	'[TransitionStarted] title1Transition',
-			// 	_animation.title1Transition,
-			// 	{ title1Ref: title1Ref.current }
-			// )
-
 			_animation.title2Transition = new StyleTransition(
 				title2Ref.current,
 				{
@@ -521,34 +406,6 @@ const IOSTitleBarRoot = ({ titlebar }: iOSTitleBarRootProps) => {
 					opacity: 0,
 				}
 			)
-
-			// console.log(
-			// 	'[TransitionStarted] title2Transition',
-			// 	_animation.title2Transition,
-			// 	{ title2Ref: title2Ref.current }
-			// )
-
-			// console.log(
-			// 	'[NEWPAGE][TTB][IOSTitleBarRoot][A0] appRef:',
-			// 	appRef.current,
-			// 	(appRef.current as HTMLDivElement).getBoundingClientRect()
-			// )
-			// console.log(
-			// 	'[NEWPAGE][TTB][IOSTitleBarRoot][A1] title2Ref title2Ref.current:',
-			// 	title2Ref.current,
-			// 	title2Ref.current?.getBoundingClientRect()
-			// )
-			// console.log(
-			// 	'[NEWPAGE][TTB][IOSTitleBarRoot][A2] HIDDEN(false):',
-			// 	_getHiddenTitleElement(false),
-			// 	_getHiddenTitleElementPosition(false)
-			// )
-			// console.log(
-			// 	'[NEWPAGE][TTB][IOSTitleBarRoot][A3] TITLE(false):',
-			// 	_getTitleElement(false),
-			// 	// _getTitleElementPosition(false)
-			// 	_newTitleElementPosition
-			// )
 
 			_animation.back1Transition = new StyleTransition(
 				back1Ref.current,
@@ -568,12 +425,6 @@ const IOSTitleBarRoot = ({ titlebar }: iOSTitleBarRootProps) => {
 					opacity: 0,
 				}
 			)
-
-			// console.log(
-			// 	'[TransitionStarted] back1Transition',
-			// 	_animation.back1Transition,
-			// 	{ back1Ref: back1Ref.current }
-			// )
 
 			_animation.back2Transition = new StyleTransition(
 				back2Ref.current,
@@ -608,71 +459,6 @@ const IOSTitleBarRoot = ({ titlebar }: iOSTitleBarRootProps) => {
 				}
 			)
 
-			// console.log('[TB1]', {
-			// _getTitleElement0: _getTitleElement(false)?.textContent?.trim(),
-			// _getTitleElement1: _getTitleElement(true)?.textContent?.trim(),
-			// _getBackTextElement0:
-			// 	_getBackTextElement(false)?.textContent?.trim(),
-			// _getBackTextElement1:
-			// 	_getBackTextElement(true)?.textContent?.trim(),
-			// _getHiddenTitleElement0:
-			// 	_getHiddenTitleElement(false)?.textContent?.trim(),
-			// _getHiddenTitleElement1:
-			// 	_getHiddenTitleElement(true)?.textContent?.trim(),
-			// _getHiddenBackTextElement0:
-			// 	_getHiddenBackTextElement(false)?.textContent?.trim(),
-			// _getHiddenBackTextElement1:
-			// 	_getHiddenBackTextElement(true)?.textContent?.trim(),
-			//
-			// 	_getPreviousPageTitleBarRefs: getPreviousPageTitleBarRefs(),
-			// 	_getCurrentPageTitleBarRefs: getCurrentPageTitleBarRefs(),
-			// })
-
-			// console.log(
-			// 	'[TB1] title1Ref:',
-			// 	// title1Ref.current,
-			// 	title1Ref.current?.textContent?.trim(),
-			// 	'-->',
-			// 	_getTitleElement(true)?.textContent?.trim(),
-			// 	'==?>',
-			// 	_getTitleElement(false)?.textContent?.trim()
-			// 	// _getTitleElement(true)
-			// ) // oldHeader
-			// console.log(
-			// 	'[TB1] title2Ref:',
-			// 	// title2Ref.current,
-			// 	title2Ref.current?.textContent?.trim(),
-			// 	'-->',
-			// 	_getTitleElement(false)?.textContent?.trim(),
-			// 	'==?>',
-			// 	_getTitleElement(true)?.textContent?.trim()
-			// 	// _getTitleElement(false)
-			// ) // newHeader
-			// console.log(
-			// 	'[TB1] back1Ref:',
-			// 	// back1Ref.current,
-			// 	back1Ref.current?.textContent?.trim(),
-			// 	'-->',
-			// 	_getBackTextElement(true)?.textContent?.trim(),
-			// 	'==?>',
-			// 	_getBackTextElement(false)?.textContent?.trim()
-			// 	// _getBackTextElement(true)
-			// ) // oldHeader
-			// console.log(
-			// 	'[TB1] back2Ref:',
-			// 	// back2Ref.current,
-			// 	back2Ref.current?.textContent?.trim(),
-			// 	'-->',
-			// 	_getBackTextElement(false)?.textContent?.trim(),
-			// 	'==?>',
-			// 	_getBackTextElement(true)?.textContent?.trim()
-			// 	// _getBackTextElement(false)
-			// ) // newHeader
-
-			// console.log('title1Ref.current:', title1Ref.current)
-			// console.log('title1Ref.TO:', _getTitleElement(true))
-			// console.log('title1Ref.WHATIF:', _getTitleElement(false))
-			// console.log('title1Ref.WHY?:', _getBackTextElement(false))
 			_cloneTextStyle(title1Ref.current, _getTitleElement(true)) // oldHeader
 			_cloneTextStyle(title2Ref.current, _getTitleElement(false)) // newHeader
 			_cloneTextStyle(back1Ref.current, _getBackTextElement(true)) // oldHeader
@@ -680,7 +466,6 @@ const IOSTitleBarRoot = ({ titlebar }: iOSTitleBarRootProps) => {
 			_cloneTextStyle(backArrowRef.current, _getBackArrowElement(false)) // newHeader
 
 			if (_animation.equalTools) {
-				// const pos = newHeader.getToolsElementPosition();
 				const pos = _getToolsElementPosition(newHeader)
 				const style = getComputedStyle(
 					_getToolsElement(oldHeader) as Element
@@ -702,21 +487,16 @@ const IOSTitleBarRoot = ({ titlebar }: iOSTitleBarRootProps) => {
 		const transitionCompletedHandler = () => {
 			if (!selected) return
 			if (!_animation.started) return
-			console.log('[TransitionCompleted] COMPLETED')
 
-			// console.log('[TTB][IOSTitleBarRoot] transition-completed')
 			// if (!this.tab.hasAttribute('selected')) return // todo
 			_animation.started = false
 			_switchElementsVisibility(true, false)
 		}
 		const transitionHandler = (e: Event) => {
 			if (!selected) return
-			// console.log('[Transition] TRANSITIONNING', e)
 
 			const event = e as CustomEvent as CustomTransitionEventType
-			// console.log('[TTB][IOSTitleBarRoot] transition')
 			if (!_animation.started) return
-
 			_calcTransition(null, event.detail.percent)
 		}
 
@@ -755,7 +535,6 @@ const IOSTitleBarRoot = ({ titlebar }: iOSTitleBarRootProps) => {
 
 	// const animElementsClassName = `${styles.animElement} ${titleElementsVisibility ? '' : styles.topMenuAnimInvisible}`
 	const animElementsClassName = `${styles.animElement} ${styles.topMenuAnimInvisible}`
-	// const animElementsClassName = `${styles.animElement}`
 
 	return (
 		<>
@@ -771,8 +550,7 @@ const IOSTitleBarRoot = ({ titlebar }: iOSTitleBarRootProps) => {
 				<div
 					ref={title2Ref}
 					id="anim-title-2"
-					// className={animElementsClassName}
-					className={`${animElementsClassName} ${styles.tests}`}
+					className={animElementsClassName}
 				></div>
 				<div
 					ref={back1Ref}
@@ -795,50 +573,6 @@ const IOSTitleBarRoot = ({ titlebar }: iOSTitleBarRootProps) => {
 					className={`${styles.animTools} ${animElementsClassName}`}
 				></div>
 			</div>
-			{/* <div>
-				<button
-					onClick={() => {
-						console.log(
-							'_getHiddenTitleElementPosition():',
-							_getHiddenTitleElementPosition(),
-							_getHiddenTitleElement()
-						)
-					}}
-				>
-					_getHiddenTitleElementPosition()
-				</button>
-				<button
-					onClick={() => {
-						console.log(
-							'_getTitleElementPosition():',
-							_getTitleElementPosition(),
-							_getTitleElement()
-						)
-					}}
-				>
-					_getTitleElementPosition()
-				</button>
-			</div> */}
-			{/* <div
-				style={{
-					position: 'absolute',
-					top: 0,
-					left: 0,
-					zIndex: 100,
-					background: 'grey',
-				}}
-			>
-				<div>IOSTitleBarRoot</div>
-				<button
-					onClick={() => {
-						console.log('click', test + '1')
-						setTest(test + '1')
-					}}
-				>
-					+++++++
-				</button>
-				<pre>{test}</pre>
-			</div> */}
 		</>
 	)
 }

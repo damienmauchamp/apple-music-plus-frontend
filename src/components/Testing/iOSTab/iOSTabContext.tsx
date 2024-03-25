@@ -39,6 +39,10 @@ export interface iOSTabContextProps {
 	//
 	tabPages: IOSPageProps[]
 	// setTabPages: React.Dispatch<React.SetStateAction<IOSPageProps[]>>
+	//
+	// setGoToPreviousPage: (newFun: () => void, data?: string) => void
+	// goToPreviousPage: () => void
+	//
 	openPage: (name: string) => IOSPageProps | undefined
 	goBack: (animate?: boolean) => IOSPageProps | undefined
 	getPreviousPage: () => IOSPageProps | undefined
@@ -69,6 +73,18 @@ const getPagesRefs = () => {
 	return pageRefs.filter((pageRef) => pageRef.ref.current !== null)
 }
 
+//
+// let goToPreviousPage = () => {
+// 	console.log('goToPreviousPage default')
+// }
+// const setGoToPreviousPage = (newFun: () => void, data?: string) => {
+// 	console.log('setGoToPreviousPage', data)
+// 	// goToPreviousPage = newFun
+// 	goToPreviousPage = () => {
+// 		newFun()
+// 		// 	goBack(true)
+// 	}
+// }
 //
 
 export const IOSTabContextProvider = ({
@@ -119,6 +135,10 @@ export const IOSTabContextProvider = ({
 				tabPages,
 				// setTabPages: props.setTabPages,
 				// openPage: props.openPage,
+				//
+				// setGoToPreviousPage: setGoToPreviousPage,
+				// goToPreviousPage: goToPreviousPage,
+				//
 				openPage: openPage,
 				goBack: goBack,
 				getPreviousPage: getPreviousPage,
@@ -153,6 +173,10 @@ const defaultContext = {
 	// tabInfo: {},
 	tabPages: [] as IOSPageProps[],
 	setTabPages: () => {},
+	//
+	// setGoToPreviousPage: setGoToPreviousPage,
+	// goToPreviousPage: goToPreviousPage,
+	//
 	openPage: () => {},
 	goBack: () => {
 		console.log('default goBack')

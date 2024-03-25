@@ -1,5 +1,6 @@
-import React, { ReactNode, useEffect } from 'react'
+import React, { ReactNode } from 'react'
 import { useIOSTabContext } from '../iOSTab/iOSTabContext'
+import { useIOSAppContext } from '../iOSApp/iOSAppContext'
 
 export interface iOSPageLinkProps {
 	back?: boolean
@@ -12,30 +13,22 @@ const IOSPageLink = ({
 	back = false,
 	nextPage,
 }: iOSPageLinkProps) => {
-	const { tabRef, tabInfo, getPagesRefs, goBack, openPage } =
-		useIOSTabContext()
-
-	// useEffect(() => {
-	// 	console.log('[IOSPageLink] tabRef:', tabRef)
-	// }, [tabRef])
-
-	// useEffect(() => {
-	// 	console.log('[IOSPageLink] tabInfo:', tabInfo)
-	// }, [tabInfo])
+	const { openPage } = useIOSTabContext()
+	const { getCurrentPageTitleBarRefs } = useIOSAppContext()
 
 	const nextPageHandler = () => {
 		if (back) {
-			// console.log('[iOSPageLink] going back')
-			goBack()
+			// going back
+			if (getCurrentPageTitleBarRefs().backContainerElementRef?.current) {
+				getCurrentPageTitleBarRefs().backContainerElementRef?.current?.dispatchEvent(
+					new MouseEvent('mouseup')
+				)
+			}
+			// goBack()
+			// goToPreviousPage()
+
 			return
 		}
-		// console.log('[iOSPageLink] nextPage:', nextPage)
-		// console.log('[iOSPageLink] tabRef:', tabRef)
-		// console.log('[iOSPageLink] tabInfo:', tabInfo)
-		// console.log(
-		// 	'[iOSPageLink] getPagesRefs:',
-		// 	getPagesRefs && getPagesRefs()
-		// )
 
 		openPage(nextPage)
 	}
