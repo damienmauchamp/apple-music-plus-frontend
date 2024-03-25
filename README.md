@@ -77,10 +77,10 @@ server {
 ### Page nesting
 
 -   [ ] hash routing
--   [ ] [TAB] pass pages as parameters of pages
--   [ ] [TAB] pass pages as children of tab
+-   [x] [TAB] pass pages as parameters of pages
+-   [x] [TAB] pass pages as children of tab
 
-### Page navigation & animations
+### Page navigation & animations issues
 
 -   [ ] if previous page is scrolled and goback => fix anim-title-1 target destination
 -   [ ] if previous page is scrolled and goback => fix back arrow not disappearing

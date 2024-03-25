@@ -61,6 +61,18 @@ export const backArrowSVG = (props?: {
 	</svg>
 )
 
+export const isIOSPageElement = (
+	object: any | null | undefined
+): object is IOSPageProps => {
+	try {
+		return Boolean(
+			object.props.children && object.props.page && object.props.title
+		)
+	} catch (e) {
+		return false
+	}
+}
+
 export interface IOSPageProps extends IOSElementProps, IOSTitleBarProps {
 	page: string
 	//
@@ -70,6 +82,8 @@ export interface IOSPageProps extends IOSElementProps, IOSTitleBarProps {
 	prevPage?: string
 	backTitle?: string
 	closing?: boolean
+	//
+	pages?: IOSPageProps[]
 }
 
 const IOSPage = ({

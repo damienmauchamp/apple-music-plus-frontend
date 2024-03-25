@@ -2,7 +2,7 @@
 
 // import { useState } from 'react'
 import IOSApp from './iOSApp/IOSApp'
-import { IOSPageProps } from './iOSPage/iOSPage'
+import IOSPage, { IOSPageProps } from './iOSPage/iOSPage'
 import IOSTab from './iOSTab/iOSTab'
 import IOSPageLink from './IOSPageLink/IOSPageLink'
 import IOSPageBackLink from './IOSPageLink/IOSPageBackLink'
@@ -18,14 +18,27 @@ const IOSTestPage = (/*props: Props*/) => {
 	// 	)
 	// }
 
-	const page2Path = 'tab1/page1/subpage1'
-	const page3Path = 'tab1/page1/subpage2'
+	const page1Path = 'tab1/page1'
 
+	const page2Path = `${page1Path}/subpage1`
+	const page3Path = `${page1Path}/subpage2`
+
+	const childPages = [
+		{
+			page: `${page2Path}/z1`,
+			title: 'Z-1',
+			children: <>{"Hey !!! I'm on page Z-1!"}</>,
+		},
+		{
+			page: `${page2Path}/z2`,
+			title: 'Z-2',
+			children: <>{"Hey !!! I'm on page Z-2!"}</>,
+		},
+	]
 	const page1 = (): IOSPageProps => ({
-		// key: 'tab1/page1',
-		id: 'tab1/page1',
+		id: page1Path,
 		title: 'Page 1',
-		page: 'tab1/page1',
+		page: page1Path,
 		children: (
 			<>
 				PAGE 1 - Lorem ipsum dolor sit amet, consectetur adipiscing
@@ -33,6 +46,21 @@ const IOSTestPage = (/*props: Props*/) => {
 				<IOSPageLink nextPage={page2Path}>
 					Go to page 2 {page2Path}
 				</IOSPageLink>
+				<div>
+					<hr />
+					{childPages &&
+						childPages.map((page1page) => (
+							<IOSPageLink
+								key={page1page.page}
+								nextPage={page1page.page}
+							>
+								{`- Go to 1st page's subpage : ${page1page.page}`}
+							</IOSPageLink>
+						))}
+				</div>
+				{/* <IOSPageLink nextPage={page2Path}>
+					Go to page 2 {page2Path}
+				</IOSPageLink> */}
 				{/* <button onClick={testOpenPage}>Test Open (Page 1)</button> */}
 				{/* <button onClick={testClosePage}>Test Close (Page 1)</button> */}
 				{/* <button onClick={testOpenClosePage}>Test (Page 1)</button> */}
@@ -58,23 +86,46 @@ const IOSTestPage = (/*props: Props*/) => {
 		),
 	})
 
+	const page2pages = [
+		{
+			page: `${page2Path}/x1`,
+			title: 'X-1',
+		},
+		{
+			page: `${page2Path}/x2`,
+			title: 'X-2',
+		},
+	] as IOSPageProps[]
 	const page2 = () => ({
 		// key: page2Path,
 		id: page2Path,
 		title: 'SubPage 1.1',
 		page: page2Path,
-		prevPage: 'tab1/page1',
+		// prevPage: page1Path,
 		backTitle: 'Page 1',
 		children: (
 			<>
-				<div style={{ height: '150vh' }}>
+				<div className="flex flex-col" style={{ height: '150vh' }}>
 					<IOSPageBackLink back={true}>Go back !</IOSPageBackLink>
 					<IOSPageLink nextPage={page3Path}>
-						Go to page 3 {page3Path}
+						Go to page 3 (subpage 1.2) {page3Path}
 					</IOSPageLink>
+					<div>
+						<hr />
+						{page2pages &&
+							page2pages.map((page2page) => (
+								<IOSPageLink
+									key={page2page.page}
+									nextPage={page2page.page}
+								>
+									{`- Go to 2nd page's subpage : ${page2page.page}`}
+								</IOSPageLink>
+							))}
+					</div>
 				</div>
 			</>
 		),
+		pages: page2pages,
 	})
 
 	const page3 = () => ({
@@ -108,6 +159,12 @@ const IOSTestPage = (/*props: Props*/) => {
 					titlebar="titled"
 				>
 					{/* {pages.map((page) => page)} */}
+					<div className="flex flex-col">
+						<div>TOP TAB</div>
+						{childPages.map((page) => (
+							<IOSPage key={page.page} {...page} />
+						))}
+					</div>
 				</IOSTab>
 				<IOSTab
 					id="tab2"

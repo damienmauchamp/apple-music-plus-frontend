@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { IOSElementProps } from '../iOSApp/IOSApp'
 import styles from './iOSTab.module.css'
 import { IOSTabContextProvider } from './iOSTabContext'
@@ -6,7 +6,7 @@ import IOSTitleBarRoot, {
 	IOSTitleBarProps,
 } from '../iOSTabTitleBarRoot/iOSTabTitleBarRoot'
 import { useIOSAppContext } from '../iOSApp/iOSAppContext'
-import IOSPage, { IOSPageProps } from '../iOSPage/iOSPage'
+import IOSPage, { IOSPageProps, isIOSPageElement } from '../iOSPage/iOSPage'
 
 interface IOSTabProps extends IOSElementProps, IOSTitleBarProps {
 	selected?: boolean
@@ -19,7 +19,8 @@ interface IOSTabProps extends IOSElementProps, IOSTitleBarProps {
 const IOSTab = ({
 	titlebar = 'default',
 	pages = [] as IOSPageProps[],
-	/*children,*/ selected,
+	children,
+	selected,
 	...props
 }: IOSTabProps) => {
 	//
@@ -48,9 +49,11 @@ const IOSTab = ({
 	}
 
 	const openPage = (name: string) => {
+		console.log('[PAGES] openPage:', name)
+
 		const nextPage = pages.find((page) => page.page === name)
 		if (!nextPage) {
-			// console.log('[openPage] Page not found', name)
+			console.log('[openPage] Page not found', name)
 			return
 		}
 
@@ -112,9 +115,106 @@ const IOSTab = ({
 		return previousPage
 	}
 
+	/**
+	 * Add page to subpages
+	 */
+	const _addPageToSubPage = useCallback(
+		(
+			page: IOSPageProps,
+			parentPage?: IOSPageProps,
+			type: string = 'subPage'
+		) => {
+			if (!page.page) {
+				false && console.warn(`No path found on this ${type}`, page)
+				return
+			}
+
+			// checking if page is already in the tab pages array
+			if (pages.find((tabPage) => tabPage.page === page.page)) {
+				false &&
+					console.warn(
+						`This ${type} is already in the tab pages`,
+						page
+					)
+				return
+			}
+
+			const newSubPage = {
+				...page,
+				id: page.id || page.page,
+				prevPage: parentPage?.prevPage,
+				// prevPage: page.prevPage || parentPage.prevPage
+				backTitle: parentPage?.title,
+			}
+			pages.push(newSubPage)
+			return newSubPage
+		},
+		[pages]
+	)
+
+	/**
+	 * Adding pages' pages to the tab instead
+	 */
+	const _handlePagesPages = useCallback(() => {
+		pages.forEach((page) => {
+			if (!page.pages?.length) return
+
+			page.pages.forEach((subPage) =>
+				_addPageToSubPage(subPage, page, 'subPage')
+			)
+		})
+	}, [_addPageToSubPage, pages])
+
+	/**
+	 * Adding pages in tab's children to the tab instead
+	 */
+	const _recursiveHandlingChildrenPages = useCallback(
+		(
+			childOrChildren:
+				| string
+				| number
+				| true
+				| React.ReactElement<
+						any,
+						string | React.JSXElementConstructor<any>
+				  >
+				| Iterable<React.ReactNode>
+				| React.ReactPortal
+				| React.PromiseLikeOfReactNode
+		) => {
+			React.Children.toArray(childOrChildren).forEach((child) => {
+				if (!React.isValidElement(child)) return
+
+				// ok, adding page
+				if (isIOSPageElement(child)) {
+					// todo : delete from children?
+					return _addPageToSubPage(child.props)
+				}
+
+				// not a page
+				// todo : use as layout???
+
+				if (child.props.children) {
+					// recursive call
+					return _recursiveHandlingChildrenPages(child.props.children)
+				}
+			})
+		},
+		[_addPageToSubPage]
+	)
+	const _handleChildrenPages = useCallback(() => {
+		if (!children) return
+
+		return _recursiveHandlingChildrenPages(children)
+	}, [_recursiveHandlingChildrenPages, children])
+
 	useEffect(() => {
-		// console.log('[Tab] pages', pages)
-	}, [pages])
+		_handlePagesPages()
+	}, [pages, _handlePagesPages])
+
+	useEffect(() => {
+		_handleChildrenPages()
+	}, [pages, _handleChildrenPages])
 
 	return (
 		<IOSTabContextProvider
@@ -137,9 +237,6 @@ const IOSTab = ({
 			>
 				<IOSTitleBarRoot titlebar={titlebar} />
 				<slot>
-					{/* <button onClick={() => console.log(_getPagesRefs())}>
-						getPagesRefs
-					</button> */}
 					{tabPages.map((page) => (
 						<IOSPage
 							key={page.id}
@@ -149,7 +246,6 @@ const IOSTab = ({
 						/>
 					))}
 				</slot>
-				{/* <slot>{children}</slot> */}
 			</div>
 		</IOSTabContextProvider>
 	)
