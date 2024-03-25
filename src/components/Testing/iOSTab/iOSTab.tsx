@@ -82,19 +82,19 @@ const IOSTab = ({
 	}
 
 	const [closing, setClosing] = useState<boolean>(false)
-	const goBack = (animate: boolean = true, test: boolean = false) => {
+	const goBack = (animate: boolean = true) => {
 		const previousPage = getPreviousPage()
 
 		//
 		const newPages = [...tabPages.slice(0, -1)]
 		// const newPages = !test ? [...tabPages.slice(0, -1)] : tabPages
-		console.log('[P1] goBack:', {
-			previousPage: previousPage,
-			currentPage: getCurrentPage(),
-			tabPages: tabPages,
-			newPages: newPages,
-			test: test,
-		})
+		// console.log('[P1] goBack:', {
+		// 	previousPage: previousPage,
+		// 	currentPage: getCurrentPage(),
+		// 	tabPages: tabPages,
+		// 	newPages: newPages,
+		// 	test: test,
+		// })
 
 		if (!previousPage) return
 

@@ -69,3 +69,13 @@ server {
     }
 }
 ```
+
+## TODO
+
+### Page navigation & animations
+
+<!-- -   [ ] fix "goBack" when scrolled : -->
+
+-   [ ] if previous page is scrolled and goback => fix anim-title-1 target destination
+-   [ ] if previous page is scrolled and goback => fix back arrow not disappearing
+-   [ ] if page is scrolled and opening new page => fix anim-title-1 source position

@@ -87,14 +87,16 @@ const addTabRef = (name: string) => {
 const getTabsRefs = () => {
 	return tabRefs.filter((tabRef) => (tabRef.ref.current || null) !== null)
 }
-// todo : modify when multitabs
 const getCurrentTabRef = () => {
-	// return tabRefs[tabRefs.length - 1]
-	// getTabsRefs().find(
-	// 	_tabRef => _tabRef.ref.current
-	// )
-	// return getTabsRefs()[0]
-	return getTabsRefs()[getTabsRefs().length - 1]
+	const currentTab = tabRefs.find((tabRef) => {
+		const selected = tabRef.ref.current?.dataset.selected
+		if (selected === 'false') {
+			return false
+		}
+		return Boolean(selected)
+	})
+	return currentTab as TabRefType
+	// return getTabsRefs()[getTabsRefs().length - 1]
 }
 
 // titleBar refs

@@ -1,8 +1,8 @@
 import IOSTestPage from '@/src/components/Testing/IOSTestPage'
 
-interface Props extends HTMLElement {}
+// interface Props extends HTMLElement {}
 
-const page = (props: Props) => {
+const page = () => {
 	// console.log('page', props)
 
 	return (
