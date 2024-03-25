@@ -1,11 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef } from 'react'
 // import { useIOSTabContext } from '../iOSTab/iOSTabContext'
 import styles from './iOSTabTitleBarRoot.module.css'
-import {
-	backArrowSVG,
-	CustomTransitionEventType,
-	CustomTransitionStartedEventType,
-} from '../iOSPage/iOSPage'
+import { backArrowSVG, CustomTransitionEventType } from '../iOSPage/iOSPage'
 import { useIOSAppContext } from '../iOSApp/iOSAppContext'
 import { useIOSTabContext } from '../iOSTab/iOSTabContext'
 import {
@@ -32,13 +28,13 @@ type DOMReactPos = {
 const IOSTitleBarRoot = ({ titlebar }: iOSTitleBarRootProps) => {
 	const {
 		appRef,
-		getTabsRefs,
+		// getTabsRefs,
 		_bindThemeChangingElement,
 		setTitleBarRef,
-		getTitleBarRef,
-		getCurrentTabRef,
-		getPreviousPageRef,
-		getCurrentPageRef,
+		// getTitleBarRef,
+		// getCurrentTabRef,
+		// getPreviousPageRef,
+		// getCurrentPageRef,
 		getPreviousPageTitleBarRef,
 		getCurrentPageTitleBarRef,
 		getPreviousPageTitleBarRefs,
@@ -72,8 +68,8 @@ const IOSTitleBarRoot = ({ titlebar }: iOSTitleBarRootProps) => {
 	}
 
 	//
-	const [titleElementsVisibility, setTitleElementsVisibility] =
-		useState<boolean>(false)
+	// const [titleElementsVisibility, setTitleElementsVisibility] =
+	// 	useState<boolean>(false)
 
 	//
 
@@ -213,24 +209,24 @@ const IOSTitleBarRoot = ({ titlebar }: iOSTitleBarRootProps) => {
 		)
 	}
 
-	const _getHiddenTitleElement = (old: boolean = false) => {
-		const _getHiddenTitleElementDefault = () => {
-			return _getTitleElement(old) as HTMLDivElement
-		}
+	// const _getHiddenTitleElement = (old: boolean = false) => {
+	// 	const _getHiddenTitleElementDefault = () => {
+	// 		return _getTitleElement(old) as HTMLDivElement
+	// 	}
 
-		// default
-		if (titlebar === 'default') {
-			return _getHiddenTitleElementDefault()
-		}
+	// 	// default
+	// 	if (titlebar === 'default') {
+	// 		return _getHiddenTitleElementDefault()
+	// 	}
 
-		// titled
-		if (titlebar === 'titled') {
-			if (_getHeaderPositionPercent(old) < 1) {
-				return _getTitleElement(old)
-			}
-			return _getHiddenTitleElementDefault()
-		}
-	}
+	// 	// titled
+	// 	if (titlebar === 'titled') {
+	// 		if (_getHeaderPositionPercent(old) < 1) {
+	// 			return _getTitleElement(old)
+	// 		}
+	// 		return _getHiddenTitleElementDefault()
+	// 	}
+	// }
 
 	const _getHiddenTitleElementPosition = (old: boolean = false) => {
 		const appRect = (
@@ -281,8 +277,8 @@ const IOSTitleBarRoot = ({ titlebar }: iOSTitleBarRootProps) => {
 		)
 	}
 
-	const _getHiddenBackTextElement = (old: boolean = false) =>
-		_getBackTextElement(old)
+	// const _getHiddenBackTextElement = (old: boolean = false) =>
+	// 	_getBackTextElement(old)
 
 	const _getHiddenBackTextElementPosition = (old: boolean = false) => {
 		const backPos = _getBackTextElementPosition(old)
@@ -305,7 +301,7 @@ const IOSTitleBarRoot = ({ titlebar }: iOSTitleBarRootProps) => {
 		// 	this.title1, this.title2, this.back1, this.back2, this.backArrow, this.tools
 		// ].forEach(e => e.classList.toggle(className, !isVisible));
 
-		setTitleElementsVisibility(isVisible)
+		// setTitleElementsVisibility(isVisible)
 		const titleElements = [
 			title1Ref.current,
 			title2Ref.current,
@@ -423,7 +419,7 @@ const IOSTitleBarRoot = ({ titlebar }: iOSTitleBarRootProps) => {
 		//
 		_bindThemeChangingElement()
 
-		const transitionStartedHandler = (e: Event) => {
+		const transitionStartedHandler = (/*e: Event*/) => {
 			if (!selected) return
 			if (_animation.started) return
 			if (!_getTitleElement(false) || !_getBackTextElement(true)) return
@@ -438,7 +434,7 @@ const IOSTitleBarRoot = ({ titlebar }: iOSTitleBarRootProps) => {
 
 			// if (!this.tab.hasAttribute('selected')) return
 
-			const event = e as CustomEvent as CustomTransitionStartedEventType
+			// const event = e as CustomEvent as CustomTransitionStartedEventType
 
 			// console.log('[NEWPAGE][TTB][IOSTitleBarRoot] INIT', {
 			// 	getPreviousPageRef: getPreviousPageRef()?.current,
@@ -513,7 +509,7 @@ const IOSTitleBarRoot = ({ titlebar }: iOSTitleBarRootProps) => {
 				title2Ref.current,
 				{
 					translate: rectToArr(
-						_getHiddenTitleElementPosition(false) // newHeader
+						_getHiddenTitleElementPosition(false) as DOMReactPos // newHeader
 					),
 					opacity: getComputedStyle(
 						_getTitleElement(false) as Element // newHeader
