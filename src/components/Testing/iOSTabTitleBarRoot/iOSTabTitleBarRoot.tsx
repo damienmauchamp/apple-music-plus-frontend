@@ -1,7 +1,8 @@
 import React, { useEffect, useRef } from 'react'
 // import { useIOSTabContext } from '../iOSTab/iOSTabContext'
 import styles from './iOSTabTitleBarRoot.module.css'
-import { backArrowSVG, CustomTransitionEventType } from '../iOSPage/iOSPage'
+import { CustomTransitionEventType } from '../iOSPage/iOSPage'
+import { backArrowSVG } from '../iOSTitleBar/iOSTitleBar'
 import { useIOSAppContext } from '../iOSApp/iOSAppContext'
 import { useIOSTabContext } from '../iOSTab/iOSTabContext'
 import {
@@ -11,10 +12,7 @@ import {
 	_getTextPosition,
 	_relativeToApp,
 } from '@/src/helpers/iOSPage'
-
-export interface IOSTitleBarProps {
-	titlebar?: string // titled
-}
+import { IOSTitleBarProps } from '../iOSTitleBar/iOSTitleBar'
 
 interface iOSTitleBarRootProps extends IOSTitleBarProps {}
 

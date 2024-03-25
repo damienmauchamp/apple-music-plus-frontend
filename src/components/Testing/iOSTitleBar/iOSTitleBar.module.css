@@ -1,0 +1,112 @@
+/* i-titlebar-titled */
+
+.titlebarDefault {
+	/* has(> .titlebar-default) */
+	display: grid;
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	width: 100%;
+	z-index: 3;
+	box-sizing: border-box;
+}
+
+.titlebarDefault > * {
+	grid-column: 1;
+	grid-row: 1;
+}
+
+.titlebarDefault .titlebarBackground {
+	width: 100%;
+	height: 100%;
+	border-bottom: 0.333px solid var(--i-separator-menu);
+	z-index: 1;
+}
+
+.titlebarDefault .titlebarBackground {
+	@apply bg-[var(--title-bar-background)];
+	@apply backdrop-blur-[25px];
+}
+
+.titlebarDefault .contentContainer {
+	z-index: 2;
+	padding: 0 var(--i-inset-right) 0 var(--i-inset-left);
+}
+
+.titlebarDefault .contentContainer .controlsContainer {
+	display: flex;
+	height: var(--i-top-menu-height);
+	justify-content: center;
+	align-items: center;
+}
+
+.titlebarDefault > * {
+	grid-area: 1 / 1;
+}
+
+/* i-titlebar-titled - back */
+.titlebarDefault .contentContainer .controlsContainer .backContainer {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	overflow: hidden;
+	flex: 1 0 0px;
+	padding: 11px 8px;
+	gap: 5px;
+	color: var(--i-accent);
+	font-size: 17px;
+	font-weight: 400;
+	letter-spacing: -0.4px;
+}
+
+.titlebarDefault .contentContainer .controlsContainer .backContainer.pressed {
+	opacity: 0.7;
+}
+
+.titlebarDefault
+	.contentContainer
+	.controlsContainer
+	.backContainer
+	.backArrow {
+	width: 12px;
+	height: 20px;
+	transform-origin: right bottom;
+}
+.titlebarDefault
+	.contentContainer
+	.controlsContainer
+	.backContainer
+	.backArrow
+	svg {
+	width: 100%;
+	height: 100%;
+}
+
+/* i-titlebar-titled - title */
+
+.titlebarDefault .contentContainer .controlsContainer .title {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 17px;
+	font-weight: 590;
+}
+.titleBarTitled .title {
+	transition: opacity 0.2s ease 0s;
+}
+
+/* i-titlebar-titled - tools */
+
+.titlebarDefault .contentContainer .controlsContainer .toolsContainer {
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	overflow: hidden;
+	flex: 1 0 0px;
+	padding: 11px 16px 11px 0px;
+	gap: 36px;
+	color: var(--i-accent);
+	font-size: 17px;
+	font-weight: 400;
+	letter-spacing: -0.4px;
+}

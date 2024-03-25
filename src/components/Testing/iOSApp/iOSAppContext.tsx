@@ -105,6 +105,7 @@ const setTitleBarRef = (
 	name: string,
 	ref: React.RefObject<HTMLDivElement | SVGSVGElement>
 ) => {
+	// console.log('setTitleBarRef', name, ref)
 	titleBarRefs.push({
 		name: name,
 		ref: ref,
