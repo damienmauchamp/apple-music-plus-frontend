@@ -5,55 +5,6 @@
 	@apply absolute;
 }
 
-/* region in */
-.iPage.slideAnimation {
-	transform: translateX(100%);
-	overflow: hidden;
-}
-
-.iPage.slideAnimation.animate {
-	transition: transform 1s ease; /* Transition pour smooth animation */
-	transform: translateX(0%);
-}
-
-.slideAnimation {
-	animation: slideAnimation 0.7s ease forwards;
-}
-
-@keyframes slideAnimation {
-	from {
-		transform: translateX(100%);
-	}
-	to {
-		transform: translateX(0%);
-	}
-}
-/* endregion in */
-
-/* out */
-.iPage.slideAnimationOut {
-	transform: translateX(0%);
-	overflow: hidden;
-}
-
-.iPage.slideAnimationOut.animate {
-	transition: transform 1s ease; /* Transition pour smooth animation */
-	transform: translateX(-30%);
-}
-
-.slideAnimationOut {
-	animation: slideAnimationOut 0.7s ease forwards;
-}
-
-@keyframes slideAnimationOut {
-	from {
-		transform: translateX(0%);
-	}
-	to {
-		transform: translateX(-30%);
-	}
-}
-
 /* i-titlebar-titled */
 
 .titlebarDefault {
@@ -202,7 +153,10 @@
 }
 
 [data-titlebar='titled'] .pageHeader .headerTitleContainer {
-	height: calc(var(--i-inset-top) + var(--i-top-menu-height) + 34px + 11px);
+	/* height: calc(var(--i-inset-top) + var(--i-top-menu-height) + 34px + 11px); */
+	height: calc(
+		var(--i-inset-top) + var(--i-top-menu-height) + 34px + 11px + 11px
+	);
 	padding: 3px calc(16px + var(--i-inset-left)) 8px
 		calc(16px + var(--i-inset-right));
 	display: flex;
@@ -213,4 +167,15 @@
 	font-size: 34px;
 	font-weight: 700;
 	transform-origin: left bottom;
+}
+
+/***/
+/***/
+.headerTitle {
+	line-height: initial;
+}
+/***/
+.headerTitle {
+	/* background: blue !important; */
+	/* visibility: visible !important; */
 }

@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react'
 import { IOSElementProps } from '../iOSApp/IOSApp'
 import styles from './iOSTab.module.css'
 import { IOSTabContextProvider } from './iOSTabContext'
-import IOSTitleBarRoot from '../iOSTabTitleBarRoot/iOSTabTitleBarRoot'
+import IOSTitleBarRoot, {
+	IOSTitleBarProps,
+} from '../iOSTabTitleBarRoot/iOSTabTitleBarRoot'
 import { useIOSAppContext } from '../iOSApp/iOSAppContext'
 import IOSPage, { IOSPageProps } from '../iOSPage/iOSPage'
 
-interface IOSTabProps extends IOSElementProps {
+interface IOSTabProps extends IOSElementProps, IOSTitleBarProps {
 	selected?: boolean
 	name: string
 	pages?: IOSPageProps[]
@@ -15,6 +17,7 @@ interface IOSTabProps extends IOSElementProps {
 }
 
 const IOSTab = ({
+	titlebar = 'default',
 	pages = [] as IOSPageProps[],
 	/*children,*/ selected,
 	...props
@@ -24,6 +27,10 @@ const IOSTab = ({
 	const tabRef = addTabRef(props.name)
 	// const { getPagesRefs } = useIOSTabContext()
 	// const _getPagesRefs = () => getPagesRefs && getPagesRefs()
+
+	// useEffect(() => {
+	// 	setTabSelected(selected)
+	// }, [selected, setTabSelected])
 
 	// PAGES
 	const [tabPages, setTabPages] = useState<IOSPageProps[]>(
@@ -41,29 +48,29 @@ const IOSTab = ({
 	}
 
 	const openPage = (name: string) => {
-		console.log('openPage', name, {
-			previous: getPreviousPage(),
-			current: getCurrentPage(),
-		})
+		// console.log('openPage', name, {
+		// 	previous: getPreviousPage(),
+		// 	current: getCurrentPage(),
+		// })
 
 		const nextPage = pages.find((page) => page.page === name)
 		if (!nextPage) {
-			console.log('[openPage] Page not found', name)
+			// console.log('[openPage] Page not found', name)
 			return
 		}
 
 		const opened = tabPages.find((page) => page.page === name),
 			isOpened = Boolean(opened)
 		if (isOpened) {
-			console.log('[openPage] Page already opened', nextPage, {
-				tabPages: tabPages,
-			})
+			// console.log('[openPage] Page already opened', nextPage, {
+			// 	tabPages: tabPages,
+			// })
 
 			if (opened?.page === getPreviousPage()?.page) {
-				console.log(
-					'[openPage] Next page is previous page, going back',
-					nextPage
-				)
+				// console.log(
+				// 	'[openPage] Next page is previous page, going back',
+				// 	nextPage
+				// )
 				goBack()
 			}
 			return
@@ -102,7 +109,7 @@ const IOSTab = ({
 	}
 
 	useEffect(() => {
-		console.log('[Tab] pages', pages)
+		// console.log('[Tab] pages', pages)
 	}, [pages])
 
 	return (
@@ -115,20 +122,27 @@ const IOSTab = ({
 			goBack={goBack}
 			getPreviousPage={getPreviousPage}
 			getCurrentPage={getCurrentPage}
+			selected={selected}
 		>
 			<div
 				ref={tabRef}
 				data-element="i-tab"
 				className={`${styles.iTab} ${selected ? styles.selected : ''}`}
+				data-selected={selected}
 				{...props}
 			>
-				<IOSTitleBarRoot />
+				<IOSTitleBarRoot titlebar={titlebar} />
 				<slot>
 					{/* <button onClick={() => console.log(_getPagesRefs())}>
 						getPagesRefs
 					</button> */}
 					{tabPages.map((page) => (
-						<IOSPage key={page.id} {...page} closing={closing} />
+						<IOSPage
+							key={page.id}
+							{...page}
+							titlebar={titlebar}
+							closing={closing}
+						/>
 					))}
 				</slot>
 				{/* <slot>{children}</slot> */}

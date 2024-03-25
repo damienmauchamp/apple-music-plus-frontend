@@ -3,10 +3,50 @@ import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { IOSAnimationId, IOSElementProps } from '../iOSApp/IOSApp'
 import styles from './iOSPage.module.css'
 import { useIOSTabContext } from '../iOSTab/iOSTabContext'
-import { PointerListenerEvent, addPointerListener } from '@/src/helpers/iOSPage'
+import {
+	PointerListenerEvent,
+	_getTextPosition,
+	_relativeToApp,
+	addPointerListener,
+} from '@/src/helpers/iOSPage'
 import { useIOSAppContext } from '../iOSApp/iOSAppContext'
 // import { useIOSTabContext } from '../iOSTab/iOSTabContext'
 import { bezier } from '@/src/helpers/bezier-easing'
+import { IOSTitleBarProps } from '../iOSTabTitleBarRoot/iOSTabTitleBarRoot'
+
+export interface CustomTransitionStartedEventType {
+	detail: {
+		page: {
+			prevPage: {
+				titlebar: object
+			}
+			titlebar: React.RefObject<HTMLDivElement>
+		}
+	}
+}
+
+export interface CustomTransitionCompletedEventType {
+	detail: {
+		isEnd: boolean
+		page: {
+			prevPage: {
+				titlebar: object
+			}
+			titlebar: React.RefObject<HTMLDivElement>
+		}
+	}
+}
+export interface CustomTransitionEventType {
+	detail: {
+		percent: number
+		page: {
+			prevPage: {
+				titlebar: object
+			}
+			titlebar: React.RefObject<HTMLDivElement>
+		}
+	}
+}
 
 export const backArrowSVG = (props?: {
 	id?: string
@@ -22,11 +62,11 @@ export const backArrowSVG = (props?: {
 	</svg>
 )
 
-export interface IOSPageProps extends IOSElementProps {
+export interface IOSPageProps extends IOSElementProps, IOSTitleBarProps {
 	page: string
 	//
 	title: string
-	titlebar?: string // titled
+	// titlebar?: string // titled|titlebar
 	//
 	prevPage?: string
 	backTitle?: string
@@ -36,14 +76,37 @@ export interface IOSPageProps extends IOSElementProps {
 const IOSPage = ({
 	children,
 	title,
-	titlebar = 'titled',
+	titlebar = 'default',
 	prevPage = undefined,
 	backTitle = 'Back',
 	closing = false,
 	...props
 }: IOSPageProps) => {
 	// region GLOBALS
-	const { appRef, getCurrentTabRef } = useIOSAppContext()
+	const {
+		appRef,
+		getCurrentTabRef,
+		//
+		getTitleBarRef,
+		setTitleBarRef,
+		//
+		getCurrentPageRef,
+		setCurrentPageRef,
+		getPreviousPageRef,
+		setPreviousPageRef,
+		getCurrentPageRefs,
+		setCurrentPageRefs,
+		getPreviousPageRefs,
+		setPreviousPageRefs,
+		getCurrentPageTitleBarRef,
+		setCurrentPageTitleBarRef,
+		getPreviousPageTitleBarRef,
+		setPreviousPageTitleBarRef,
+		getCurrentPageTitleBarRefs,
+		setCurrentPageTitleBarRefs,
+		getPreviousPageTitleBarRefs,
+		setPreviousPageTitleBarRefs,
+	} = useIOSAppContext()
 	const {
 		tabRef,
 		addPageRef,
@@ -52,10 +115,10 @@ const IOSPage = ({
 		getPagesRefs,
 	} = useIOSTabContext()
 	const pageRef = addPageRef && addPageRef(props.page)
-	useEffect(() => {
-		console.log('PAGE.tabRef', tabRef)
-		console.log('PAGE.pageRef', pageRef)
-	}, [tabRef, pageRef])
+	// useEffect(() => {
+	// 	console.log('PAGE.tabRef', tabRef)Context tabP
+	// 	console.log('PAGE.pageRef', pageRef)
+	// }, [tabRef, pageRef])
 	// endregion GLOBALS
 
 	// region UTILS
@@ -114,8 +177,10 @@ const IOSPage = ({
 	// todo
 	const getPageDetails = () => ({
 		page: {
+			// prevPage: { titlebar: {} },
+			// titlebar: {},
 			prevPage: { titlebar: {} },
-			titlebar: {},
+			titlebar: titlebarRef,
 		},
 	})
 
@@ -126,7 +191,7 @@ const IOSPage = ({
 			appRef?.current.dispatchEvent(
 				new CustomEvent('transition-started', {
 					detail: getPageDetails(),
-				})
+				} as CustomTransitionStartedEventType)
 			)
 			// console.log('_transitionStarted DONE', {
 			// 	_animationId: _animationId,
@@ -144,7 +209,7 @@ const IOSPage = ({
 			appRef?.current.dispatchEvent(
 				new CustomEvent('transition-completed', {
 					detail: { ...getPageDetails(), isEnd: isEnd },
-				})
+				} as CustomTransitionCompletedEventType)
 			)
 			// console.log('_transitionCompleted DONE', {
 			// 	_animationId: _animationId,
@@ -200,7 +265,7 @@ const IOSPage = ({
 		appRef?.current.dispatchEvent(
 			new CustomEvent('transition', {
 				detail: { ...getPageDetails(), percent: percent },
-			})
+			} as CustomTransitionEventType)
 		)
 
 		// console.log('_processTransitionFrame DONE', {
@@ -312,7 +377,18 @@ const IOSPage = ({
 			pageRef?.current || undefined,
 			'move',
 			(e: PointerListenerEvent) => {
+				// if (e.clientX < 0) return
+
 				// console.log('[IOSPage] move e:', e)
+				// console.log('[IOSPage] move e.clientX:', e.clientX)
+				// console.log('[IOSPage] move e.touch?.pageX:', e.touch?.pageX)
+				// console.log('[IOSPage] move appRef.current:', appRef.current)
+				// console.log('[IOSPage] move pageRef.current:', pageRef?.current)
+				// console.log(
+				// 	'[IOSPage] move e.detail.percent:',
+				// 	e.detail.percent
+				// )
+
 				// if (gesture.started && gesture.pointerId === e.pointerId) {
 				if (_gesture.started && _gesture.pointerId === e.pointerId) {
 					// console.log('[IOSPage] move OK:', _gesture)
@@ -327,10 +403,14 @@ const IOSPage = ({
 						e.clientX -
 						(_tabRef.current?.getBoundingClientRect().left || 0)
 					const speed = _gesture.currentX - (_gesture.previousX || 0)
-					const percent =
+					let percent =
 						(_gesture.currentX - _gesture.startX) / _gesture.width
 					const gestureAnimationId =
 						_gesture.animationId as IOSAnimationId
+
+					// limiting to screen width
+					if (percent < 0) percent = 0
+					if (percent > 1) percent = 1
 
 					setGesture({
 						...gesture,
@@ -407,10 +487,122 @@ const IOSPage = ({
 	}, [closing])
 	// endregion PAGE ANIMATION
 
+	// const [pagesRefsAreSet, setPagesRefsAreSet] = useState(false)
+	let pagesRefsAreSetRaw = false
+	const _handleRefs = () => {
+		// console.log('[NEWPAGE] >> _handleRefs setRaw :', pagesRefsAreSetRaw)
+		// console.log('[NEWPAGE] >> _handleRefs set :', pagesRefsAreSet)
+
+		// if (!pageRef) return
+		if (!pageRef) return
+		// console.log('[NEWPAGE] >> new', props.page, 'pageRef:', pageRef)
+
+		// changing refs
+		if (prevPage && !pagesRefsAreSetRaw) {
+			const _currentPageRef = getCurrentPageRef()
+			const _previousPageRef = getPreviousPageRef()
+
+			const _currentPageRefs = getCurrentPageRefs()
+
+			const _currentPageTitleBarRef = getCurrentPageTitleBarRef()
+			// const _previousPageTitleBarRef = getPreviousPageTitleBarRef()
+			const _currentPageTitleBarRefs = getCurrentPageTitleBarRefs()
+
+			// console.log('[NEWPAGE] >>> CURRENT:', _currentPageRef)
+			// console.log('[NEWPAGE] >>> OLD:', _previousPageRef)
+
+			if (
+				_currentPageRef !== _previousPageRef &&
+				_currentPageRef.current
+			) {
+				// if (_previousPageRef) {
+				// 	_previousPageRef.current?.classList.add('test--passed')
+				// 	_currentPageRef.current?.classList.remove('test--passed')
+				// }
+				//
+				// _currentPageRef.current?.classList.add('test--previous')
+				// _currentPageRef.current?.classList.remove('test--current')
+				setPreviousPageRef(_currentPageRef)
+				setPreviousPageRefs(_currentPageRefs)
+				setPreviousPageTitleBarRef(_currentPageTitleBarRef)
+				setPreviousPageTitleBarRefs(_currentPageTitleBarRefs)
+
+				// console.log('[NEWPAGE] >>>> NEW OLD:', _currentPageRef)
+			}
+		}
+
+		// pageRef.current?.classList.remove('test--previous')
+		// pageRef.current?.classList.add('test--current')
+		setCurrentPageRef(pageRef)
+		setCurrentPageRefs({
+			pageContainerRef: pageContainerRef,
+			headerTitleRef: headerTitleRef,
+		})
+		setCurrentPageTitleBarRef(titlebarRef)
+		setCurrentPageTitleBarRefs({
+			titlebarRef: titlebarRef,
+			statusbarElementRef: statusbarElementRef,
+			backContainerElementRef: backContainerElementRef,
+			backArrowElementRef: backArrowElementRef,
+			backTextElementRef: backTextElementRef,
+			titleElementRef: titleElementRef,
+			toolsContainerElementRef: toolsContainerElementRef,
+			backgroundElementRef: backgroundElementRef,
+		})
+		// console.log('[TB1] setCurrentPageTitleBarRefs -', props.page, {
+		// 	titlebarRef: titlebarRef,
+		// 	statusbarElementRef: statusbarElementRef,
+		// 	backContainerElementRef: backContainerElementRef,
+		// 	backArrowElementRef: backArrowElementRef,
+		// 	backTextElementRef: backTextElementRef,
+		// 	titleElementRef: titleElementRef,
+		// 	toolsContainerElementRef: toolsContainerElementRef,
+		// 	backgroundElementRef: backgroundElementRef,
+		// })
+		// console.log('[NEWPAGE] >>>> NEW CURRENT:', pageRef)
+
+		pagesRefsAreSetRaw = true
+		// setPagesRefsAreSet(true)
+
+		// console.log(
+		// 	'[NEWPAGE] >>>> FINAL PREVIOUS:',
+		// 	getPreviousPageRef(),
+		// 	getPreviousPageRef()?.current
+		// )
+		// console.log(
+		// 	'[NEWPAGE] >>>> FINAL CURRENT:',
+		// 	getCurrentPageRef(),
+		// 	getCurrentPageRef()?.current
+		// )
+		// console.log(
+		// 	'[NEWPAGE-TITLEBAR] >>>> FINAL PREVIOUS:',
+		// 	getPreviousPageTitleBarRef(),
+		// 	getPreviousPageTitleBarRef()?.current
+		// )
+		// console.log(
+		// 	'[NEWPAGE-TITLEBAR] >>>> FINAL CURRENT:',
+		// 	getCurrentPageTitleBarRef(),
+		// 	getCurrentPageTitleBarRef()?.current
+		// )
+	}
+
 	// region PAGE INIT
 	useEffect(() => {
+		console.log('[TB1] New page', props.page)
+		_handleRefs()
 		//
-		console.log('New page', props.page, 'is displayed')
+		// console.log('[NEWPAGE] > New page', props.page, 'is displayed')
+
+		// _handleRefs()
+
+		// console.log('[TTB][Page] INIT', {
+		// 	_title1Ref: getTitleBarRef('title1Ref'),
+		// 	_title2Ref: getTitleBarRef('title2Ref'),
+		// 	_back1Ref: getTitleBarRef('back1Ref'),
+		// 	_back2Ref: getTitleBarRef('back2Ref'),
+		// 	_backArrowRef: getTitleBarRef('backArrowRef'),
+		// 	_toolsRef: getTitleBarRef('toolsRef'),
+		// })
 
 		onPageScroll()
 		_bindTouchGestures()
@@ -425,11 +617,16 @@ const IOSPage = ({
 		_animateTransition(600)
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
+
+	useEffect(() => {
+		_handleRefs()
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [pageRef])
 	// endregion PAGE INIT
 
 	// region PAGE REFS
 	const titlebarRef = useRef<HTMLDivElement>(null)
-	const headerTitleRef = useRef<HTMLDivElement>(null)
+	const headerTitleRef = useRef<HTMLDivElement>(null) // "#header-title"
 	const pageContainerRef = useRef<HTMLDivElement>(null)
 
 	const statusbarElementRef = useRef<HTMLDivElement>(null) // "#statusbar"
@@ -439,42 +636,48 @@ const IOSPage = ({
 	const backTextElementRef = useRef<HTMLDivElement>(null) // "#back-text"
 	const backArrowElementRef = useRef<HTMLDivElement>(null) // "#back-arrow"
 	const backgroundElementRef = useRef<HTMLDivElement>(null) // "#background"
+
+	useEffect(() => {
+		// if (!titlebarRef) return;
+		setTitleBarRef('titlebarRef', titlebarRef)
+	}, [titlebarRef, setTitleBarRef])
+	useEffect(() => {
+		// if (!headerTitleRef) return;
+		setTitleBarRef('headerTitleRef', headerTitleRef)
+	}, [headerTitleRef, setTitleBarRef])
+	useEffect(() => {
+		// if (!pageContainerRef) return;
+		setTitleBarRef('pageContainerRef', pageContainerRef)
+	}, [pageContainerRef, setTitleBarRef])
+	useEffect(() => {
+		// if (!statusbarElementRef) return;
+		setTitleBarRef('statusbarElementRef', statusbarElementRef)
+	}, [statusbarElementRef, setTitleBarRef])
+	useEffect(() => {
+		// if (!titleElementRef) return;
+		setTitleBarRef('titleElementRef', titleElementRef)
+	}, [titleElementRef, setTitleBarRef])
+	useEffect(() => {
+		// if (!toolsContainerElementRef) return;
+		setTitleBarRef('toolsContainerElementRef', toolsContainerElementRef)
+	}, [toolsContainerElementRef, setTitleBarRef])
+	useEffect(() => {
+		// if (!backContainerElementRef) return;
+		setTitleBarRef('backContainerElementRef', backContainerElementRef)
+	}, [backContainerElementRef, setTitleBarRef])
+	useEffect(() => {
+		// if (!backTextElementRef) return;
+		setTitleBarRef('backTextElementRef', backTextElementRef)
+	}, [backTextElementRef, setTitleBarRef])
+	useEffect(() => {
+		// if (!backArrowElementRef) return;
+		setTitleBarRef('backArrowElementRef', backArrowElementRef)
+	}, [backArrowElementRef, setTitleBarRef])
+	useEffect(() => {
+		// if (!backgroundElementRef) return;
+		setTitleBarRef('backgroundElementRef', backgroundElementRef)
+	}, [backgroundElementRef, setTitleBarRef])
 	// endregion PAGE REFS
-
-	// region def
-
-	const _getTextPosition = (element: HTMLDivElement | null) => {
-		if (!element) return
-		if (element.innerHTML == '') return element.getBoundingClientRect()
-		const range = document.createRange()
-		range.setStart(element, 0)
-		range.setEnd(element, 1)
-		return range.getBoundingClientRect()
-	}
-
-	// const _getElementRect = (element) => {
-	// 	const sizes = element.getBoundingClientRect()
-	// 	const rect = { left: 0, top: 0, right: 0, bottom: 0 }
-	// 	do {
-	// 		rect.left += element.offsetLeft
-	// 		rect.top += element.offsetTop
-	// 	} while ((element = element.offsetParent) !== this.page.app)
-	// 	rect.right = rect.left + (sizes.right - rect.left)
-	// 	rect.bottom = rect.top + (sizes.bottom - rect.top)
-	// 	return rect
-	// }
-	const _relativeToApp = (rect?: DOMRect) => {
-		// todo : forward ref pour this page ?
-		// const pageRect = this.page.getBoundingClientRect()
-		const pageRect = document.body.getBoundingClientRect()
-		return {
-			left: (rect?.left || 0) - pageRect.left,
-			top: (rect?.top || 0) - pageRect.top,
-			right: (rect?.right || 0) - pageRect.left,
-			bottom: (rect?.bottom || 0) - pageRect.top,
-		}
-	}
-	// endregion
 
 	const showHideBackArrow = useCallback(
 		(headerPositionPercent: number) => {
@@ -491,6 +694,8 @@ const IOSPage = ({
 		},
 		[prevPage]
 	)
+
+	// const _getHeaderPositionPercent = (scrollTop: number = 0) => {}
 
 	const onPageScrollTitled = useCallback(
 		(scrollTop: number) => {
@@ -589,7 +794,8 @@ const IOSPage = ({
 			{/* region i-titlebar-titled */}
 			<div
 				ref={titlebarRef}
-				data-element="i-titlebar-titled"
+				// data-element="i-titlebar-titled"
+				data-element={`i-titlebar-${titlebar}`}
 				data-titlebar={titlebar}
 				className={`${styles.titlebarDefault} 
 				${titlebar === 'titled' && styles.titleBarTitled}

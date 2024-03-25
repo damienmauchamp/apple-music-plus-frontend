@@ -14,7 +14,7 @@ function IOSApp({ children, ...props }: IOSAppProps) {
 	const { appRef, getTabsRefs } = useIOSAppContext()
 
 	useEffect(() => {
-		console.log('App.getTabsRefs', getTabsRefs())
+		// console.log('App.getTabsRefs', getTabsRefs())
 	}, [getTabsRefs])
 
 	return (

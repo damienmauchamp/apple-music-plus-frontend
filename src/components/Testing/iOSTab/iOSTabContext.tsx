@@ -29,6 +29,7 @@ export interface iOSTabContextProviderProps {
 	goBack: (animate?: boolean) => IOSPageProps | undefined
 	getPreviousPage: () => IOSPageProps | undefined
 	getCurrentPage: () => IOSPageProps | undefined
+	selected?: boolean
 }
 
 export interface iOSTabContextProps {
@@ -51,6 +52,7 @@ export interface iOSTabContextProps {
 	// tests
 	test?: string
 	setTest?: React.Dispatch<React.SetStateAction<string>>
+	selected?: boolean
 }
 
 //
@@ -78,6 +80,7 @@ export const IOSTabContextProvider = ({
 	goBack,
 	getPreviousPage,
 	getCurrentPage,
+	selected,
 	...props
 }: iOSTabContextProviderProps) => {
 	//
@@ -99,7 +102,7 @@ export const IOSTabContextProvider = ({
 	// }, [goBack])
 
 	//
-	console.log('Context tabPages', tabPages)
+	// console.log('Context tabPages', tabPages)
 	// console.log('Context props', props, props.goBack.toString())
 	// console.log('Context goBack', goBack)
 
@@ -133,6 +136,9 @@ export const IOSTabContextProvider = ({
 				// tests
 				test,
 				setTest,
+
+				//
+				selected,
 			}}
 		>
 			{children}

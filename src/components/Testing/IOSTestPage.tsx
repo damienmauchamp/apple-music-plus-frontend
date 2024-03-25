@@ -19,6 +19,7 @@ const IOSTestPage = (/*props: Props*/) => {
 	// }
 
 	const page2Path = 'tab1/page1/subpage1'
+	const page3Path = 'tab1/page1/subpage2'
 
 	const page1 = (): IOSPageProps => ({
 		// key: 'tab1/page1',
@@ -63,16 +64,37 @@ const IOSTestPage = (/*props: Props*/) => {
 		title: 'SubPage 1.1',
 		page: page2Path,
 		prevPage: 'tab1/page1',
-		backTitle: 'Go back',
+		backTitle: 'Page 1',
 		children: (
 			<>
-				<IOSPageBackLink back={true}>Go back !</IOSPageBackLink>
+				<div style={{ height: '150vh' }}>
+					<IOSPageBackLink back={true}>Go back !</IOSPageBackLink>
+					<IOSPageLink nextPage={page3Path}>
+						Go to page 3 {page3Path}
+					</IOSPageLink>
+				</div>
+			</>
+		),
+	})
+
+	const page3 = () => ({
+		// key: page3Path,
+		id: page3Path,
+		title: 'SubPage 1.2',
+		page: page3Path,
+		prevPage: 'tab1/page2',
+		backTitle: 'SubPage 1.1',
+		children: (
+			<>
+				<div className="flex flex-col" style={{ height: '150vh' }}>
+					<IOSPageBackLink back={true}>Go back !</IOSPageBackLink>
+				</div>
 			</>
 		),
 	})
 
 	// const [pages, setPages] = useState<IOSPageProps[]>([page1()])
-	const pages = [page1(), page2()]
+	const pages = [page1(), page2(), page3()]
 
 	return (
 		<>
@@ -83,6 +105,7 @@ const IOSTestPage = (/*props: Props*/) => {
 					page="tab1"
 					selected={true}
 					pages={pages}
+					titlebar="titled"
 				>
 					{/* {pages.map((page) => page)} */}
 				</IOSTab>
@@ -90,7 +113,8 @@ const IOSTestPage = (/*props: Props*/) => {
 					id="tab2"
 					name="Tab 2"
 					page="tab2"
-					selected={true}
+					selected={false}
+					titlebar="default"
 				></IOSTab>
 			</IOSApp>
 		</>

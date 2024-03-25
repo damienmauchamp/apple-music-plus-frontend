@@ -175,7 +175,8 @@ const config: Config = {
 				global: [
 					'0.9375rem' /* 15px */,
 					{
-						lineHeight: '1.375rem' /* 22px */,
+						// lineHeight: '1.375rem' /* 22px */,
+						// lineHeight: 'auto',
 						letterSpacing: '0px',
 					},
 				],
