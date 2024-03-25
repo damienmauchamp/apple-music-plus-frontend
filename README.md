@@ -72,6 +72,8 @@ server {
 
 ## TODO
 
+-   [ ] use navigation for sections
+
 ### Page nesting
 
 -   [ ] hash routing
@@ -89,3 +91,4 @@ server {
 -   [ ] search bar / search component
 -   [ ] split iOSPage & iOSTitleBar
 -   [ ] iOSTitleBar[titlebar="image"]
+-   [ ] desktop navigation
