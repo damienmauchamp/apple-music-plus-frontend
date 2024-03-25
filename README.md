@@ -72,9 +72,13 @@ server {
 
 ## TODO
 
-### Page navigation & animations
+### Page nesting
 
-<!-- -   [ ] fix "goBack" when scrolled : -->
+-   [ ] hash routing
+-   [ ] [TAB] pass pages as parameters of pages
+-   [ ] [TAB] pass pages as children of tab
+
+### Page navigation & animations
 
 -   [ ] if previous page is scrolled and goback => fix anim-title-1 target destination
 -   [ ] if previous page is scrolled and goback => fix back arrow not disappearing
