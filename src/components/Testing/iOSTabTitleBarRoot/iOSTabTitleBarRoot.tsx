@@ -60,8 +60,8 @@ const IOSTitleBarRoot = ({ titlebar }: iOSTitleBarRootProps) => {
 	}
 
 	const _getHeaderPositionPercent = (old: boolean = false) => {
-		const _pageRefs = old ? getPreviousPageRefs() : getCurrentPageRefs()
-		const _pageTitleBarRefs = old
+		const _pageRefs = !old ? getPreviousPageRefs() : getCurrentPageRefs()
+		const _pageTitleBarRefs = !old
 			? getPreviousPageTitleBarRefs()
 			: getCurrentPageTitleBarRefs()
 
@@ -73,8 +73,14 @@ const IOSTitleBarRoot = ({ titlebar }: iOSTitleBarRootProps) => {
 			!pageContainerRef?.current ||
 			!headerTitleRef?.current ||
 			!titlebarRef?.current
-		)
+		) {
+			// console.log('_getHeaderPositionPercent NOPE', {
+			// 	pageContainerRef: pageContainerRef?.current,
+			// 	headerTitleRef: headerTitleRef?.current,
+			// 	titlebarRef: titlebarRef?.current,
+			// })
 			return 0
+		}
 
 		const scrollTop = pageContainerRef.current.scrollTop
 
@@ -99,7 +105,7 @@ const IOSTitleBarRoot = ({ titlebar }: iOSTitleBarRootProps) => {
 		const _pageRefs = old ? getPreviousPageRefs() : getCurrentPageRefs()
 
 		if (titlebar === 'titled') {
-			return _getHeaderPositionPercent() < 1
+			return _getHeaderPositionPercent(old) < 1
 				? _pageRefs.headerTitleRef?.current
 				: _titleBarRefs.titleElementRef?.current
 		}
@@ -136,7 +142,7 @@ const IOSTitleBarRoot = ({ titlebar }: iOSTitleBarRootProps) => {
 
 	const _backArrowOpacityFunc = (percent: number, old: boolean = false) => {
 		if (titlebar === 'titled') {
-			return _getHeaderPositionPercent(old) < 1
+			return _getHeaderPositionPercent(!old) < 1
 				? percent * 2 - 1
 				: percent
 		}
@@ -351,7 +357,7 @@ const IOSTitleBarRoot = ({ titlebar }: iOSTitleBarRootProps) => {
 		//
 		_bindThemeChangingElement()
 
-		const transitionStartedHandler = (/*e: Event*/) => {
+		const transitionStartedHandler = (e /*e: Event*/) => {
 			if (!selected) return
 			if (_animation.started) return
 			if (!_getTitleElement(false) || !_getBackTextElement(true)) return
@@ -368,6 +374,27 @@ const IOSTitleBarRoot = ({ titlebar }: iOSTitleBarRootProps) => {
 			_switchElementsVisibility(true, true)
 
 			const rectToArr = (r: DOMReactPos) => [r.left, r.top]
+
+			// console.log('_animation.title1Transition', {
+			// 	_percent: e.detail.percent,
+			// 	//
+			// 	source1: _getTitleElement(true),
+			// 	translate1: _getTitleElementPosition(false),
+			// 	source2: _getBackTextElement(false),
+			// 	translate2: _getBackTextElementPosition(false),
+			// 	//
+			// 	zTitleOld: _getTitleElement(true),
+			// 	zTitleOld_pos: _getTitleElement(true)?.getBoundingClientRect(),
+			// 	zTitleNew: _getTitleElement(false),
+			// 	zTitleNew_pos: _getTitleElement(false)?.getBoundingClientRect(),
+			// })
+
+			// todo : mix between oldHeader & newHeader w/ _getHeaderPositionPercent
+			console.log('ANIMMM', {
+				_getHeaderPositionPercent: _getHeaderPositionPercent(),
+				_getTitleElementPosition: _getTitleElementPosition(false),
+				_getTitleElement: _getTitleElement(false),
+			})
 
 			_animation.title1Transition = new StyleTransition(
 				title1Ref.current,
@@ -409,8 +436,8 @@ const IOSTitleBarRoot = ({ titlebar }: iOSTitleBarRootProps) => {
 				back1Ref.current,
 				{
 					translate: rectToArr(
-						// _getBackTextElementPosition(true) // oldHeader
-						_getBackTextElementPosition(false) // >newHeader
+						_getBackTextElementPosition(true) // oldHeader
+						// _getBackTextElementPosition(false) // >newHeader
 					),
 					opacity: getComputedStyle(
 						_getBackTextElement(true) as Element // oldHeader

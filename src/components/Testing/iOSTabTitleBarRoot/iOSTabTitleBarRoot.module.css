@@ -34,3 +34,23 @@
 .animElement {
 	line-height: initial;
 }
+
+/***/
+/* .animElement[id='anim-title-1'] {
+	color: red !important;
+}
+.animElement[id='anim-title-2'] {
+	color: green !important;
+}
+.animElement[id='anim-back-1'] {
+	color: blue !important;
+}
+.animElement[id='anim-back-2'] {
+	color: yellow !important;
+}
+.animElement[id='anim-back-arrow'] {
+	color: cyan !important;
+} */
+/* [id="anim-tools"] {
+	color: yellow !important;
+} */
