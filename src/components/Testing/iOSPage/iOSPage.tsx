@@ -8,6 +8,7 @@ import {
 	_getTextPosition,
 	_relativeToApp,
 	addPointerListener,
+	setHash,
 } from '@/src/helpers/iOSPage'
 import {
 	PageRefsType,
@@ -567,7 +568,10 @@ const IOSPage = ({
 
 	// region PAGE INIT
 	useEffect(() => {
-		// console.log('[P1] New page', props.page)
+		console.log('[P1] New page', props.page, props)
+
+		// updating history
+		setHash(props.page)
 
 		// _updateGoToPreviousPage()
 		_handleRefs()
@@ -591,6 +595,11 @@ const IOSPage = ({
 
 	useEffect(() => {
 		// console.log('[P1] pageRef', props.page)
+		if (_isCurrentPage()) {
+			// updating history
+			setHash(props.page)
+			// console.log('[P1] Current page', props.page)
+		}
 
 		// _updateGoToPreviousPage()
 		_handleRefs()

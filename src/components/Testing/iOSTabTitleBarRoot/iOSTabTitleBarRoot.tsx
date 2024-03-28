@@ -12,9 +12,9 @@ import {
 	_getTextPosition,
 	_relativeToApp,
 } from '@/src/helpers/iOSPage'
-import { IOSTitleBarProps } from '../iOSTitleBar/iOSTitleBar'
+import { IOSTitleBarElementProps } from '../iOSTitleBar/iOSTitleBar'
 
-interface iOSTitleBarRootProps extends IOSTitleBarProps {}
+interface iOSTitleBarRootProps extends IOSTitleBarElementProps {}
 
 type DOMReactPos = {
 	left: number
@@ -357,7 +357,7 @@ const IOSTitleBarRoot = ({ titlebar }: iOSTitleBarRootProps) => {
 		//
 		_bindThemeChangingElement()
 
-		const transitionStartedHandler = (e /*e: Event*/) => {
+		const transitionStartedHandler = (/*e: Event*/) => {
 			if (!selected) return
 			if (_animation.started) return
 			if (!_getTitleElement(false) || !_getBackTextElement(true)) return

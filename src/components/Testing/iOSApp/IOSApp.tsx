@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import styles from './IOSApp.module.css'
 import { IOSAppContextProvider, useIOSAppContext } from './iOSAppContext'
+import { getHash } from '@/src/helpers/iOSPage'
 
 export class IOSAnimationId {}
 
@@ -13,12 +14,25 @@ interface IOSAppProps extends IOSElementProps {}
 function IOSApp({ children, ...props }: IOSAppProps) {
 	const { appRef, getTabsRefs } = useIOSAppContext()
 
+	const startHash = getHash()
+
+	console.log('[APP] START', startHash)
+	useEffect(() => {
+		console.log('[APP] INIT', startHash)
+		// todo : select right tab
+		// openPage(getHash())
+	}, [])
+
+	useEffect(() => {
+		console.log('[APP] appRef', appRef)
+	}, [appRef])
+
 	useEffect(() => {
 		// console.log('App.getTabsRefs', getTabsRefs())
 	}, [getTabsRefs])
 
 	return (
-		<IOSAppContextProvider>
+		<IOSAppContextProvider startHash={startHash}>
 			<div data-element="i-root" className={styles.iRoot}>
 				<div
 					data-element="i-app"

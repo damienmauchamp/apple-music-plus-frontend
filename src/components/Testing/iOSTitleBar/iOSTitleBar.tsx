@@ -1,7 +1,13 @@
 import { ForwardedRef, forwardRef } from 'react'
 import styles from './iOSTitleBar.module.css'
 
-export interface IOSTitleBarProps {
+export interface IOSTitleBarElementProps {
+	titlebar?: string // titled
+	prevPage?: string
+	backTitle?: string
+}
+
+export interface IOSTitleBarProps extends IOSTitleBarElementProps {
 	title: string
 	titlebar?: string // titled
 	prevPage?: string

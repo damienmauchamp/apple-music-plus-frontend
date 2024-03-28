@@ -8,6 +8,7 @@ import React, {
 
 export interface iOSAppContextProviderProps {
 	children?: ReactElement | ReactNode
+	startHash?: string
 }
 
 export interface ElementRef {
@@ -38,6 +39,7 @@ export interface iOSAppContextProps {
 	_bindThemeChangingElement: () => void
 	appRef: React.RefObject<HTMLDivElement>
 	addTabRef: (name: string) => React.RefObject<HTMLDivElement>
+	startHash?: string
 	// tabRefs: TabRefType[]
 	getTabsRefs: () => TabRefType[]
 	getCurrentTabRef: () => TabRefType
@@ -250,6 +252,7 @@ const iOSAppContext = createContext<iOSAppContextProps>(
 
 export const IOSAppContextProvider = ({
 	children,
+	startHash,
 }: iOSAppContextProviderProps) => {
 	//
 
@@ -260,8 +263,11 @@ export const IOSAppContextProvider = ({
 	return (
 		<iOSAppContext.Provider
 			value={{
+				//
 				_bindThemeChangingElement,
 				appRef,
+				//
+				startHash,
 				//
 				addTabRef,
 				getTabsRefs,

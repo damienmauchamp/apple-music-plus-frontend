@@ -261,3 +261,18 @@ export class StyleTransition {
 		}
 	}
 }
+
+export const setHash = (hash: string, replaceIfSame = false) => {
+	console.log('getHash')
+	const _hash = hash.replace(/^!/, '')
+	if (!window || (window.location.hash === _hash && !replaceIfSame)) return
+	window.location.hash = `!/${hash.replace(/^!/, '')}`
+}
+
+export const getHash = () => {
+	try {
+		return window.location.hash.replace(/^#!\//, '')
+	} catch (e) {
+		return undefined
+	}
+}
