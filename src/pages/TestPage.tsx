@@ -35,7 +35,9 @@ const TestPage = () => {
 		if (!isLoading) return null
 
 		return (
-			<div className="absolute top-0 left-0 w-full h-full bg-white dark:bg-black z-50"></div>
+			<div className="absolute top-0 left-0 w-full h-full bg-white dark:bg-black z-50">
+				Loading bro
+			</div>
 		)
 	}
 
@@ -49,7 +51,7 @@ const TestPage = () => {
 				sliding
 			/>
 
-			{SplashScreenOverlay()}
+			{/* {SplashScreenOverlay()} */}
 
 			<Block>PAGE !</Block>
 

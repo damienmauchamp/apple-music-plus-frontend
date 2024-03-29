@@ -1,4 +1,5 @@
 'use client'
+import useAuth from '@/lib/useAuth'
 import {
 	Block,
 	Icon,
@@ -10,6 +11,7 @@ import {
 	f7ready,
 } from 'framework7-react'
 import { useEffect, useState } from 'react'
+import { useMusicKitContext } from '../context/MusicKitContext'
 
 const data = {
 	title: 'Second page',
@@ -17,14 +19,24 @@ const data = {
 }
 
 const SecondPage = ({ f7router }) => {
-	const [isLoading, setIsLoading] = useState(true)
+	const [f7IsLoading, setF7IsLoading] = useState(true)
 	useEffect(() => {
 		f7ready((f7) => {
-			setIsLoading(false)
+			setF7IsLoading(false)
 			console.log('SECOND f7 ready', f7)
 		})
 	}, [])
 	// if (isLoading) return <div>loading...</div>
+
+	// region auth
+	// Hooks
+	const { logged } = useMusicKitContext()
+
+	// Auth hook
+	const { user, isLoading, hasTestToken } = useAuth({
+		middleware: 'auth',
+	}) // todo : redirect to previous page after login
+	// endregion auth
 
 	return (
 		<Page className="page-second">
@@ -36,7 +48,7 @@ const SecondPage = ({ f7router }) => {
 				sliding
 			/>
 
-			{isLoading ? (
+			{isLoading || f7IsLoading || !user ? (
 				<div>loading...</div>
 			) : (
 				<>
