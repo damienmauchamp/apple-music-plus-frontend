@@ -23,6 +23,86 @@ const IOSTab = ({
 	selected,
 	...props
 }: IOSTabProps) => {
+	/**
+	 * Add page to subpages
+	 */
+	const _addPageToSubPage = useCallback(
+		(
+			page: IOSPageProps,
+			parentPage?: IOSPageProps,
+			type: string = 'subPage'
+		) => {
+			if (!page.page) {
+				false && console.warn(`No path found on this ${type}`, page)
+				return
+			}
+
+			// checking if page is already in the tab pages array
+			if (pages.find((tabPage) => tabPage.page === page.page)) {
+				false &&
+					console.warn(
+						`This ${type} is already in the tab pages`,
+						page
+					)
+				return
+			}
+
+			const newSubPage = {
+				...page,
+				id: page.id || page.page,
+				prevPage: parentPage?.prevPage,
+				// prevPage: page.prevPage || parentPage.prevPage
+				backTitle: parentPage?.title,
+			}
+			pages.push(newSubPage)
+			return newSubPage
+		},
+		[pages]
+	)
+
+	/**
+	 * Adding pages in tab's children to the tab instead
+	 */
+	const _recursiveHandlingChildrenPages = useCallback(
+		(
+			childOrChildren:
+				| string
+				| number
+				| true
+				| React.ReactElement<
+						any,
+						string | React.JSXElementConstructor<any>
+				  >
+				| Iterable<React.ReactNode>
+				| React.ReactPortal
+				| React.PromiseLikeOfReactNode
+		) => {
+			React.Children.toArray(childOrChildren).forEach((child) => {
+				if (!React.isValidElement(child)) return
+
+				// ok, adding page
+				if (isIOSPageElement(child)) {
+					// todo : delete from children?
+					return _addPageToSubPage(child.props)
+				}
+
+				// not a page
+				// todo : use as layout???
+
+				if (child.props.children) {
+					// recursive call
+					return _recursiveHandlingChildrenPages(child.props.children)
+				}
+			})
+		},
+		[_addPageToSubPage]
+	)
+
+	if (children) {
+		console.log('[IOSTab] children', children)
+		_recursiveHandlingChildrenPages(children)
+	}
+
 	//
 	const { addTabRef, startHash } = useIOSAppContext()
 	const tabRef = addTabRef(props.name)
@@ -37,6 +117,23 @@ const IOSTab = ({
 	const [tabPages, setTabPages] = useState<IOSPageProps[]>(
 		pages && pages[0] ? [pages[0]] : ([] as IOSPageProps[])
 	)
+	console.log('[TAB] pages:', pages)
+	console.log('[TAB] tabPages:', tabPages)
+
+	useEffect(() => {
+		// 	console.log('[TAB] pages changed:', pages)
+		// 	if (children) {
+		// 		console.log('[IOSTab] children', children)
+		// 		_recursiveHandlingChildrenPages(children)
+		// 	}
+		// 	// todo :
+		// 	console.log('[TAB] tabPages:', tabPages, tabPages.length)
+		// 	setTabPages(pages)
+		// setTabPages(pages && pages[0] ? [pages[0]] : ([] as IOSPageProps[]))
+	}, [pages])
+	useEffect(() => {
+		console.log('[TAB] tabPages changed:', tabPages)
+	}, [tabPages])
 
 	const getPages = () =>
 		pages.map((page) => {
@@ -222,43 +319,6 @@ const IOSTab = ({
 	}
 
 	/**
-	 * Add page to subpages
-	 */
-	const _addPageToSubPage = useCallback(
-		(
-			page: IOSPageProps,
-			parentPage?: IOSPageProps,
-			type: string = 'subPage'
-		) => {
-			if (!page.page) {
-				false && console.warn(`No path found on this ${type}`, page)
-				return
-			}
-
-			// checking if page is already in the tab pages array
-			if (pages.find((tabPage) => tabPage.page === page.page)) {
-				false &&
-					console.warn(
-						`This ${type} is already in the tab pages`,
-						page
-					)
-				return
-			}
-
-			const newSubPage = {
-				...page,
-				id: page.id || page.page,
-				prevPage: parentPage?.prevPage,
-				// prevPage: page.prevPage || parentPage.prevPage
-				backTitle: parentPage?.title,
-			}
-			pages.push(newSubPage)
-			return newSubPage
-		},
-		[pages]
-	)
-
-	/**
 	 * Adding pages' pages to the tab instead
 	 */
 	const _handlePagesPages = useCallback(() => {
@@ -270,44 +330,6 @@ const IOSTab = ({
 			)
 		})
 	}, [_addPageToSubPage, pages])
-
-	/**
-	 * Adding pages in tab's children to the tab instead
-	 */
-	const _recursiveHandlingChildrenPages = useCallback(
-		(
-			childOrChildren:
-				| string
-				| number
-				| true
-				| React.ReactElement<
-						any,
-						string | React.JSXElementConstructor<any>
-				  >
-				| Iterable<React.ReactNode>
-				| React.ReactPortal
-				| React.PromiseLikeOfReactNode
-		) => {
-			React.Children.toArray(childOrChildren).forEach((child) => {
-				if (!React.isValidElement(child)) return
-
-				// ok, adding page
-				if (isIOSPageElement(child)) {
-					// todo : delete from children?
-					return _addPageToSubPage(child.props)
-				}
-
-				// not a page
-				// todo : use as layout???
-
-				if (child.props.children) {
-					// recursive call
-					return _recursiveHandlingChildrenPages(child.props.children)
-				}
-			})
-		},
-		[_addPageToSubPage]
-	)
 	const _handleChildrenPages = useCallback(() => {
 		if (!children) return
 
@@ -343,14 +365,15 @@ const IOSTab = ({
 			>
 				<IOSTitleBarRoot titlebar={titlebar} />
 				<slot>
-					{tabPages.map((page) => (
+					{children}
+					{/* {tabPages.map((page) => (
 						<IOSPage
 							key={page.id}
 							{...page}
 							titlebar={titlebar}
 							closing={closing}
 						/>
-					))}
+					))} */}
 				</slot>
 			</div>
 		</IOSTabContextProvider>

@@ -6,21 +6,14 @@
 import React, { useEffect, useState } from 'react'
 import { IoRefreshCircleOutline } from 'react-icons/io5'
 import moment from 'moment'
-// import AlbumsGridSection from '@/src/components/LayoutComponents/AlbumsGridSection/AlbumsGridSection'
-// import SongsListSection from '@/src/components/LayoutComponents/SongsListSection/SongsListSection'
+import AlbumsGridSection from '@/src/components/LayoutComponents/AlbumsGridSection/AlbumsGridSection'
+import SongsListSection from '@/src/components/LayoutComponents/SongsListSection/SongsListSection'
 import { Album, Song } from '@/types/Items'
 import useAPI from '@/lib/useAPI'
 import useAuth from '@/lib/useAuth'
 import { useMusicKitContext } from '@/src/context/MusicKitContext'
 import PageNavigation from '../PageNavigation/PageNavigation'
 import Loading from '../../Components/Loading/Loading'
-import IOSApp from '../../Testing/iOSApp/IOSApp'
-import IOSTab from '../../Testing/iOSTab/iOSTab'
-// import IOSPage from '../../Testing/iOSPage/iOSPage'
-// import IOSPageLink from '../../Testing/IOSPageLink/IOSPageLink'
-import ReleasePage from '../../PagesComponents/ReleasePage'
-import AlbumsGridSection from '../../LayoutComponents/AlbumsGridSection/AlbumsGridSection'
-import IOSPage from '../../Testing/iOSPage/iOSPage'
 
 // todo : getStaticProps() for individual pages
 // todo : export auth to page.tsx, see if static props can be used
@@ -54,7 +47,6 @@ interface ReleasesPageProps {
 // 	},
 // })
 
-// todo : externaliser la releasePage et passer les datas en paramètres
 export default function ReleasesPage(
 	{
 		// newReleasesData = [] as Album[],
@@ -151,10 +143,6 @@ export default function ReleasesPage(
 	])
 
 	const loadData = async () => {
-		console.log('loadData', {
-			ready,
-			dataLoaded,
-		})
 		if (!ready || dataLoaded) return
 		await loadNewReleases()
 		await loadNewSingles()
@@ -184,16 +172,6 @@ export default function ReleasesPage(
 		}
 	}, [isLoading, user, hasTestToken])
 
-	useEffect(() => {
-		console.log('releases', {
-			newReleases,
-			newSingles,
-			upcoming,
-			newSongs,
-			upcomingSongs,
-		})
-	}, [newReleases, newSingles, upcoming, newSongs, upcomingSongs])
-
 	// Helpers
 
 	const refreshButton = (title: string, handleClick: () => void) => {
@@ -207,159 +185,10 @@ export default function ReleasesPage(
 		)
 	}
 
-	// const page = () => {
-	// 	return (
-	// 		<>
-	// 			<div className="max-w-5xl mx-auto">
-	// 				<AlbumsGridSection
-	// 					id={'newReleases'}
-	// 					title={'New Releases'}
-	// 					key={'newReleases'}
-	// 					items={newReleases}
-	// 					scroll={false}
-	// 					mobileScroll={true}
-	// 					rows={2}
-	// 					seeAllPath={'/new-releases'}
-	// 					// seeAll={() => console.log('see all 1')}
-	// 				/>
-	// 				<AlbumsGridSection
-	// 					id={'newSingles'}
-	// 					title={'New Singles'}
-	// 					key={'newSingles'}
-	// 					items={newSingles}
-	// 					scroll={true}
-	// 					// mobileScroll={true}
-	// 					rows={2}
-	// 					seeAllPath={'/new-singles'}
-	// 					// seeAll={() => console.log('see all 2')}
-	// 				/>
-	// 				<AlbumsGridSection
-	// 					id={'upcoming'}
-	// 					title={'Upcoming'}
-	// 					key={'upcoming'}
-	// 					items={upcoming}
-	// 					scroll={false}
-	// 					mobileScroll={true}
-	// 					rows={1}
-	// 					seeAllPath={'/upcoming'}
-	// 				/>
-	// 				<SongsListSection
-	// 					id={'newSongs'}
-	// 					title={'New Songs With Scroll'}
-	// 					key={'newSongs'}
-	// 					items={newSongs}
-	// 					// items={newSongs.slice(0, 16)}
-	// 					//
-	// 					scroll={true}
-	// 					rows={4}
-	// 					seeAllPath={'/new-songs'}
-	// 				/>
-	// 				<SongsListSection
-	// 					id={'newSongsList'}
-	// 					title={'New Songs'}
-	// 					key={'newSongsList'}
-	// 					items={newSongs}
-	// 					header={false}
-	// 					// todo
-	// 					seeAllPath={'/new-songs'}
-	// 				/>
-	// 				<SongsListSection
-	// 					id={'upcomingSongs'}
-	// 					title={'Upcoming Songs'}
-	// 					key={'upcomingSongs'}
-	// 					items={upcomingSongs}
-	// 					// todo
-	// 					seeAllPath={'/upcoming-songs'}
-	// 				/>
-	// 			</div>
-
-	// 			<hr />
-
-	// 			<IOSPageLink nextPage={'releases/new-singles'}>
-	// 				New Singles
-	// 			</IOSPageLink>
-
-	// 			<hr />
-
-	// 			<div className="grid grid-cols-2 gap-4">
-	// 				{refreshButton('New Releases', loadNewReleases)}
-	// 				{refreshButton('New Singles', loadNewSingles)}
-	// 				{refreshButton('Upcoming', loadUpcoming)}
-	// 				{refreshButton('New Songs', loadNewSongs)}
-	// 				{refreshButton('Upcoming Songs', loadUpcomingSongs)}
-	// 			</div>
-	// 		</>
-	// 	)
-	// }
-
-	// const newSinglesPage = () => (
-	// 	<AlbumsGridSection
-	// 		id={'newSingles'}
-	// 		title={'New Singles'}
-	// 		key={'newSingles'}
-	// 		items={newSingles}
-	// 		scroll={false}
-	// 		mobileScroll={false}
-	// 		// rows={2}
-	// 		// seeAll={() => console.log('see all 1')}
-	// 	/>
-	// )
-
-	const content = () =>
-		!ready ? (
-			<Loading subText="Loading releases page" />
-		) : dataLoaded ? (
-			// page()
+	const page = () => {
+		return (
 			<>
-				<ReleasePage
-					key={'ReleasePage'}
-					newReleases={newReleases}
-					newSingles={newSingles}
-					upcoming={upcoming}
-					newSongs={newSongs}
-					upcomingSongs={upcomingSongs}
-				/>
-			</>
-		) : (
-			<Loading subText="Fetching releases" />
-		)
-
-	return (
-		<IOSApp>
-			<IOSTab
-				key="test"
-				id="test"
-				name="Tab 1"
-				page=""
-				selected={true}
-				// pages={[]}
-				titlebar="titled"
-			>
-				<IOSPage
-					key={'releases'}
-					page="releases"
-					title="New Releases"
-					pages={[
-						{
-							key: 'new-singles',
-							page: 'releases/new-singles',
-							title: 'New Singles',
-							children: (
-								<AlbumsGridSection
-									id={'newSingles'}
-									title={'New Singles'}
-									key={'newSingles'}
-									items={newSingles}
-									scroll={false}
-									mobileScroll={false}
-									// rows={2}
-									// seeAll={() => console.log('see all 1')}
-								/>
-							),
-						},
-					]}
-				>
-					<pre>{JSON.stringify(newReleases)}</pre>
+				<div className="max-w-5xl mx-auto">
 					<AlbumsGridSection
 						id={'newReleases'}
 						title={'New Releases'}
@@ -371,31 +200,79 @@ export default function ReleasesPage(
 						seeAllPath={'/new-releases'}
 						// seeAll={() => console.log('see all 1')}
 					/>
-					{content()}
-					{/* {page()} */}
-				</IOSPage>
-				{/* <IOSPage
-					key={'new-singles'}
-					page="releases/new-singles"
-					title="New Singles"
-				> */}
-				{/* {newSinglesPage()} */}
-				{/* </IOSPage> */}
-			</IOSTab>
-		</IOSApp>
-	)
+					<AlbumsGridSection
+						id={'newSingles'}
+						title={'New Singles'}
+						key={'newSingles'}
+						items={newSingles}
+						scroll={true}
+						// mobileScroll={true}
+						rows={2}
+						seeAllPath={'/new-singles'}
+						// seeAll={() => console.log('see all 2')}
+					/>
+					<AlbumsGridSection
+						id={'upcoming'}
+						title={'Upcoming'}
+						key={'upcoming'}
+						items={upcoming}
+						scroll={false}
+						mobileScroll={true}
+						rows={1}
+						seeAllPath={'/upcoming'}
+					/>
+					<SongsListSection
+						id={'newSongs'}
+						title={'New Songs With Scroll'}
+						key={'newSongs'}
+						items={newSongs}
+						// items={newSongs.slice(0, 16)}
+						//
+						scroll={true}
+						rows={4}
+						seeAllPath={'/new-songs'}
+					/>
+					<SongsListSection
+						id={'newSongsList'}
+						title={'New Songs'}
+						key={'newSongsList'}
+						items={newSongs}
+						header={false}
+						// todo
+						seeAllPath={'/new-songs'}
+					/>
+					<SongsListSection
+						id={'upcomingSongs'}
+						title={'Upcoming Songs'}
+						key={'upcomingSongs'}
+						items={upcomingSongs}
+						// todo
+						seeAllPath={'/upcoming-songs'}
+					/>
+				</div>
 
-	// return tab()
-	// return (
-	// 	<PageNavigation title={'New Releases'}>
-	// 		{!ready ? (
-	// 			<Loading subText="Loading releases page" />
-	// 		) : dataLoaded ? (
-	// 			// page()
-	// 			tab()
-	// 		) : (
-	// 			<Loading subText="Fetching releases" />
-	// 		)}
-	// 	</PageNavigation>
-	// )
+				<hr />
+
+				<div className="grid grid-cols-2 gap-4">
+					{refreshButton('New Releases', loadNewReleases)}
+					{refreshButton('New Singles', loadNewSingles)}
+					{refreshButton('Upcoming', loadUpcoming)}
+					{refreshButton('New Songs', loadNewSongs)}
+					{refreshButton('Upcoming Songs', loadUpcomingSongs)}
+				</div>
+			</>
+		)
+	}
+
+	return (
+		<PageNavigation title={'New Releases'}>
+			{!ready ? (
+				<Loading subText="Loading releases page" />
+			) : dataLoaded ? (
+				page()
+			) : (
+				<Loading subText="Fetching releases" />
+			)}
+		</PageNavigation>
+	)
 }

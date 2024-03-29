@@ -19,6 +19,7 @@ const AlbumsGridSection = ({
 	seeAllPath,
 	...props
 }: AlbumsGridSectionProps) => {
+	console.log('AlbumsGridSection', title, props.items)
 	if (!props.items.length) {
 		return null
 	}
