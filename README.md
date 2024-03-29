@@ -69,3 +69,8 @@ server {
     }
 }
 ```
+
+## TODO
+
+-   [ ] externalize albums/songs list components
+-   [ ] create "cache" for each section for data ?

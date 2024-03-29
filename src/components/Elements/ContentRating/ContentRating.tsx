@@ -1,4 +1,5 @@
 import React, { CSSProperties } from 'react'
+import classes from './ContentRating.module.css'
 
 export interface ContentRatingProps {
 	size?: number
@@ -19,7 +20,7 @@ const ContentRating = ({
 }: ContentRatingTypeProps) => {
 	if (!size) size = 9
 	if (!iconSize) iconSize = size
-	if (!fill) fill = '#ffffffa3'
+	// if (!fill) fill = '#ffffffa3'
 
 	const renderContent = () => {
 		switch (type) {
@@ -45,6 +46,7 @@ const ContentRating = ({
 				width: size,
 				height: size,
 			}}
+			className={classes.contentRatingSvg}
 			viewBox={`0 0 ${iconSize} ${iconSize}`}
 			width={iconSize}
 			height={iconSize}

@@ -50,10 +50,11 @@ export default function Home() {
 	}
 
 	return (
-		<PageNavigation title={'New Releases'} goBack={true} largeTitle={false}>
+		<PageNavigation title={'New Releases'} goBack={true} largeTitle={true}>
 			<AlbumsGridSection
 				id={'newReleases'}
-				title={'New Releases'}
+				title={''}
+				// title={'New Releases'}
 				key={'newReleases'}
 				items={newReleases}
 				scroll={false}
