@@ -1,4 +1,4 @@
-import ReleasesPage from '@/src/components/Pages/User/releases'
+import ReleasesPage from '@/src/components/Pages/User/ReleasesPages'
 
 export default function Home() {
 	return <ReleasesPage />

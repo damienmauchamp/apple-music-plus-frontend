@@ -3,11 +3,13 @@ import Section, { SectionProps } from '../../Section/Section'
 import AlbumsCollectionView, {
 	AlbumCollectionViewProps,
 } from '../../Views/Collections/AlbumsCollectionView/AlbumsCollectionView'
-import { Album } from '@/types/Items'
+import { Album, SectionCollectionProps } from '@/types/Items'
+import Loading from '../../Components/Loading/Loading'
 
 interface AlbumsGridSectionProps
 	extends SectionProps,
-		AlbumCollectionViewProps {
+		AlbumCollectionViewProps,
+		SectionCollectionProps {
 	// key: string
 	items: Album[]
 }
@@ -17,9 +19,10 @@ const AlbumsGridSection = ({
 	title,
 	seeAll,
 	seeAllPath,
+	loading = false,
 	...props
 }: AlbumsGridSectionProps) => {
-	if (!props.items.length) {
+	if (!loading && !props.items.length) {
 		return null
 	}
 
@@ -28,12 +31,17 @@ const AlbumsGridSection = ({
 			<Section
 				id={id}
 				title={title}
-				style={!props.items.length ? { display: 'none' } : {}}
-				// todo : see all => send data & type, server component
+				// todo : see all
 				seeAll={seeAll}
 				seeAllPath={seeAllPath}
 			>
-				<AlbumsCollectionView id={id} {...props} />
+				{loading ? (
+					<div className="w-full h-40">
+						<Loading subText={`${title} loading...`} />
+					</div>
+				) : (
+					<AlbumsCollectionView id={id} {...props} />
+				)}
 			</Section>
 		</>
 	)
