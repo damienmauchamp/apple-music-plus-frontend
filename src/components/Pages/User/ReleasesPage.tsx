@@ -13,9 +13,10 @@ import UpcomingReleasesSection from '../../PageComponents/UpcomingReleases/Upcom
 import NewSongsSection from '../../PageComponents/NewSongs/NewSongsSection'
 import NewSongsListSection from '../../PageComponents/NewSongs/NewSongsListSection'
 import UpcomingSongsListSection from '../../PageComponents/UpcomingSongs/UpcomingSongsListSection'
+import { ReleasesPagesProps } from '@/types/ReleasesPages'
 
-interface ReleasesPageProps {}
-export default function ReleasesPage({}: ReleasesPageProps) {
+interface ReleasesPageProps extends ReleasesPagesProps {}
+export default function ReleasesPage({ ...props }: ReleasesPageProps) {
 	// Hooks
 	// const { logged } = useMusicKitContext()
 
@@ -34,49 +35,38 @@ export default function ReleasesPage({}: ReleasesPageProps) {
 		}
 	}, [isLoading, user, hasTestToken])
 
-	// Helpers
+	const content = () =>
+		!ready ? (
+			<Loading subText="Loading releases page" />
+		) : (
+			<>
+				<NewReleasesSection
+					title="New Releases"
+					newNav={props.newNav}
+				/>
+				<NewSinglesSection title="New Singles" newNav={props.newNav} />
+				<UpcomingReleasesSection
+					title="Upcoming"
+					newNav={props.newNav}
+				/>
+				<NewSongsSection title="New Songs" newNav={props.newNav} />
+				<NewSongsListSection
+					title="New Songs List"
+					newNav={props.newNav}
+				/>
+				<UpcomingSongsListSection
+					title="Upcoming Songs"
+					newNav={props.newNav}
+				/>
+			</>
+		)
 
-	// const refreshButton = (title: string, handleClick: () => void) => {
-	// 	return (
-	// 		<button
-	// 			onClick={handleClick}
-	// 			className="flex gap-2 bg-blue-500 rounded-xl border-white p-2"
-	// 		>
-	// 			{title} <IoRefreshCircleOutline />
-	// 		</button>
-	// 	)
-	// }
-
-	// const debug = () => {
-	// 	return (
-	// 		<>
-	// 			<div className="grid grid-cols-2 gap-4">
-	// 				{/* {refreshButton('New Releases', loadNewReleases)} */}
-	// 				{/* {refreshButton('New Singles', loadNewSingles)} */}
-	// 				{/* {refreshButton('Upcoming', loadUpcoming)} */}
-	// 				{/* {refreshButton('New Songs', loadNewSongs)} */}
-	// 				{/* {refreshButton('Upcoming Songs', loadUpcomingSongs)} */}
-	// 			</div>
-	// 		</>
-	// 	)
-	// }
-
-	return (
-		<PageNavigation title={'New Releases'}>
-			{!ready ? (
-				<Loading subText="Loading releases page" />
-			) : (
-				<>
-					<div className="w-full max-w-5xl mx-auto">
-						<NewReleasesSection title="New Releases" />
-						<NewSinglesSection title="New Singles" />
-						<UpcomingReleasesSection title="Upcoming" />
-						<NewSongsSection title="New Songs" />
-						<NewSongsListSection title="New Songs List" />
-						<UpcomingSongsListSection title="Upcoming Songs List" />
-					</div>
-				</>
-			)}
-		</PageNavigation>
-	)
+	if (!props.newNav) {
+		return (
+			<PageNavigation title={'New Releases'}>
+				<div className="w-full max-w-5xl mx-auto">{content()}</div>
+			</PageNavigation>
+		)
+	}
+	return content()
 }

@@ -11,6 +11,8 @@ export interface NewReleasesSectionProps {
 	id?: string
 	title?: string
 	rows?: number
+
+	newNav?: boolean
 }
 
 function NewReleasesSection({

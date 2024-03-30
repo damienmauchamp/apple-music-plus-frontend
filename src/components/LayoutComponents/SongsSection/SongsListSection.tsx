@@ -20,6 +20,7 @@ const SongsListSection = ({
 	seeAll,
 	seeAllPath,
 	loading = false,
+	newNav,
 	...props
 }: SongsListSectionProps) => {
 	if (!loading && !props.items.length) {
@@ -34,10 +35,11 @@ const SongsListSection = ({
 				// todo : see all
 				seeAll={seeAll}
 				seeAllPath={seeAllPath}
+				newNav={newNav}
 			>
 				{loading ? (
 					<div className="w-full h-40">
-						<Loading subText={`${title} loading...`} />
+						<Loading subText={`${title || 'Page'} loading...`} />
 					</div>
 				) : (
 					<SongsCollectionView id={id} {...props} />

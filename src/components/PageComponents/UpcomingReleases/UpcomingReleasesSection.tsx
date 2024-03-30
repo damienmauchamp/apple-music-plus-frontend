@@ -11,6 +11,8 @@ export interface UpcomingReleasesSectionProps {
 	id?: string
 	title?: string
 	rows?: number
+
+	newNav?: boolean
 }
 
 function UpcomingReleasesSection({

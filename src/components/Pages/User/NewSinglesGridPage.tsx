@@ -4,9 +4,12 @@ import { useState, useEffect } from 'react'
 import Loading from '../../Components/Loading/Loading'
 import NewSinglesGridSection from '../../PageComponents/NewSingles/NewSinglesGridSection'
 import PageNavigation from '../PageNavigation/PageNavigation'
+import { ReleasesPagesProps } from '@/types/ReleasesPages'
 
-interface NewSinglesGridPageProps {}
-export default function NewSinglesGridPage({}: NewSinglesGridPageProps) {
+interface NewSinglesGridPageProps extends ReleasesPagesProps {}
+export default function NewSinglesGridPage({
+	...props
+}: NewSinglesGridPageProps) {
 	// Auth hook
 	const { user, isLoading, hasTestToken } = useAuth({
 		middleware: 'auth',
@@ -21,13 +24,23 @@ export default function NewSinglesGridPage({}: NewSinglesGridPageProps) {
 		}
 	}, [isLoading, user, hasTestToken])
 
-	if (!ready) {
-		return <Loading subText="Loading new releases page" />
-	}
-
-	return (
-		<PageNavigation title={'New Singles'} goBack={true} largeTitle={true}>
+	const content = () =>
+		!ready ? (
+			<Loading subText="Loading new singles page" />
+		) : (
 			<NewSinglesGridSection />
-		</PageNavigation>
-	)
+		)
+
+	if (!props.newNav) {
+		return (
+			<PageNavigation
+				title={'New Singles'}
+				goBack={true}
+				largeTitle={true}
+			>
+				{content()}
+			</PageNavigation>
+		)
+	}
+	return content()
 }

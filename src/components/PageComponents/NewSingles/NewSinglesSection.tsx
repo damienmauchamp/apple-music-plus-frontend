@@ -11,6 +11,8 @@ export interface NewSinglesSectionProps {
 	id?: string
 	title?: string
 	rows?: number
+
+	newNav?: boolean
 }
 
 function NewSinglesSection({

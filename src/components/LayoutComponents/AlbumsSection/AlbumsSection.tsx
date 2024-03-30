@@ -23,6 +23,7 @@ const AlbumsSection = ({
 	seeAllPath,
 	grid = false,
 	loading = false,
+	newNav,
 	...props
 }: AlbumsSectionProps) => {
 	if (!loading && !props.items.length) {
@@ -43,10 +44,11 @@ const AlbumsSection = ({
 				// todo : see all
 				seeAll={seeAll}
 				seeAllPath={seeAllPath}
+				newNav={newNav}
 			>
 				{loading ? (
 					<div className="w-full h-40">
-						<Loading subText={`${title} loading...`} />
+						<Loading subText={`${title || 'Page'} loading...`} />
 					</div>
 				) : (
 					<AlbumsCollectionView id={id} {...collectionViewProps()} />

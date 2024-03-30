@@ -13,6 +13,8 @@ export interface NewSongsSectionProps {
 	scroll?: boolean
 	rows?: number
 	header?: boolean
+
+	newNav?: boolean
 }
 
 function NewSongsSection({

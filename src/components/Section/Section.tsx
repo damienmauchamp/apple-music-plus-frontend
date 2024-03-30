@@ -2,6 +2,7 @@ import React from 'react'
 import styles from './Section.module.css'
 // import { Item } from '@/types/Items'
 import { IoChevronForward } from 'react-icons/io5'
+import { Link } from 'framework7-react'
 
 export interface SectionProps extends React.HTMLAttributes<HTMLElement> {
 	id: string
@@ -11,6 +12,8 @@ export interface SectionProps extends React.HTMLAttributes<HTMLElement> {
 	seeAll?: () => void
 	seeAllPath?: string
 	children?: React.ReactNode
+	//
+	newNav?: boolean
 }
 
 const Section = ({
@@ -19,6 +22,7 @@ const Section = ({
 	level,
 	seeAll,
 	seeAllPath,
+	newNav = false,
 	...props
 }: SectionProps) => {
 	level = level || 2
@@ -42,6 +46,13 @@ const Section = ({
 		}
 
 		if (seeAllPath) {
+			if (newNav) {
+				return (
+					<Link href={seeAllPath}>
+						{title} {chevron}
+					</Link>
+				)
+			}
 			return (
 				<a href={seeAllPath}>
 					{title} {chevron}

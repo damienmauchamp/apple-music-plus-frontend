@@ -4,9 +4,12 @@ import { useState, useEffect } from 'react'
 import Loading from '../../Components/Loading/Loading'
 import UpcomingReleasesGridSection from '../../PageComponents/UpcomingReleases/UpcomingReleasesGridSection'
 import PageNavigation from '../PageNavigation/PageNavigation'
+import { ReleasesPagesProps } from '@/types/ReleasesPages'
 
-interface UpcomingReleasesGridPageProps {}
-export default function UpcomingReleasesGridPage({}: UpcomingReleasesGridPageProps) {
+interface UpcomingReleasesGridPageProps extends ReleasesPagesProps {}
+export default function UpcomingReleasesGridPage({
+	...props
+}: UpcomingReleasesGridPageProps) {
 	// Auth hook
 	const { user, isLoading, hasTestToken } = useAuth({
 		middleware: 'auth',
@@ -21,13 +24,19 @@ export default function UpcomingReleasesGridPage({}: UpcomingReleasesGridPagePro
 		}
 	}, [isLoading, user, hasTestToken])
 
-	if (!ready) {
-		return <Loading subText="Loading upcoming releases page" />
-	}
-
-	return (
-		<PageNavigation title={'Upcoming'} goBack={true} largeTitle={true}>
+	const content = () =>
+		!ready ? (
+			<Loading subText="Loading new releases page" />
+		) : (
 			<UpcomingReleasesGridSection />
-		</PageNavigation>
-	)
+		)
+
+	if (!props.newNav) {
+		return (
+			<PageNavigation title={'Upcoming'} goBack={true} largeTitle={true}>
+				{content()}
+			</PageNavigation>
+		)
+	}
+	return content()
 }

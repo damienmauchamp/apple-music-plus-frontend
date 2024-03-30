@@ -4,9 +4,12 @@ import { useState, useEffect } from 'react'
 import Loading from '../../Components/Loading/Loading'
 import UpcomingSongsListSection from '../../PageComponents/UpcomingSongs/UpcomingSongsListSection'
 import PageNavigation from '../PageNavigation/PageNavigation'
+import { ReleasesPagesProps } from '@/types/ReleasesPages'
 
-interface UpcomingSongsListPageProps {}
-export default function UpcomingSongsListPage({}: UpcomingSongsListPageProps) {
+interface UpcomingSongsListPageProps extends ReleasesPagesProps {}
+export default function UpcomingSongsListPage({
+	...props
+}: UpcomingSongsListPageProps) {
 	// Auth hook
 	const { user, isLoading, hasTestToken } = useAuth({
 		middleware: 'auth',
@@ -21,17 +24,23 @@ export default function UpcomingSongsListPage({}: UpcomingSongsListPageProps) {
 		}
 	}, [isLoading, user, hasTestToken])
 
-	if (!ready) {
-		return <Loading subText="Loading upcoming songs page" />
-	}
-
-	return (
-		<PageNavigation
-			title={'Upcoming Songs'}
-			goBack={true}
-			largeTitle={true}
-		>
+	const content = () =>
+		!ready ? (
+			<Loading subText="Loading new releases page" />
+		) : (
 			<UpcomingSongsListSection header />
-		</PageNavigation>
-	)
+		)
+
+	if (!props.newNav) {
+		return (
+			<PageNavigation
+				title={'Upcoming Songs'}
+				goBack={true}
+				largeTitle={true}
+			>
+				{content()}
+			</PageNavigation>
+		)
+	}
+	return content()
 }

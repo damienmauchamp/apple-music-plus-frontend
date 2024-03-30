@@ -13,6 +13,8 @@ export interface UpcomingSongsSectionProps {
 	scroll?: boolean
 	rows?: number
 	header?: boolean
+
+	newNav?: boolean
 }
 
 function UpcomingSongsSection({
@@ -70,6 +72,7 @@ function UpcomingSongsSection({
 			key={props.id || 'upcomingSongs'}
 			items={upcomingSongs}
 			loading={isLoading} // todo
+			seeAllPath={'/upcoming-songs'} // todo : new page
 			{...sectionProps()}
 		/>
 	)
