@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Song } from '@/types/Items'
 import { getFrom } from '@/src/helpers/releases'
 import useAPI from '@/lib/useAPI'
-import SongsListSection from '../LayoutComponents/SongsListSection/SongsListSection'
+import SongsListSection from '../../LayoutComponents/SongsSection/SongsListSection'
 
 export interface NewSongsSectionProps {
 	data?: Song[]
@@ -18,6 +18,7 @@ export interface NewSongsSectionProps {
 function NewSongsSection({
 	data = [] as Song[],
 	list = false,
+	header = false,
 	...props
 }: NewSongsSectionProps) {
 	const api = useAPI()
@@ -29,19 +30,7 @@ function NewSongsSection({
 	const [isLoading, setIsLoading] = useState<boolean>(!hasData)
 	const [newSongsLoaded, setNewSongsLoaded] = useState<boolean>(false)
 
-	console.log('[NewSongsSection] data:', data, {
-		hasData,
-		newSongs,
-		isLoading,
-		newSongsLoaded,
-	})
-
 	const loadNewSongs = async () => {
-		console.log('[NewSongsSection] loadNewSongs', {
-			hasData: hasData,
-			isLoading: isLoading,
-		})
-
 		if (!hasData && !newSongsLoaded) {
 			const res = await api.getNewSongs(from)
 			setNewSongs(res.data.data)
@@ -61,18 +50,24 @@ function NewSongsSection({
 	const sectionProps = () => {
 		if (!list)
 			return {
+				...props,
+				header: header,
 				rows: props.rows || 4,
 				scroll: props.scroll !== undefined ? props.scroll : true,
 			}
 
-		return { header: props.header !== undefined ? props.header : false }
+		return {
+			...props,
+			header: header,
+			scroll: false,
+		}
 	}
 
 	return (
 		<SongsListSection
 			{...props}
 			id={props.id || 'newSongs'}
-			title={props.title || 'New Songs'}
+			title={props.title}
 			key={props.id || 'newSongs'}
 			items={newSongs}
 			loading={isLoading} // todo

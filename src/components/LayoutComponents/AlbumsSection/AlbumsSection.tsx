@@ -6,24 +6,33 @@ import AlbumsCollectionView, {
 import { Album, SectionCollectionProps } from '@/types/Items'
 import Loading from '../../Components/Loading/Loading'
 
-interface AlbumsGridSectionProps
+export interface AlbumsSectionProps
 	extends SectionProps,
 		AlbumCollectionViewProps,
 		SectionCollectionProps {
 	// key: string
 	items: Album[]
+
+	grid?: boolean
 }
 
-const AlbumsGridSection = ({
+const AlbumsSection = ({
 	id,
 	title,
 	seeAll,
 	seeAllPath,
+	grid = false,
 	loading = false,
 	...props
-}: AlbumsGridSectionProps) => {
+}: AlbumsSectionProps) => {
 	if (!loading && !props.items.length) {
 		return null
+	}
+
+	const collectionViewProps = () => {
+		if (!grid) return { ...props }
+
+		return { ...props, grid: grid, mobileScroll: false }
 	}
 
 	return (
@@ -40,12 +49,11 @@ const AlbumsGridSection = ({
 						<Loading subText={`${title} loading...`} />
 					</div>
 				) : (
-					<AlbumsCollectionView id={id} {...props} />
+					<AlbumsCollectionView id={id} {...collectionViewProps()} />
 				)}
 			</Section>
 		</>
 	)
 }
 
-export default AlbumsGridSection
-export type { AlbumsGridSectionProps }
+export default AlbumsSection

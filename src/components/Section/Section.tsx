@@ -5,7 +5,7 @@ import { IoChevronForward } from 'react-icons/io5'
 
 export interface SectionProps extends React.HTMLAttributes<HTMLElement> {
 	id: string
-	title: string
+	title?: string
 	// items?: Item[]
 	level?: number
 	seeAll?: () => void
@@ -15,7 +15,7 @@ export interface SectionProps extends React.HTMLAttributes<HTMLElement> {
 
 const Section = ({
 	children,
-	title,
+	title = '',
 	level,
 	seeAll,
 	seeAllPath,
@@ -30,6 +30,8 @@ const Section = ({
 				<IoChevronForward size={24} />
 			</div>
 		)
+
+		if (!title) return null
 
 		if (seeAll) {
 			return (

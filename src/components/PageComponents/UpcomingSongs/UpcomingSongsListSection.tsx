@@ -9,6 +9,9 @@ export interface UpcomingSongsListSectionProps
 
 const UpcomingSongsListSection = ({
 	data = [] as Song[],
-}: UpcomingSongsListSectionProps) => <UpcomingSongsSection data={data} list />
+	...props
+}: UpcomingSongsListSectionProps) => (
+	<UpcomingSongsSection data={data} list {...props} />
+)
 
 export default UpcomingSongsListSection

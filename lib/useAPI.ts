@@ -105,7 +105,7 @@ export default function useAPI() {
 			},
 		})
 	}
-	const getUpcoming = (from: string) => {
+	const getUpcomingReleases = (from: string) => {
 		return get(`/api/user/releases`, {
 			params: {
 				...timestamps(),
@@ -171,7 +171,7 @@ export default function useAPI() {
 		//
 		getNewReleases,
 		getNewSingles,
-		getUpcoming,
+		getUpcomingReleases,
 		getNewSongs,
 		getUpcomingSongs,
 		addResourceToLibrary,

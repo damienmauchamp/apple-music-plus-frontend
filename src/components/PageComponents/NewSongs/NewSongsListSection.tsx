@@ -6,6 +6,7 @@ export interface NewSongsListSectionProps extends NewSongsSectionProps {}
 
 const NewSongsListSection = ({
 	data = [] as Song[],
-}: NewSongsListSectionProps) => <NewSongsSection data={data} list />
+	...props
+}: NewSongsListSectionProps) => <NewSongsSection data={data} list {...props} />
 
 export default NewSongsListSection

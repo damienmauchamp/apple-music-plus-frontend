@@ -7,12 +7,12 @@ import React, { useEffect, useState } from 'react'
 import useAuth from '@/lib/useAuth'
 import PageNavigation from '../PageNavigation/PageNavigation'
 import Loading from '../../Components/Loading/Loading'
-import NewReleasesSection from '../../PageComponents/NewReleasesSection'
-import NewSinglesSection from '../../PageComponents/NewSinglesSection'
-import UpcomingSection from '../../PageComponents/UpcomingSection'
-import NewSongsSection from '../../PageComponents/NewSongsSection'
-import NewSongsListSection from '../../PageComponents/NewSongsListSection'
-import UpcomingSongsListSection from '../../PageComponents/UpcomingSongsListSection'
+import NewReleasesSection from '../../PageComponents/NewReleases/NewReleasesSection'
+import NewSinglesSection from '../../PageComponents/NewSingles/NewSinglesSection'
+import UpcomingReleasesSection from '../../PageComponents/UpcomingReleases/UpcomingReleasesSection'
+import NewSongsSection from '../../PageComponents/NewSongs/NewSongsSection'
+import NewSongsListSection from '../../PageComponents/NewSongs/NewSongsListSection'
+import UpcomingSongsListSection from '../../PageComponents/UpcomingSongs/UpcomingSongsListSection'
 
 interface ReleasesPageProps {}
 export default function ReleasesPage({}: ReleasesPageProps) {
@@ -68,10 +68,10 @@ export default function ReleasesPage({}: ReleasesPageProps) {
 			) : (
 				<>
 					<div className="w-full max-w-5xl mx-auto">
-						<NewReleasesSection />
-						<NewSinglesSection />
-						<UpcomingSection />
-						<NewSongsSection />
+						<NewReleasesSection title="New Releases" />
+						<NewSinglesSection title="New Singles" />
+						<UpcomingReleasesSection title="Upcoming" />
+						<NewSongsSection title="New Songs" />
 						<NewSongsListSection title="New Songs List" />
 						<UpcomingSongsListSection title="Upcoming Songs List" />
 					</div>

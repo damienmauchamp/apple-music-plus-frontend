@@ -72,5 +72,5 @@ server {
 
 ## TODO
 
--   [ ] externalize albums/songs list components
+-   [ ] groups similar pages/components
 -   [ ] create "cache" for each section for data ?

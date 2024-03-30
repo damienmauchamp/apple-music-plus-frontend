@@ -2,13 +2,22 @@ import React, { useEffect, useState } from 'react'
 import { Album } from '@/types/Items'
 import { getFrom } from '@/src/helpers/releases'
 import useAPI from '@/lib/useAPI'
-import AlbumsGridSection from '../LayoutComponents/AlbumsGridSection/AlbumsGridSection'
+import AlbumsSection from '../../LayoutComponents/AlbumsSection/AlbumsSection'
 
-export interface NewReleasesSection {
+export interface NewReleasesSectionProps {
 	data?: Album[]
+	grid?: boolean
+
+	id?: string
+	title?: string
+	rows?: number
 }
 
-function NewReleasesSection({ data = [] as Album[] }: NewReleasesSection) {
+function NewReleasesSection({
+	data = [] as Album[],
+	grid = false,
+	...props
+}: NewReleasesSectionProps) {
 	const api = useAPI()
 	const from = getFrom()
 
@@ -18,19 +27,7 @@ function NewReleasesSection({ data = [] as Album[] }: NewReleasesSection) {
 	const [isLoading, setIsLoading] = useState<boolean>(!hasData)
 	const [newReleasesLoaded, setNewReleasesLoaded] = useState<boolean>(false)
 
-	console.log('[NewReleasesSection] data:', data, {
-		hasData,
-		newReleases,
-		isLoading,
-		newReleasesLoaded,
-	})
-
 	const loadNewReleases = async () => {
-		console.log('[NewReleasesSection] loadNewReleases', {
-			hasData: hasData,
-			isLoading: isLoading,
-		})
-
 		if (!hasData && !newReleasesLoaded) {
 			const res = await api.getNewReleases(from)
 			setNewReleases(res.data.data)
@@ -47,18 +44,28 @@ function NewReleasesSection({ data = [] as Album[] }: NewReleasesSection) {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
 
+	const sectionProps = () => {
+		if (!grid)
+			return {
+				...props,
+				rows: props.rows || 2,
+				seeAllPath: '/new-releases', // todo : new page
+				mobileScroll: true,
+			}
+
+		return { ...props, mobileScroll: false }
+	}
+
 	return (
-		<AlbumsGridSection
-			id={'newReleases'}
-			title={'New Releases'}
-			key={'newReleases'}
+		<AlbumsSection
+			id={props.id || 'newReleases'}
+			title={props.title}
+			key={props.id || 'newReleases'}
 			items={newReleases}
 			scroll={false}
-			mobileScroll={true}
-			rows={2}
 			loading={isLoading} // todo
-			seeAllPath={'/new-releases'} // todo : new page
-			// seeAll={() => console.log('see all 1')}
+			grid={grid} // todo
+			{...sectionProps()}
 		/>
 	)
 }

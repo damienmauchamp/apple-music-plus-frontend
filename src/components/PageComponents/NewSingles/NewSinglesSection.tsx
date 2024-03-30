@@ -2,13 +2,22 @@ import React, { useEffect, useState } from 'react'
 import { Album } from '@/types/Items'
 import { getFrom } from '@/src/helpers/releases'
 import useAPI from '@/lib/useAPI'
-import AlbumsGridSection from '../LayoutComponents/AlbumsGridSection/AlbumsGridSection'
+import AlbumsSection from '../../LayoutComponents/AlbumsSection/AlbumsSection'
 
-export interface NewSinglesSection {
+export interface NewSinglesSectionProps {
 	data?: Album[]
+	grid?: boolean
+
+	id?: string
+	title?: string
+	rows?: number
 }
 
-function NewSinglesSection({ data = [] as Album[] }: NewSinglesSection) {
+function NewSinglesSection({
+	data = [] as Album[],
+	grid = false,
+	...props
+}: NewSinglesSectionProps) {
 	const api = useAPI()
 	const from = getFrom()
 
@@ -18,19 +27,7 @@ function NewSinglesSection({ data = [] as Album[] }: NewSinglesSection) {
 	const [isLoading, setIsLoading] = useState<boolean>(!hasData)
 	const [newSinglesLoaded, setNewSinglesLoaded] = useState<boolean>(false)
 
-	console.log('[NewSinglesSection] data:', data, {
-		hasData,
-		newSingles,
-		isLoading,
-		newSinglesLoaded,
-	})
-
 	const loadNewSingles = async () => {
-		console.log('[NewSinglesSection] loadNewSingles', {
-			hasData: hasData,
-			isLoading: isLoading,
-		})
-
 		if (!hasData && !newSinglesLoaded) {
 			const res = await api.getNewSingles(from)
 			setNewSingles(res.data.data)
@@ -47,18 +44,29 @@ function NewSinglesSection({ data = [] as Album[] }: NewSinglesSection) {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
 
+	const sectionProps = () => {
+		if (!grid)
+			return {
+				...props,
+				rows: props.rows || 2,
+				seeAllPath: '/new-singles', // todo : new page
+				// mobileScroll: true,
+				scroll: true,
+			}
+
+		return { ...props, scroll: false }
+	}
+
 	return (
-		<AlbumsGridSection
-			id={'newSingles'}
-			title={'New Singles'}
-			key={'newSingles'}
+		<AlbumsSection
+			id={props.id || 'newSingles'}
+			title={props.title}
+			key={props.id || 'newSingles'}
 			items={newSingles}
-			scroll={true}
 			// mobileScroll={true}
-			rows={2}
 			loading={isLoading} // todo
-			seeAllPath={'/new-singles'} // todo : new page
-			// seeAll={() => console.log('see all 1')}
+			grid={grid} // todo
+			{...sectionProps()}
 		/>
 	)
 }
