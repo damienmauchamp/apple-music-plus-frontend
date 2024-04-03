@@ -47,6 +47,11 @@
 	/* @apply inline-flex; */
 }
 
+.songNameArtist,
+.songNameArtist > a {
+	@apply text-items-secondary dark:text-items-secondary-dark;
+}
+
 .songNameArtist {
 	@apply truncate sm:hidden;
 }

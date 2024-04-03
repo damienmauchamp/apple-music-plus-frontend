@@ -72,5 +72,5 @@ server {
 
 ## TODO
 
--   [ ] groups similar pages/components
+-   [ ] hashRouting
 -   [ ] create "cache" for each section for data ?

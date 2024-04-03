@@ -28,7 +28,7 @@ const F7Page = ({
 
 	return (
 		<>
-			<Page className={`page-${name}`}>
+			<Page className={`page-${name} !bg-white dark:!bg-black`}>
 				<Navbar
 					title={(!home && title) || (home && ready && title)}
 					backLink={backLink}
