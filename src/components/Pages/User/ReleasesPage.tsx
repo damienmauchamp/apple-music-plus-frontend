@@ -22,7 +22,7 @@ export default function ReleasesPage({ ...props }: ReleasesPageProps) {
 
 	// Auth hook
 	const { user, isLoading, hasTestToken } = useAuth({
-		middleware: 'auth',
+		// middleware: 'auth',
 	}) // todo : redirect to previous page after login
 
 	// State

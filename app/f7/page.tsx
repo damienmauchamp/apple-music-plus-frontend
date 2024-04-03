@@ -1,6 +1,6 @@
 'use client'
 // import F7ReleasesPage from '@/src/components/Pages/F7/F7ReleasePage'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 
 //
 import 'framework7/css/bundle'
@@ -29,11 +29,11 @@ const f7params = {
 }
 
 const F7HomePage = () => {
-	const [ready, setReady] = useState<any>(false)
+	// const [ready, setReady] = useState<any>(false)
 
 	useEffect(() => {
 		f7ready((f7) => {
-			setReady(true)
+			// setReady(true)
 
 			console.log('HOME f7 ready', f7)
 
