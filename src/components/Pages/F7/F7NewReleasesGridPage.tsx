@@ -1,21 +1,12 @@
 import React from 'react'
 import NewReleasesGridPage from '../User/NewReleasesGridPage'
-import { Navbar, Page } from 'framework7-react'
+import F7Page from '../../PagesType/F7Page'
 
 const F7NewReleasesGridPage = () => {
 	return (
-		<>
-			<Page className="page-releases">
-				<Navbar
-					title={'New Releases'}
-					backLink={'New Releases'}
-					large
-					transparent
-					sliding
-				/>
-				<NewReleasesGridPage newNav={true} />
-			</Page>
-		</>
+		<F7Page name="releases" title="New Releases" backLink={'New Releases'}>
+			<NewReleasesGridPage newNav={true} />
+		</F7Page>
 	)
 }
 

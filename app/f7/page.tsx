@@ -5,14 +5,7 @@ import { useEffect, useState } from 'react'
 //
 import 'framework7/css/bundle'
 import Framework7 from 'framework7/lite'
-import Framework7React, {
-	App,
-	Navbar,
-	Page,
-	View,
-	Views,
-	f7ready,
-} from 'framework7-react'
+import Framework7React, { App, View, Views, f7ready } from 'framework7-react'
 Framework7.use(Framework7React)
 
 // routes
@@ -27,6 +20,7 @@ const f7params = {
 	name: process.env.APP_NAME,
 	// theme: 'auto',
 	theme: 'ios',
+	darkMode: 'auto',
 	// store: store,
 	popup: { closeOnEscape: true },
 	sheet: { closeOnEscape: true },
@@ -64,7 +58,7 @@ const F7HomePage = () => {
 			<App {...f7params}>
 				<Views tabs>
 					<View id="tab-1" main url="/" tab tabActive>
-						<F7ReleasePage />
+						<F7ReleasePage home={true} />
 					</View>
 					<View id="tab-2" tab>
 						...

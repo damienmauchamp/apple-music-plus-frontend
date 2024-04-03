@@ -1,21 +1,16 @@
 import React from 'react'
 import ReleasesPage from '../User/ReleasesPage'
-import { Navbar, Page } from 'framework7-react'
+import F7Page from '../../PagesType/F7Page'
 
-const F7ReleasePage = () => {
+export type F7ReleasePageProps = {
+	home?: boolean
+}
+
+const F7ReleasePage = ({ home = false }: F7ReleasePageProps) => {
 	return (
-		<>
-			<Page className="page-home">
-				<Navbar
-					title={'New Releases'}
-					backLink={''}
-					large
-					transparent
-					sliding
-				/>
-				<ReleasesPage newNav={true} />
-			</Page>
-		</>
+		<F7Page name="home" title="New Releases" backLink={''} home={home}>
+			<ReleasesPage newNav={true} />
+		</F7Page>
 	)
 }
 

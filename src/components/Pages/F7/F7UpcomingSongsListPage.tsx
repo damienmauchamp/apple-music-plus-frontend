@@ -1,21 +1,16 @@
 import React from 'react'
 import UpcomingSongsListPage from '../User/UpcomingSongsListPage'
-import { Navbar, Page } from 'framework7-react'
+import F7Page from '../../PagesType/F7Page'
 
 const F7UpcomingSongsListPage = () => {
 	return (
-		<>
-			<Page className="page-releases">
-				<Navbar
-					title={'Upcoming Songs'}
-					backLink={'New Releases'}
-					large
-					transparent
-					sliding
-				/>
-				<UpcomingSongsListPage newNav={true} />
-			</Page>
-		</>
+		<F7Page
+			name="upcoming-songs"
+			title={'Upcoming Songs'}
+			backLink={'New Releases'}
+		>
+			<UpcomingSongsListPage newNav={true} />
+		</F7Page>
 	)
 }
 
