@@ -31,11 +31,11 @@ export default function ReleasesPage({ ...props }: ReleasesPageProps) {
 	useEffect(() => {
 		// if (!isLoading && (user || hasTestToken)) {
 		if (!isLoading && user) {
-			console.log('[ReleasesPage] READY:', {
-				user,
-				isLoading,
-				hasTestToken,
-			})
+			// console.log('[ReleasesPage] READY:', {
+			// 	user,
+			// 	isLoading,
+			// 	hasTestToken,
+			// })
 			setReady(true)
 		}
 	}, [isLoading, user, hasTestToken])

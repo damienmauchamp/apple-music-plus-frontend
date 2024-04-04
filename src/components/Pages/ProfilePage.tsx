@@ -6,9 +6,10 @@ import { useMusicKitContext } from '@/src/context/MusicKitContext'
 
 export type ProfilePageProps = {
 	home?: boolean
+	popup?: boolean
 }
 
-const ProfilePage = ({}: ProfilePageProps) => {
+const ProfilePage = ({ popup = false }: ProfilePageProps) => {
 	// Auth hook
 	const { user, logout } = useAuth({
 		middleware: 'auth',
@@ -83,14 +84,8 @@ const ProfilePage = ({}: ProfilePageProps) => {
 		}, 500)
 	}
 
-	return (
-		<F7Page
-			name="profile"
-			title="Profile"
-			backLink={'New Releases'}
-			navBarLarge={false}
-			home={false}
-		>
+	const content = () => (
+		<>
 			<List strong outline mediaList>
 				<ListItem
 					link
@@ -136,6 +131,22 @@ const ProfilePage = ({}: ProfilePageProps) => {
 					title="Backend project on Github"
 				/>
 			</List>
+		</>
+	)
+
+	if (popup) {
+		return content()
+	}
+
+	return (
+		<F7Page
+			name="profile"
+			title="Profile"
+			backLink={'New Releases'}
+			navBarLarge={false}
+			home={false}
+		>
+			{content()}
 		</F7Page>
 	)
 }

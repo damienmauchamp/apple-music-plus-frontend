@@ -7,10 +7,15 @@ import { useMusicKitContext } from '@/src/context/MusicKitContext'
 
 interface ProfileLinkProps extends LinkProps {
 	nav?: boolean
+	popup?: boolean
 }
 
 // todo : popup https://framework7.io/react/popup
-const ProfileLink = ({ nav = false, ...props }: ProfileLinkProps) => {
+const ProfileLink = ({
+	nav = false,
+	popup = false,
+	...props
+}: ProfileLinkProps) => {
 	const { logged, isAuthorized } = useMusicKitContext()
 
 	const [isLogged, setIsLogged] = React.useState<boolean>(
@@ -18,10 +23,6 @@ const ProfileLink = ({ nav = false, ...props }: ProfileLinkProps) => {
 	)
 
 	useEffect(() => {
-		console.log('[ProfileLink] uE', {
-			isAuthorized: isAuthorized(),
-			logged: logged,
-		})
 		setIsLogged(isAuthorized() || logged)
 	}, [isAuthorized, logged])
 
@@ -37,16 +38,26 @@ const ProfileLink = ({ nav = false, ...props }: ProfileLinkProps) => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
 
+	const linkProps = () => {
+		if (popup) {
+			return {
+				popupOpen: '.popup-profile',
+			}
+		}
+
+		return {
+			href: '/profile',
+		}
+	}
+
 	const content = () => (
 		<>
-			<Link {...props} href={'/profile/'}>
+			<Link {...props} {...linkProps()}>
 				<IoPersonCircleOutline
 					size={'100%'}
 					color={isLogged ? 'var(--f7-color-pink)' : 'gray'}
 				/>
 			</Link>
-			{/* <Button fill popupOpen=".demo-popup-push"> */}
-			{/* </Button> */}
 		</>
 	)
 

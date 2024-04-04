@@ -7,6 +7,7 @@ import {
 	f7ready,
 } from 'framework7-react'
 import ProfileLink from '../Elements/ProfileLink/ProfileLink'
+import ProfilePagePopup from '../Popups/ProfilePagePopup'
 
 export interface F7PageProps {
 	name: string
@@ -27,14 +28,12 @@ const F7Page = ({
 	// nav
 	navBarLarge = true,
 }: F7PageProps) => {
-	console.log('F7 name:', name)
-
 	// F7
 	const [ready, setReady] = useState<any>(false)
 	useEffect(() => {
-		f7ready((f7) => {
+		f7ready(() => {
+			// (f7)
 			setReady(true)
-			console.log('[F7Page] Page', name, 'ready', f7)
 		})
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
@@ -44,16 +43,16 @@ const F7Page = ({
 	return (
 		<>
 			<Page
-				colorTheme="pink"
 				className={`page-${name} !bg-white dark:!bg-black`}
+				// colorTheme="pink"
 			>
 				<Navbar
-					// title={(!home && title) || (home && ready && title)}
 					title={titleVisible() && title}
 					backLink={backLink}
 					large={navBarLarge}
 					transparent
 					sliding
+					// colorTheme="pink"
 				>
 					<NavTitle>{titleVisible() && title}</NavTitle>
 					{/* <NavTitleLarge>{titleVisible() && title}</NavTitleLarge> */}
@@ -61,12 +60,13 @@ const F7Page = ({
 						{titleVisible() && (
 							<>
 								{title}
-								<ProfileLink nav={true} />
+								<ProfileLink nav popup />
 							</>
 						)}
 					</NavTitleLarge>
 				</Navbar>
 				{children}
+				<ProfilePagePopup />
 			</Page>
 		</>
 	)

@@ -122,7 +122,7 @@ const useAuth = ({ middleware }: MiddlewareType = {}): AuthType => {
 	}
 
 	const authLoading = () => {
-		console.log('xxx', {
+		console.log('authLoading', {
 			isLoading: isLoading,
 			user: user,
 			hasTestToken: hasTestToken,

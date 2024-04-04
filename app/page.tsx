@@ -1,17 +1,18 @@
 'use client'
-// import F7ReleasesPage from '@/src/components/Pages/F7/F7ReleasePage'
-import { useEffect } from 'react'
 
-//
+// F7
 import 'framework7/css/bundle'
-import Framework7 from 'framework7/lite'
+import Framework7 from '@/src/framework7-custom'
 import Framework7React, { App, View, Views, f7ready } from 'framework7-react'
 Framework7.use(Framework7React)
+
+//
+import F7ReleasePage from '@/src/components/Pages/F7/F7ReleasePage'
+import { useEffect } from 'react'
 
 // routes
 // import routes from '@/src/routes'
 import routes from './routes'
-import F7ReleasePage from '@/src/components/Pages/F7/F7ReleasePage'
 
 //
 const f7params = {
@@ -34,13 +35,12 @@ const F7HomePage = () => {
 	useEffect(() => {
 		f7ready((f7) => {
 			// setReady(true)
-
-			console.log('HOME f7 ready', f7)
-
-			document
-				.querySelector('.navbars.navbar-hidden')
-				?.classList.remove('navbar-hidden')
+			f7.setColorTheme('#ff2d55')
 		})
+
+		document
+			.querySelector('.navbars.navbar-hidden')
+			?.classList.remove('navbar-hidden')
 	}, [])
 
 	// const SplashScreenOverlay = () => {
