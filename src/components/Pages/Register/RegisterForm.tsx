@@ -39,10 +39,15 @@ const RegisterForm = ({ onSubmit, register, ...props }: RegisterFormProps) => {
 				<title>ergodnc — Register</title>
 			</Head>
 
-			<div className={'w-3/4 mx-auto p-5 rounded-lg pt-48'}>
+			<div className="w-3/4">
 				<FormErrors className="mb-5" errors={errors} />
 
-				<form onSubmit={submitForm} autoComplete="off" {...props}>
+				<form
+					onSubmit={submitForm}
+					autoComplete="off"
+					{...props}
+					className="flex flex-col gap-4"
+				>
 					<div>
 						<Label htmlFor="email">Name</Label>
 
@@ -73,7 +78,7 @@ const RegisterForm = ({ onSubmit, register, ...props }: RegisterFormProps) => {
 						/>
 					</div>
 
-					<div className="mt-4">
+					<div>
 						<Label htmlFor="email">Email</Label>
 
 						<Input
@@ -90,7 +95,7 @@ const RegisterForm = ({ onSubmit, register, ...props }: RegisterFormProps) => {
 						/>
 					</div>
 
-					<div className="mt-4">
+					<div>
 						<Label htmlFor="password">Password</Label>
 
 						<Input
@@ -106,7 +111,7 @@ const RegisterForm = ({ onSubmit, register, ...props }: RegisterFormProps) => {
 						/>
 					</div>
 
-					{/* <div className="mt-4">
+					{/* <div>
 						<Label htmlFor="password">Confirm Password</Label>
 
 						<Input
@@ -121,9 +126,8 @@ const RegisterForm = ({ onSubmit, register, ...props }: RegisterFormProps) => {
 						/>
 					</div> */}
 
-					<div className="flex items-center gap-4">
+					<div className="flex items-center gap-4 justify-between">
 						<Link href="/login">Already registered?</Link>
-						{/* <Button className="ml-3">Register</Button> */}
 					</div>
 				</form>
 			</div>

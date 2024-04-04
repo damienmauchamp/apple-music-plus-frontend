@@ -1,7 +1,6 @@
 'use client'
 import useAuth from '@/lib/useAuth'
 import Loading from '@/src/components/Components/Loading/Loading'
-import Page from '@/src/components/Pages/PageNavigation/Page'
 import RegisterForm from '@/src/components/Pages/Register/RegisterForm'
 
 export default function Register() {
@@ -12,8 +11,8 @@ export default function Register() {
 	}
 
 	return (
-		<Page header={false}>
+		<div className="h-screen flex flex-col items-center justify-center">
 			<RegisterForm register={register} />
-		</Page>
+		</div>
 	)
 }

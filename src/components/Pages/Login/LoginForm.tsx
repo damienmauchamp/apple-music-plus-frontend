@@ -30,10 +30,15 @@ const LoginForm = ({ onSubmit, login, ...props }: LoginFormProps) => {
 	}
 
 	return (
-		<div className={'w-3/4 mx-auto p-5 rounded-lg pt-48'}>
+		<div className="w-3/4">
 			<FormErrors className="mb-5" errors={errors} />
 
-			<form onSubmit={(e) => submitForm(e)} autoComplete="off" {...props}>
+			<form
+				onSubmit={(e) => submitForm(e)}
+				autoComplete="off"
+				{...props}
+				className="flex flex-col gap-4"
+			>
 				<div>
 					<Label htmlFor="email">Email</Label>
 					<Input
@@ -49,7 +54,7 @@ const LoginForm = ({ onSubmit, login, ...props }: LoginFormProps) => {
 					/>
 				</div>
 
-				<div className="mt-4">
+				<div>
 					<Label htmlFor="password">Password</Label>
 
 					<Input
@@ -64,7 +69,7 @@ const LoginForm = ({ onSubmit, login, ...props }: LoginFormProps) => {
 					/>
 				</div>
 
-				<div className="mt-4">
+				<div>
 					<label
 						htmlFor="remember_me"
 						className="inline-flex items-center"
@@ -85,7 +90,7 @@ const LoginForm = ({ onSubmit, login, ...props }: LoginFormProps) => {
 					</label>
 				</div>
 
-				<div className="flex items-center gap-4">
+				<div className="flex items-center gap-4 justify-between">
 					<Link href="/register">Register</Link>
 					{/* <Link href="/forgot-password">Forgot your password?</Link> */}
 					<Button>Login</Button>
