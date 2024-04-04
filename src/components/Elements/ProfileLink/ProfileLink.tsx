@@ -54,7 +54,7 @@ const ProfileLink = ({
 		<>
 			<Link {...props} {...linkProps()}>
 				<IoPersonCircleOutline
-					size={'100%'}
+					height={'100%'}
 					color={isLogged ? 'var(--f7-color-pink)' : 'gray'}
 				/>
 			</Link>

@@ -1,4 +1,5 @@
 .container {
+	@apply flex justify-end absolute;
 }
 
 .container a,
@@ -25,7 +26,6 @@
 } */
 
 .containerPage {
-	@apply flex justify-end absolute;
 	@apply right-0;
 }
 .containerPage a,
