@@ -14,6 +14,7 @@ import NewSongsSection from '../../PageComponents/NewSongs/NewSongsSection'
 import NewSongsListSection from '../../PageComponents/NewSongs/NewSongsListSection'
 import UpcomingSongsListSection from '../../PageComponents/UpcomingSongs/UpcomingSongsListSection'
 import { ReleasesPagesProps } from '@/types/ReleasesPages'
+import ProfileLink from '../../Elements/ProfileLink/ProfileLink'
 
 interface ReleasesPageProps extends ReleasesPagesProps {}
 export default function ReleasesPage({ ...props }: ReleasesPageProps) {
@@ -22,7 +23,7 @@ export default function ReleasesPage({ ...props }: ReleasesPageProps) {
 
 	// Auth hook
 	const { user, isLoading, hasTestToken } = useAuth({
-		// middleware: 'auth',
+		middleware: 'auth',
 	}) // todo : redirect to previous page after login
 
 	// State
@@ -40,6 +41,8 @@ export default function ReleasesPage({ ...props }: ReleasesPageProps) {
 			<Loading subText="Loading releases page" />
 		) : (
 			<>
+				<ProfileLink />
+
 				<NewReleasesSection
 					title="New Releases"
 					newNav={props.newNav}

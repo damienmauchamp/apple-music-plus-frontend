@@ -1,0 +1,36 @@
+.container {
+}
+
+.container a {
+	@apply !h-full;
+}
+/* .container a,
+.container img {
+	@apply rounded-full;
+} */
+
+.containerNav {
+	@apply overflow-hidden;
+	@apply absolute;
+	height: calc(100% - var(--f7-navbar-large-title-padding-vertical) * 2);
+	top: var(--f7-navbar-large-title-padding-vertical);
+	right: calc(
+		var(--f7-navbar-large-title-padding-right) + var(--f7-safe-area-right)
+	);
+	bottom: var(--f7-navbar-large-title-padding-vertical);
+}
+/* .containerNav img {
+	@apply h-full w-auto;
+} */
+
+.containerPage {
+	@apply flex justify-end absolute;
+	@apply right-0;
+}
+.containerPage a {
+	@apply relative -top-[46px];
+	@apply w-[40px] h-[40px];
+	right: calc(
+		var(--f7-navbar-large-title-padding-right) + var(--f7-safe-area-right)
+	);
+}
