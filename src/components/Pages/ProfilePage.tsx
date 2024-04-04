@@ -23,7 +23,6 @@ const ProfilePage = ({}: ProfilePageProps) => {
 	useEffect(() => {
 		setIsLogged(isAuthorized() || logged)
 	}, [isAuthorized, logged])
-	// const canLogout = () => !isLoading && user
 
 	// MK auth
 
@@ -84,8 +83,6 @@ const ProfilePage = ({}: ProfilePageProps) => {
 		}, 500)
 	}
 
-	// const isAMLogged = () => loading && logged
-
 	return (
 		<F7Page
 			name="profile"
@@ -107,12 +104,9 @@ const ProfilePage = ({}: ProfilePageProps) => {
 			{/* <BlockTitle>Authentication</BlockTitle> */}
 			<List inset strong>
 				<ListButton
-					title={`${isLogged ? 'Logout' : 'Login'}  from Apple Music`}
+					title={`Apple Music ${isLogged ? 'Logout' : 'Login'}`}
 					color={isLogged ? 'red' : 'blue'}
 					onClick={isLogged ? handleLogout : handleLogin}
-					// onClick={() => {
-					// 	console.log('AM CLICK')
-					// }}
 				/>
 				<ListButton title="Logout" color="red" onClick={logout} />
 			</List>
