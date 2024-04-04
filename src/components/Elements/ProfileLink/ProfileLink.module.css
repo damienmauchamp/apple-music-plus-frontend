@@ -1,7 +1,8 @@
 .container {
 }
 
-.container a {
+.container a,
+.container button {
 	@apply !h-full;
 }
 /* .container a,
@@ -27,7 +28,8 @@
 	@apply flex justify-end absolute;
 	@apply right-0;
 }
-.containerPage a {
+.containerPage a,
+.containerPage button {
 	@apply relative -top-[46px];
 	@apply w-[40px] h-[40px];
 	right: calc(

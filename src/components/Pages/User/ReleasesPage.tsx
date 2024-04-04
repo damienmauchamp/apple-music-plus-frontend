@@ -14,7 +14,6 @@ import NewSongsSection from '../../PageComponents/NewSongs/NewSongsSection'
 import NewSongsListSection from '../../PageComponents/NewSongs/NewSongsListSection'
 import UpcomingSongsListSection from '../../PageComponents/UpcomingSongs/UpcomingSongsListSection'
 import { ReleasesPagesProps } from '@/types/ReleasesPages'
-import ProfileLink from '../../Elements/ProfileLink/ProfileLink'
 
 interface ReleasesPageProps extends ReleasesPagesProps {}
 export default function ReleasesPage({ ...props }: ReleasesPageProps) {
@@ -31,7 +30,12 @@ export default function ReleasesPage({ ...props }: ReleasesPageProps) {
 
 	useEffect(() => {
 		// if (!isLoading && (user || hasTestToken)) {
-		if (!isLoading) {
+		if (!isLoading && user) {
+			console.log('[ReleasesPage] READY:', {
+				user,
+				isLoading,
+				hasTestToken,
+			})
 			setReady(true)
 		}
 	}, [isLoading, user, hasTestToken])
@@ -41,7 +45,7 @@ export default function ReleasesPage({ ...props }: ReleasesPageProps) {
 			<Loading subText="Loading releases page" />
 		) : (
 			<>
-				<ProfileLink />
+				{/* <ProfileLink /> */}
 
 				<NewReleasesSection
 					title="New Releases"

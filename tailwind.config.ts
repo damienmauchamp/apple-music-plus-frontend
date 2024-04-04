@@ -154,6 +154,10 @@ const config: Config = {
 						dark: '#8D8D93',
 					},
 				},
+				links: {
+					DEFAULT: '#000',
+					dark: '#fff',
+				},
 				//
 				input: {
 					bg: {

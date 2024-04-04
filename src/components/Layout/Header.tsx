@@ -56,15 +56,11 @@ const Header = ({}) => {
 			if (!getInstance().isAuthorized) {
 				clearInterval(intervalId)
 				// Updating
-				afterLogout()
+				setIsLoggingOut(false)
+				// props.onLogout && props.onLogout()
+				updateLogin()
 			}
 		}, 500)
-	}
-
-	const afterLogout = () => {
-		setIsLoggingOut(false)
-		// props.onLogout && props.onLogout()
-		updateLogin()
 	}
 
 	return (

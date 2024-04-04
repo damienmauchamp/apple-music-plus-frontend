@@ -12,9 +12,7 @@ export default function Register() {
 	}
 
 	return (
-		<Page>
-			<h1>Register</h1>
-
+		<Page header={false}>
 			<RegisterForm register={register} />
 		</Page>
 	)

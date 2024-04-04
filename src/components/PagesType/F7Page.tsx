@@ -6,6 +6,7 @@ import {
 	Page,
 	f7ready,
 } from 'framework7-react'
+import ProfileLink from '../Elements/ProfileLink/ProfileLink'
 
 export interface F7PageProps {
 	name: string
@@ -13,15 +14,21 @@ export interface F7PageProps {
 	backLink?: string
 	children?: React.ReactNode
 	home?: boolean
+	// nav
+	navBarLarge?: boolean
 }
 
 const F7Page = ({
-	name,
+	name = '',
 	title,
 	backLink,
 	children,
 	home = false,
+	// nav
+	navBarLarge = true,
 }: F7PageProps) => {
+	console.log('F7 name:', name)
+
 	// F7
 	const [ready, setReady] = useState<any>(false)
 	useEffect(() => {
@@ -32,7 +39,7 @@ const F7Page = ({
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
 
-	const titleVisible = () => !home || (home && ready)
+	const titleVisible = () => ready && (!home || (home && ready))
 
 	return (
 		<>
@@ -42,22 +49,22 @@ const F7Page = ({
 			>
 				<Navbar
 					// title={(!home && title) || (home && ready && title)}
-					// title={titleVisible() && title}
+					title={titleVisible() && title}
 					backLink={backLink}
-					large
+					large={navBarLarge}
 					transparent
 					sliding
 				>
 					<NavTitle>{titleVisible() && title}</NavTitle>
-					<NavTitleLarge>{titleVisible() && title}</NavTitleLarge>
-					{/* <NavTitleLarge>
+					{/* <NavTitleLarge>{titleVisible() && title}</NavTitleLarge> */}
+					<NavTitleLarge>
 						{titleVisible() && (
 							<>
 								{title}
 								<ProfileLink nav={true} />
 							</>
 						)}
-					</NavTitleLarge> */}
+					</NavTitleLarge>
 				</Navbar>
 				{children}
 			</Page>

@@ -5,6 +5,7 @@ import Label from '@/src/components/Components/Label'
 import Input from '@/src/components/Components/Input'
 import Button from '@/src/components/Components/Button'
 import FormErrors from '@/src/components/Components/FormErrors'
+import Link from '../../Components/Link'
 
 interface LoginFormProps {
 	onSubmit?: (event: FormEvent<HTMLFormElement>) => void
@@ -29,7 +30,7 @@ const LoginForm = ({ onSubmit, login, ...props }: LoginFormProps) => {
 	}
 
 	return (
-		<div className={'w-1/2 mx-auto bg-white dark:bg-black p-5 rounded-lg'}>
+		<div className={'w-3/4 mx-auto p-5 rounded-lg pt-48'}>
 			<FormErrors className="mb-5" errors={errors} />
 
 			<form onSubmit={(e) => submitForm(e)} autoComplete="off" {...props}>
@@ -39,7 +40,6 @@ const LoginForm = ({ onSubmit, login, ...props }: LoginFormProps) => {
 						id="email"
 						type="email"
 						value={email}
-						className="block mt-1 w-full"
 						onChange={(event: ChangeEvent<HTMLInputElement>) =>
 							setEmail(event.target.value)
 						}
@@ -56,7 +56,6 @@ const LoginForm = ({ onSubmit, login, ...props }: LoginFormProps) => {
 						id="password"
 						type="password"
 						value={password}
-						className="block mt-1 w-full"
 						onChange={(event: ChangeEvent<HTMLInputElement>) =>
 							setPassword(event.target.value)
 						}
@@ -65,7 +64,7 @@ const LoginForm = ({ onSubmit, login, ...props }: LoginFormProps) => {
 					/>
 				</div>
 
-				<div className="block mt-4">
+				<div className="mt-4">
 					<label
 						htmlFor="remember_me"
 						className="inline-flex items-center"
@@ -86,14 +85,10 @@ const LoginForm = ({ onSubmit, login, ...props }: LoginFormProps) => {
 					</label>
 				</div>
 
-				<div className="flex items-center justify-end mt-4">
-					{/* <Link href="/forgot-password">
-					<a className="underline text-sm text-gray-600 hover:text-gray-900">
-						Forgot your password?
-					</a>
-				</Link> */}
-
-					<Button className="ml-3">Login</Button>
+				<div className="flex items-center gap-4">
+					<Link href="/register">Register</Link>
+					{/* <Link href="/forgot-password">Forgot your password?</Link> */}
+					<Button>Login</Button>
 				</div>
 			</form>
 		</div>

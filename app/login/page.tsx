@@ -12,9 +12,7 @@ export default function Login() {
 	}
 
 	return (
-		<Page>
-			<h1>Login</h1>
-
+		<Page header={false}>
 			<LoginForm login={login} />
 		</Page>
 	)

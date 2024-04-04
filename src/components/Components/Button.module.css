@@ -1,0 +1,4 @@
+.button {
+	@apply text-links dark:text-links-dark;
+	@apply w-auto;
+}

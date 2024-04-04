@@ -1,4 +1,5 @@
 import React from 'react'
+import styles from './Link.module.css'
 
 // export interface LinkProps extends React.HTMLAttributes<HTMLAnchorElement> {}
 export interface LinkProps
@@ -8,7 +9,7 @@ export interface LinkProps
 	> {}
 
 const Link = ({ className = '', ...props }: LinkProps) => {
-	return <a className={`external ${className}`} {...props} />
+	return <a className={`external ${className} ${styles.link}`} {...props} />
 }
 
 export default Link

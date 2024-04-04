@@ -4,6 +4,7 @@ import UpcomingReleasesGridPage from '@/src/components/Pages/F7/F7UpcomingReleas
 import NewSinglesGridPage from '@/src/components/Pages/F7/F7NewSinglesGridPage'
 import NewSongsListPage from '@/src/components/Pages/F7/F7NewSongsListPage'
 import UpcomingSongsListPage from '@/src/components/Pages/F7/F7UpcomingSongsListPage'
+import ProfilePage from '@/src/components/Pages/ProfilePage'
 
 const routes = [
 	{
@@ -25,6 +26,10 @@ const routes = [
 	{
 		path: '/upcoming-songs',
 		component: UpcomingSongsListPage,
+	},
+	{
+		path: '/profile',
+		component: ProfilePage,
 	},
 ]
 

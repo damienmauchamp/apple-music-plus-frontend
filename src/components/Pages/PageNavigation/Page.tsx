@@ -1,9 +1,15 @@
 import Main from '@/src/components/Layout/Main'
 
-export default function Page({ children }: { children: React.ReactNode }) {
+export default function Page({
+	children,
+	header = true,
+}: {
+	children: React.ReactNode
+	header?: boolean
+}) {
 	return (
 		<>
-			<Main>{children}</Main>
+			<Main header={header}>{children}</Main>
 		</>
 	)
 }
