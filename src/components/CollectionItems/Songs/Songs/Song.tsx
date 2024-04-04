@@ -54,7 +54,7 @@ const SongComponent = ({
 	artists.forEach((artist: Artist) => {
 		artistsNames = artistsNames.replace(
 			artist.name,
-			`<a target="_blank" class="hover:underline external" href="https://music.apple.com/${process.env.STOREFRONT}/artist/${artist.storeId}">${artist.name}</a>`
+			`<a target="_blank" class="hover:underline external text-links dark:text-links-dark" href="https://music.apple.com/${process.env.STOREFRONT}/artist/${artist.storeId}">${artist.name}</a>`
 		)
 	})
 

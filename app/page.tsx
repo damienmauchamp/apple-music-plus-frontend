@@ -55,7 +55,10 @@ const F7HomePage = () => {
 
 	return (
 		<>
-			<App {...f7params}>
+			<App
+				{...f7params}
+				className="max-w-5xl mx-auto lg:rounded-3xl lg:overflow-hidden"
+			>
 				<Views tabs>
 					<View id="tab-1" main url="/" tab tabActive>
 						<F7ReleasePage home={true} />
