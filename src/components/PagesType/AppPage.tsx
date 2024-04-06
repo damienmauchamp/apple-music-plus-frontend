@@ -1,7 +1,7 @@
 import useAuth from '@/lib/useAuth'
 import { useState, useEffect } from 'react'
-import Loading from '../Components/Loading/Loading'
 import PageNavigation from '../Pages/PageNavigation/PageNavigation'
+import LoadingPage from '../Components/Loading/LoadingPage'
 
 interface Props {
 	children?: React.ReactNode
@@ -16,7 +16,7 @@ interface Props {
 
 export default function AppPage({
 	children,
-	loadingText = 'Loading',
+	loadingText,
 	oldPageTitle,
 	oldGoBack = false,
 	oldLargeTitle = false,
@@ -39,11 +39,11 @@ export default function AppPage({
 	}, [isLoading, user, hasTestToken])
 
 	if (!ready) {
-		return <Loading subText={loadingText} />
+		return <LoadingPage text={loadingText} />
 	}
 
 	const content = () =>
-		!ready ? <Loading subText={loadingText} /> : children
+		!ready ? <LoadingPage text={loadingText} /> : children
 
 	if (!props.newNav) {
 		return (

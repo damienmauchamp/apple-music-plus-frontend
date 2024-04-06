@@ -14,6 +14,7 @@
 		"lint": "next lint"
 	},
 	"dependencies": {
+		"@ionic/react": "^7.8.3",
 		"@types/react-speech-recognition": "^3.9.5",
 		"axios": "^1.6.7",
 		"env-cmd": "^10.1.0",

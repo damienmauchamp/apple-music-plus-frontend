@@ -4,7 +4,7 @@ import AlbumsCollectionView, {
 	AlbumCollectionViewProps,
 } from '../../Views/Collections/AlbumsCollectionView/AlbumsCollectionView'
 import { Album, SectionCollectionProps } from '@/types/Items'
-import Loading from '../../Components/Loading/Loading'
+import LoadingSection from '../../Components/Loading/LoadingSection'
 
 export interface AlbumsSectionProps
 	extends SectionProps,
@@ -47,9 +47,7 @@ const AlbumsSection = ({
 				newNav={newNav}
 			>
 				{loading ? (
-					<div className="w-full h-40">
-						<Loading subText={`${title || 'Page'} loading...`} />
-					</div>
+					<LoadingSection />
 				) : (
 					<AlbumsCollectionView id={id} {...collectionViewProps()} />
 				)}

@@ -1,13 +1,13 @@
 'use client'
 import useAuth from '@/lib/useAuth'
-import Loading from '@/src/components/Components/Loading/Loading'
+import LoadingPage from '@/src/components/Components/Loading/LoadingPage'
 import RegisterForm from '@/src/components/Pages/Register/RegisterForm'
 
 export default function Register() {
 	const { register, isLoading, user } = useAuth({ middleware: 'guest' })
 
 	if (isLoading || user) {
-		return <Loading subText="Register page loading" />
+		return <LoadingPage />
 	}
 
 	return (

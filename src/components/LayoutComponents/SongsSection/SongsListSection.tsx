@@ -4,7 +4,7 @@ import SongsCollectionView, {
 	SongsCollectionViewProps,
 } from '../../Views/Collections/SongsCollectionView/SongsCollectionView'
 import { SectionCollectionProps, Song } from '@/types/Items'
-import Loading from '../../Components/Loading/Loading'
+import LoadingSection from '../../Components/Loading/LoadingSection'
 
 interface SongsListSectionProps
 	extends SectionProps,
@@ -38,9 +38,7 @@ const SongsListSection = ({
 				newNav={newNav}
 			>
 				{loading ? (
-					<div className="w-full h-40">
-						<Loading subText={`${title || 'Page'} loading...`} />
-					</div>
+					<LoadingSection />
 				) : (
 					<SongsCollectionView id={id} {...props} />
 				)}

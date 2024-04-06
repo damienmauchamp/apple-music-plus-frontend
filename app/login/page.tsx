@@ -1,13 +1,13 @@
 'use client'
 import useAuth from '@/lib/useAuth'
-import Loading from '@/src/components/Components/Loading/Loading'
+import LoadingPage from '@/src/components/Components/Loading/LoadingPage'
 import LoginForm from '@/src/components/Pages/Login/LoginForm'
 
 export default function Login() {
 	const { login, isLoading, user } = useAuth({ middleware: 'guest' })
 
 	if (isLoading || user) {
-		return <Loading subText="Logging page loading" />
+		return <LoadingPage />
 	}
 
 	return (
