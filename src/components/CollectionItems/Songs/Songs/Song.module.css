@@ -124,6 +124,13 @@
 .container:not(.gridContainer).selected {
 	@apply bg-[#a60012] bg-opacity-100;
 }
+.container:not(.gridContainer).selected .songNameArtist,
+.container:not(.gridContainer).selected .songNameArtist > a {
+	@apply text-white;
+}
+.container:not(.gridContainer).selected svg {
+	@apply fill-white;
+}
 
 .container:not(.gridContainer) .artworkNameCell {
 	@apply rounded-l-md;

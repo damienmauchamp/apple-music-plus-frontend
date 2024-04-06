@@ -33,6 +33,8 @@ const F7HomePage = () => {
 	// const [ready, setReady] = useState<any>(false)
 
 	useEffect(() => {
+		// console.log('%c[F7HomePage] MOUNTED', 'color:green;')
+
 		f7ready((f7) => {
 			// setReady(true)
 			f7.setColorTheme('#ff2d55')
@@ -41,6 +43,10 @@ const F7HomePage = () => {
 		document
 			.querySelector('.navbars.navbar-hidden')
 			?.classList.remove('navbar-hidden')
+
+		return () => {
+			// console.log('%c[F7HomePage] UNMOUNTED', 'color:red;')
+		}
 	}, [])
 
 	// const SplashScreenOverlay = () => {
@@ -52,6 +58,8 @@ const F7HomePage = () => {
 	// 		</div>
 	// 	)
 	// }
+
+	// console.log('%c[F7HomePage] RENDERING', 'color:cyan;')
 
 	return (
 		<>

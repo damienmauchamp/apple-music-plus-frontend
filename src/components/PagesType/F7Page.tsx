@@ -1,11 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import {
-	NavTitle,
-	NavTitleLarge,
-	Navbar,
-	Page,
-	f7ready,
-} from 'framework7-react'
+import { NavTitleLarge, Navbar, Page, f7ready } from 'framework7-react'
 import ProfileLink from '../Elements/ProfileLink/ProfileLink'
 import ProfilePagePopup from '../Popups/ProfilePagePopup'
 
@@ -31,30 +25,33 @@ const F7Page = ({
 	// F7
 	const [ready, setReady] = useState<any>(false)
 	useEffect(() => {
+		// console.log(`%c[F7Page:${name}] MOUNTED`, 'color:green;')
+
 		f7ready(() => {
 			// (f7)
 			setReady(true)
 		})
-		// eslint-disable-next-line react-hooks/exhaustive-deps
+
+		return () => {
+			// console.log(`%c[F7Page:${name}] UNMOUNTED`, 'color:red;')
+		}
 	}, [])
 
 	const titleVisible = () => ready && (!home || (home && ready))
 
+	// console.log(`%c[F7Page:${name}] RENDER`, 'color:cyan;')
+
 	return (
 		<>
-			<Page
-				className={`page-${name} !bg-white dark:!bg-black`}
-				// colorTheme="pink"
-			>
+			<Page className={`page-${name} !bg-white dark:!bg-black`}>
 				<Navbar
 					title={titleVisible() && title}
 					backLink={backLink}
 					large={navBarLarge}
 					transparent
 					sliding
-					// colorTheme="pink"
 				>
-					<NavTitle>{titleVisible() && title}</NavTitle>
+					{/* <NavTitle>{titleVisible() && title}</NavTitle> */}
 					{/* <NavTitleLarge>{titleVisible() && title}</NavTitleLarge> */}
 					<NavTitleLarge>
 						{titleVisible() && (
