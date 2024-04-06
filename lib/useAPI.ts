@@ -106,7 +106,6 @@ export default function useAPI() {
 			},
 		})
 	}
-
 	const getNewSingles = (
 		from: string,
 		config?: AxiosRequestConfig<any> | undefined

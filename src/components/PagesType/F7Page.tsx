@@ -46,13 +46,12 @@ const F7Page = ({
 			<Page className={`page-${name} !bg-white dark:!bg-black`}>
 				<Navbar
 					title={titleVisible() && title}
+					// title={title}
 					backLink={backLink}
 					large={navBarLarge}
 					transparent
 					sliding
 				>
-					{/* <NavTitle>{titleVisible() && title}</NavTitle> */}
-					{/* <NavTitleLarge>{titleVisible() && title}</NavTitleLarge> */}
 					<NavTitleLarge>
 						{titleVisible() && (
 							<>
