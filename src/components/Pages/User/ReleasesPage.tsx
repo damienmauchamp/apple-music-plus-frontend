@@ -30,7 +30,7 @@ export default function ReleasesPage({ ...props }: ReleasesPageProps) {
 			<NewSinglesSection title="New Singles" newNav={props.newNav} />
 			<UpcomingReleasesSection title="Upcoming" newNav={props.newNav} />
 			<NewSongsSection title="New Songs" newNav={props.newNav} />
-			<NewSongsListSection title="New Songs List" newNav={props.newNav} />
+			{/* <NewSongsListSection title="New Songs List" newNav={props.newNav} /> */}
 			<UpcomingSongsListSection
 				title="Upcoming Songs"
 				newNav={props.newNav}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Album } from '@/types/Items'
 import { getFrom } from '@/src/helpers/releases'
 import useAPI from '@/lib/useAPI'
@@ -27,26 +27,49 @@ function NewSinglesSection({
 
 	const [newSingles, setNewSingles] = useState<Album[]>(data)
 	const [isLoading, setIsLoading] = useState<boolean>(!hasData)
+	const [newSinglesLoading, setNewSinglesLoading] = useState<boolean>(false)
 	const [newSinglesLoaded, setNewSinglesLoaded] = useState<boolean>(false)
 
-	const loadNewSingles = async () => {
-		if (!hasData && !newSinglesLoaded) {
-			const res = await api.getNewSingles(from)
-			setNewSingles(res.data.data)
-		}
-		setNewSinglesLoaded(true)
-	}
+	const loadNewSingles = useCallback(
+		async (signal?: AbortSignal) => {
+			try {
+				if (!hasData && !newSinglesLoaded && !newSinglesLoading) {
+					const res = await api.getNewSingles(from, { signal })
+					setNewSingles(res.data.data)
+					setNewSinglesLoading(true)
+				}
+				setNewSinglesLoaded(true)
+				setNewSinglesLoading(false)
+			} catch (error) {
+				if (!api.isCancel(error)) throw error
+			}
+		},
+		[api, from, hasData, newSinglesLoading, newSinglesLoaded]
+	)
 
 	useEffect(() => {
 		if (newSinglesLoaded) setIsLoading(false)
 	}, [newSinglesLoaded])
 
 	useEffect(() => {
-		loadNewSingles()
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [])
+		const abortController = new AbortController()
+		const signal = abortController.signal
 
-	const sectionProps = () => {
+		try {
+			loadNewSingles(signal)
+		} catch (error) {
+			if (!api.isCancel(error)) {
+				console.error(error)
+			}
+		}
+
+		return () => {
+			// Cancel the request when the component unmounts
+			abortController.abort()
+		}
+	}, [loadNewSingles, api])
+
+	const sectionProps = useCallback(() => {
 		if (!grid)
 			return {
 				...props,
@@ -57,7 +80,7 @@ function NewSinglesSection({
 			}
 
 		return { ...props, scroll: false }
-	}
+	}, [props, grid])
 
 	return (
 		<AlbumsSection

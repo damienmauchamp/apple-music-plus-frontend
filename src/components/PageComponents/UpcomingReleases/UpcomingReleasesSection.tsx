@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Album } from '@/types/Items'
 import { getFrom } from '@/src/helpers/releases'
 import useAPI from '@/lib/useAPI'
@@ -27,27 +27,55 @@ function UpcomingReleasesSection({
 
 	const [upcomingReleases, setUpcomingReleases] = useState<Album[]>(data)
 	const [isLoading, setIsLoading] = useState<boolean>(!hasData)
+	const [upcomingReleasesLoading, setUpcomingReleasesLoading] =
+		useState<boolean>(false)
 	const [upcomingReleasesLoaded, setUpcomingReleasesLoaded] =
 		useState<boolean>(false)
 
-	const loadUpcomingReleases = async () => {
-		if (!hasData && !upcomingReleasesLoaded) {
-			const res = await api.getUpcomingReleases(from)
-			setUpcomingReleases(res.data.data)
-		}
-		setUpcomingReleasesLoaded(true)
-	}
+	const loadUpcomingReleases = useCallback(
+		async (signal?: AbortSignal) => {
+			try {
+				if (
+					!hasData &&
+					!upcomingReleasesLoaded &&
+					!upcomingReleasesLoading
+				) {
+					const res = await api.getUpcomingReleases(from, { signal })
+					setUpcomingReleases(res.data.data)
+					setUpcomingReleasesLoading(true)
+				}
+				setUpcomingReleasesLoaded(true)
+				setUpcomingReleasesLoading(false)
+			} catch (error) {
+				if (!api.isCancel(error)) throw error
+			}
+		},
+		[api, from, hasData, upcomingReleasesLoading, upcomingReleasesLoaded]
+	)
 
 	useEffect(() => {
 		if (upcomingReleasesLoaded) setIsLoading(false)
 	}, [upcomingReleasesLoaded])
 
 	useEffect(() => {
-		loadUpcomingReleases()
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [])
+		const abortController = new AbortController()
+		const signal = abortController.signal
 
-	const sectionProps = () => {
+		try {
+			loadUpcomingReleases(signal)
+		} catch (error) {
+			if (!api.isCancel(error)) {
+				console.error(error)
+			}
+		}
+
+		return () => {
+			// Cancel the request when the component unmounts
+			abortController.abort()
+		}
+	}, [loadUpcomingReleases, api])
+
+	const sectionProps = useCallback(() => {
 		if (!grid)
 			return {
 				...props,
@@ -57,7 +85,7 @@ function UpcomingReleasesSection({
 			}
 
 		return { ...props, mobileScroll: false }
-	}
+	}, [props, grid])
 
 	return (
 		<AlbumsSection

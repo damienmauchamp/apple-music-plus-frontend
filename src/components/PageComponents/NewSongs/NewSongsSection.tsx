@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Song } from '@/types/Items'
 import { getFrom } from '@/src/helpers/releases'
 import useAPI from '@/lib/useAPI'
@@ -30,26 +30,49 @@ function NewSongsSection({
 
 	const [newSongs, setNewSongs] = useState<Song[]>(data)
 	const [isLoading, setIsLoading] = useState<boolean>(!hasData)
+	const [newSongsLoading, setNewSongsLoading] = useState<boolean>(false)
 	const [newSongsLoaded, setNewSongsLoaded] = useState<boolean>(false)
 
-	const loadNewSongs = async () => {
-		if (!hasData && !newSongsLoaded) {
-			const res = await api.getNewSongs(from)
-			setNewSongs(res.data.data)
-		}
-		setNewSongsLoaded(true)
-	}
+	const loadNewSongs = useCallback(
+		async (signal?: AbortSignal) => {
+			try {
+				if (!hasData && !newSongsLoaded && !newSongsLoading) {
+					const res = await api.getNewSongs(from, { signal })
+					setNewSongs(res.data.data)
+					setNewSongsLoading(true)
+				}
+				setNewSongsLoaded(true)
+				setNewSongsLoading(false)
+			} catch (error) {
+				if (!api.isCancel(error)) throw error
+			}
+		},
+		[api, from, hasData, newSongsLoading, newSongsLoaded]
+	)
 
 	useEffect(() => {
 		if (newSongsLoaded) setIsLoading(false)
 	}, [newSongsLoaded])
 
 	useEffect(() => {
-		loadNewSongs()
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [])
+		const abortController = new AbortController()
+		const signal = abortController.signal
 
-	const sectionProps = () => {
+		try {
+			loadNewSongs(signal)
+		} catch (error) {
+			if (!api.isCancel(error)) {
+				console.error(error)
+			}
+		}
+
+		return () => {
+			// Cancel the request when the component unmounts
+			abortController.abort()
+		}
+	}, [loadNewSongs, api])
+
+	const sectionProps = useCallback(() => {
 		if (!list)
 			return {
 				...props,
@@ -63,7 +86,7 @@ function NewSongsSection({
 			header: header,
 			scroll: false,
 		}
-	}
+	}, [header, list, props])
 
 	return (
 		<SongsListSection

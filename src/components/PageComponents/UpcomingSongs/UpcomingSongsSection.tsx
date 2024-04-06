@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Song } from '@/types/Items'
 import { getFrom } from '@/src/helpers/releases'
 import useAPI from '@/lib/useAPI'
@@ -29,27 +29,51 @@ function UpcomingSongsSection({
 
 	const [upcomingSongs, setUpcomingSongs] = useState<Song[]>(data)
 	const [isLoading, setIsLoading] = useState<boolean>(!hasData)
+	const [upcomingSongsLoading, setUpcomingSongsLoading] =
+		useState<boolean>(false)
 	const [upcomingSongsLoaded, setUpcomingSongsLoaded] =
 		useState<boolean>(false)
 
-	const loadUpcomingSongs = async () => {
-		if (!hasData && !upcomingSongsLoaded) {
-			const res = await api.getUpcomingSongs(from)
-			setUpcomingSongs(res.data.data)
-		}
-		setUpcomingSongsLoaded(true)
-	}
+	const loadUpcomingSongs = useCallback(
+		async (signal?: AbortSignal) => {
+			try {
+				if (!hasData && !upcomingSongsLoaded && !upcomingSongsLoading) {
+					const res = await api.getUpcomingSongs(from, { signal })
+					setUpcomingSongs(res.data.data)
+					setUpcomingSongsLoading(true)
+				}
+				setUpcomingSongsLoaded(true)
+				setUpcomingSongsLoading(false)
+			} catch (error) {
+				if (!api.isCancel(error)) throw error
+			}
+		},
+		[api, from, hasData, upcomingSongsLoading, upcomingSongsLoaded]
+	)
 
 	useEffect(() => {
 		if (upcomingSongsLoaded) setIsLoading(false)
 	}, [upcomingSongsLoaded])
 
 	useEffect(() => {
-		loadUpcomingSongs()
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [])
+		const abortController = new AbortController()
+		const signal = abortController.signal
 
-	const sectionProps = () => {
+		try {
+			loadUpcomingSongs(signal)
+		} catch (error) {
+			if (!api.isCancel(error)) {
+				console.error(error)
+			}
+		}
+
+		return () => {
+			// Cancel the request when the component unmounts
+			abortController.abort()
+		}
+	}, [loadUpcomingSongs, api])
+
+	const sectionProps = useCallback(() => {
 		if (!list)
 			return {
 				...props,
@@ -62,7 +86,7 @@ function UpcomingSongsSection({
 			...props,
 			header: props.header !== undefined ? props.header : false,
 		}
-	}
+	}, [list, props])
 
 	return (
 		<SongsListSection

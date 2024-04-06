@@ -78,8 +78,12 @@ export default function useAPI() {
 	/* endregion extending axios */
 
 	/* region API */
-	const getNewReleases = (from: string) => {
+	const getNewReleases = (
+		from: string,
+		config?: AxiosRequestConfig<any> | undefined
+	) => {
 		return get(`/api/user/releases`, {
+			...config,
 			params: {
 				...timestamps(),
 				from: from,
@@ -93,8 +97,12 @@ export default function useAPI() {
 		})
 	}
 
-	const getNewSingles = (from: string) => {
+	const getNewSingles = (
+		from: string,
+		config?: AxiosRequestConfig<any> | undefined
+	) => {
 		return get(`/api/user/releases`, {
+			...config,
 			params: {
 				...timestamps(),
 				from: from,
@@ -105,8 +113,12 @@ export default function useAPI() {
 			},
 		})
 	}
-	const getUpcomingReleases = (from: string) => {
+	const getUpcomingReleases = (
+		from: string,
+		config?: AxiosRequestConfig<any> | undefined
+	) => {
 		return get(`/api/user/releases`, {
+			...config,
 			params: {
 				...timestamps(),
 				from: from,
@@ -115,8 +127,12 @@ export default function useAPI() {
 			},
 		})
 	}
-	const getNewSongs = (from: string) => {
+	const getNewSongs = (
+		from: string,
+		config?: AxiosRequestConfig<any> | undefined
+	) => {
 		return get(`/api/user/releases/songs`, {
+			...config,
 			params: {
 				...timestamps(),
 				from: from,
@@ -125,8 +141,12 @@ export default function useAPI() {
 			},
 		})
 	}
-	const getUpcomingSongs = (from: string) => {
+	const getUpcomingSongs = (
+		from: string,
+		config?: AxiosRequestConfig<any> | undefined
+	) => {
 		return get(`/api/user/releases/songs`, {
+			...config,
 			params: {
 				...timestamps(),
 				from: from,
@@ -162,6 +182,8 @@ export default function useAPI() {
 
 	return {
 		...api,
+		axios: axios,
+		...axios,
 		api: api,
 		//
 		get: get,
