@@ -18,6 +18,11 @@ const timestamps = () => ({
 	timestamp: new Date().getTime(),
 })
 
+const defaultParams = () => ({
+	...timestamps(),
+	musickit: 0,
+})
+
 const generateUserCacheToken = () =>
 	'AMPUAPIUID' + String(Date.now()) + '-' + String(Math.random() * 100000)
 let userCacheToken = generateUserCacheToken()
@@ -95,7 +100,7 @@ export default function useAPI() {
 		return get(`/api/user/releases`, {
 			...config,
 			params: {
-				...timestamps(),
+				...defaultParams(),
 				from: from,
 				sort: '-releaseDate',
 				// weekly: 1,
@@ -113,7 +118,7 @@ export default function useAPI() {
 		return get(`/api/user/releases`, {
 			...config,
 			params: {
-				...timestamps(),
+				...defaultParams(),
 				from: from,
 				sort: '-releaseDate',
 				hide_albums: 1,
@@ -129,7 +134,7 @@ export default function useAPI() {
 		return get(`/api/user/releases`, {
 			...config,
 			params: {
-				...timestamps(),
+				...defaultParams(),
 				from: from,
 				sort: 'releaseDate',
 				only_upcoming: 1,
@@ -143,7 +148,7 @@ export default function useAPI() {
 		return get(`/api/user/releases/songs`, {
 			...config,
 			params: {
-				...timestamps(),
+				...defaultParams(),
 				from: from,
 				sort: '-releaseDate',
 				hide_upcoming: 1,
@@ -157,7 +162,7 @@ export default function useAPI() {
 		return get(`/api/user/releases/songs`, {
 			...config,
 			params: {
-				...timestamps(),
+				...defaultParams(),
 				from: from,
 				sort: '-releaseDate',
 				only_upcoming: 1,
