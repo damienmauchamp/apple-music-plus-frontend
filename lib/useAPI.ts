@@ -18,25 +18,35 @@ const timestamps = () => ({
 	timestamp: new Date().getTime(),
 })
 
+const generateUserCacheToken = () =>
+	'AMPUAPIUID' + String(Date.now()) + '-' + String(Math.random() * 100000)
+let userCacheToken = generateUserCacheToken()
+const updateUserCacheToken = () => {
+	userCacheToken = generateUserCacheToken()
+	return userCacheToken
+}
+const getUserCacheToken = () =>
+	process.env.TEST_USER_CACHE_TOKEN || userCacheToken
+
 export default function useAPI() {
 	const { logged, isAuthorized, getInstance } = useMusicKitContext()
 
 	const intercept = () => {
 		// Set the Music-Token token for any request
 		api.interceptors.request.use(function (config) {
-			if (process.env.TEST_USER_TOKEN) {
+			if (userCacheToken)
+				config.headers['User-Cache-Token'] = getUserCacheToken()
+
+			if (process.env.TEST_USER_TOKEN)
 				config.headers['Authorization'] =
 					`Bearer ${process.env.TEST_USER_TOKEN}`
-			}
-			if (process.env.TEST_USER_MUSIC_TOKEN) {
+			if (process.env.TEST_USER_MUSIC_TOKEN)
 				config.headers['Music-Token'] =
 					process.env.TEST_USER_MUSIC_TOKEN
-			}
 
-			if (logged || isAuthorized()) {
+			if (logged || isAuthorized())
 				config.headers['Music-Token'] =
 					getInstance().musicUserToken || ''
-			}
 
 			return config
 		})
@@ -185,6 +195,10 @@ export default function useAPI() {
 		axios: axios,
 		...axios,
 		api: api,
+		//
+		userCacheToken,
+		getUserCacheToken,
+		updateUserCacheToken,
 		//
 		get: get,
 		post: post,

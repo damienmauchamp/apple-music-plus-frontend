@@ -98,11 +98,24 @@ const ProfilePage = ({ popup = false }: ProfilePageProps) => {
 
 			{/* <BlockTitle>Authentication</BlockTitle> */}
 			<List inset strong>
-				<ListButton
-					title={`Apple Music ${isLogged ? 'Logout' : 'Login'}`}
-					color={isLogged ? 'red' : 'blue'}
-					onClick={isLogged ? handleLogout : handleLogin}
-				/>
+				{/* <ListButton
+						title={`Apple Music ${isLogged ? 'Logout' : 'Login'}`}
+						color={isLogged ? 'red' : 'blue'}
+						onClick={isLogged ? handleLogout : handleLogin}
+					/> */}
+				{isLogged ? (
+					<ListButton
+						title={`Apple Music Logout`}
+						color={'red'}
+						onClick={handleLogout}
+					/>
+				) : (
+					<ListButton
+						title={`Apple Music Login`}
+						color={'blue'}
+						onClick={handleLogin}
+					/>
+				)}
 				<ListButton title="Logout" color="red" onClick={logout} />
 			</List>
 

@@ -1,5 +1,5 @@
 import { Link } from 'framework7-react'
-import React, { useEffect } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import styles from './ProfileLink.module.css'
 import { LinkProps } from 'framework7-react/components/link.js'
 import { IoPersonCircleOutline } from 'react-icons/io5'
@@ -26,17 +26,26 @@ const ProfileLink = ({
 		setIsLogged(isAuthorized() || logged)
 	}, [isAuthorized, logged])
 
-	useEffect(() => {
-		const checkLogged = () => isAuthorized() || logged
+	const checkLogged = useCallback(
+		() => isAuthorized() || logged,
+		[isAuthorized, logged]
+	)
 
-		const intervalId = setInterval(() => {
+	let myIntervalId = null as NodeJS.Timeout | null
+	useEffect(() => {
+		myIntervalId && clearInterval(myIntervalId)
+
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+		myIntervalId = setInterval(() => {
 			if (checkLogged() !== isLogged) {
 				setIsLogged(checkLogged())
 			}
 		}, 500)
-		return () => clearInterval(intervalId)
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [])
+
+		return () => {
+			myIntervalId && clearInterval(myIntervalId)
+		}
+	}, [isLogged])
 
 	const linkProps = () => {
 		if (popup) {
