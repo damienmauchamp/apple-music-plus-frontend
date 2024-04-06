@@ -45,9 +45,10 @@ function UpcomingReleasesSection({
 					setUpcomingReleasesLoading(true)
 				}
 				setUpcomingReleasesLoaded(true)
-				setUpcomingReleasesLoading(false)
 			} catch (error) {
 				if (!api.isCancel(error)) throw error
+			} finally {
+				setUpcomingReleasesLoading(false)
 			}
 		},
 		[api, from, hasData, upcomingReleasesLoading, upcomingReleasesLoaded]
@@ -64,9 +65,7 @@ function UpcomingReleasesSection({
 		try {
 			loadUpcomingReleases(signal)
 		} catch (error) {
-			if (!api.isCancel(error)) {
-				console.error(error)
-			}
+			if (!api.isCancel(error)) console.error(error)
 		}
 
 		return () => {

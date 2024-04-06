@@ -39,9 +39,10 @@ function NewSinglesSection({
 					setNewSinglesLoading(true)
 				}
 				setNewSinglesLoaded(true)
-				setNewSinglesLoading(false)
 			} catch (error) {
 				if (!api.isCancel(error)) throw error
+			} finally {
+				setNewSinglesLoading(false)
 			}
 		},
 		[api, from, hasData, newSinglesLoading, newSinglesLoaded]
@@ -58,9 +59,7 @@ function NewSinglesSection({
 		try {
 			loadNewSingles(signal)
 		} catch (error) {
-			if (!api.isCancel(error)) {
-				console.error(error)
-			}
+			if (!api.isCancel(error)) console.error(error)
 		}
 
 		return () => {

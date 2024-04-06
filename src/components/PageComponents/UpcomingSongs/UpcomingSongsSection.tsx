@@ -43,9 +43,10 @@ function UpcomingSongsSection({
 					setUpcomingSongsLoading(true)
 				}
 				setUpcomingSongsLoaded(true)
-				setUpcomingSongsLoading(false)
 			} catch (error) {
 				if (!api.isCancel(error)) throw error
+			} finally {
+				setUpcomingSongsLoading(false)
 			}
 		},
 		[api, from, hasData, upcomingSongsLoading, upcomingSongsLoaded]
@@ -62,9 +63,7 @@ function UpcomingSongsSection({
 		try {
 			loadUpcomingSongs(signal)
 		} catch (error) {
-			if (!api.isCancel(error)) {
-				console.error(error)
-			}
+			if (!api.isCancel(error)) console.error(error)
 		}
 
 		return () => {

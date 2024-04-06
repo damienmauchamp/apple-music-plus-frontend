@@ -39,9 +39,10 @@ function NewReleasesSection({
 					setNewReleasesLoading(true)
 				}
 				setNewReleasesLoaded(true)
-				setNewReleasesLoading(false)
 			} catch (error) {
 				if (!api.isCancel(error)) throw error
+			} finally {
+				setNewReleasesLoading(false)
 			}
 		},
 		[api, from, hasData, newReleasesLoaded, newReleasesLoading]
@@ -58,9 +59,7 @@ function NewReleasesSection({
 		try {
 			loadNewReleases(signal)
 		} catch (error) {
-			if (!api.isCancel(error)) {
-				console.error(error)
-			}
+			if (!api.isCancel(error)) console.error(error)
 		}
 
 		return () => {

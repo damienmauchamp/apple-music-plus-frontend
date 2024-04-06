@@ -42,9 +42,10 @@ function NewSongsSection({
 					setNewSongsLoading(true)
 				}
 				setNewSongsLoaded(true)
-				setNewSongsLoading(false)
 			} catch (error) {
 				if (!api.isCancel(error)) throw error
+			} finally {
+				setNewSongsLoading(false)
 			}
 		},
 		[api, from, hasData, newSongsLoading, newSongsLoaded]
@@ -61,9 +62,7 @@ function NewSongsSection({
 		try {
 			loadNewSongs(signal)
 		} catch (error) {
-			if (!api.isCancel(error)) {
-				console.error(error)
-			}
+			if (!api.isCancel(error)) console.error(error)
 		}
 
 		return () => {
