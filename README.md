@@ -72,5 +72,5 @@ server {
 
 ## TODO
 
--   [ ] externalize albums/songs list components
+-   [ ] hashRouting
 -   [ ] create "cache" for each section for data ?

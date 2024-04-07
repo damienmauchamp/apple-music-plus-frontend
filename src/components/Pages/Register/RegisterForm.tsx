@@ -1,12 +1,11 @@
 import { ChangeEvent, FormEvent, useRef, useState } from 'react'
 import { RegisterFunction } from '@/lib/useAuth'
-import Link from 'next/link'
 import Head from 'next/head'
 import Label from '@/src/components/Components/Label'
 import Input from '@/src/components/Components/Input'
-import Button from '@/src/components/Components/Button'
 import FormErrors from '@/src/components/Components/FormErrors'
 import { IoSearch } from 'react-icons/io5'
+import Link from '../../Components/Link'
 
 interface RegisterFormProps {
 	onSubmit?: (event: FormEvent<HTMLFormElement>) => void
@@ -40,14 +39,15 @@ const RegisterForm = ({ onSubmit, register, ...props }: RegisterFormProps) => {
 				<title>ergodnc — Register</title>
 			</Head>
 
-			<div
-				className={
-					'w-3/4 mx-auto bg-white dark:bg-black p-5 rounded-lg'
-				}
-			>
+			<div className="w-3/4">
 				<FormErrors className="mb-5" errors={errors} />
 
-				<form onSubmit={submitForm} autoComplete="off" {...props}>
+				<form
+					onSubmit={submitForm}
+					autoComplete="off"
+					{...props}
+					className="flex flex-col gap-4"
+				>
 					<div>
 						<Label htmlFor="email">Name</Label>
 
@@ -78,7 +78,7 @@ const RegisterForm = ({ onSubmit, register, ...props }: RegisterFormProps) => {
 						/>
 					</div>
 
-					<div className="mt-4">
+					<div>
 						<Label htmlFor="email">Email</Label>
 
 						<Input
@@ -95,7 +95,7 @@ const RegisterForm = ({ onSubmit, register, ...props }: RegisterFormProps) => {
 						/>
 					</div>
 
-					<div className="mt-4">
+					<div>
 						<Label htmlFor="password">Password</Label>
 
 						<Input
@@ -111,7 +111,7 @@ const RegisterForm = ({ onSubmit, register, ...props }: RegisterFormProps) => {
 						/>
 					</div>
 
-					{/* <div className="mt-4">
+					{/* <div>
 						<Label htmlFor="password">Confirm Password</Label>
 
 						<Input
@@ -126,15 +126,8 @@ const RegisterForm = ({ onSubmit, register, ...props }: RegisterFormProps) => {
 						/>
 					</div> */}
 
-					<div className="flex items-center justify-end mt-4">
-						<Link
-							href="/login"
-							className="underline text-sm text-gray-600 hover:text-gray-900"
-						>
-							Already registered?
-						</Link>
-
-						<Button className="ml-3">Register</Button>
+					<div className="flex items-center gap-4 justify-between">
+						<Link href="/login">Already registered?</Link>
 					</div>
 				</form>
 			</div>

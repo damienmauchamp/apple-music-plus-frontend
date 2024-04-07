@@ -51,3 +51,7 @@ export interface Song {
 	// created_at?: string
 	// updated_at?: string
 }
+
+export interface SectionCollectionProps {
+	loading?: boolean
+}

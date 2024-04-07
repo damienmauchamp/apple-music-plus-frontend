@@ -12,22 +12,23 @@
 }
 
 .input {
+	@apply !flex;
 	@apply self-stretch justify-start items-center inline-flex w-full truncate;
 	@apply outline-none border-none;
-	/* @apply text-black dark:text-white; */
-	@apply bg-input-bg-light dark:bg-input-bg-dark;
-	@apply placeholder:text-input-elements-light placeholder:dark:text-input-elements-dark;
+	@apply text-items-primary dark:text-items-primary-dark;
+	@apply !bg-input-bg-light dark:!bg-input-bg-dark;
+	@apply placeholder:!text-input-elements-light placeholder:dark:!text-input-elements-dark;
 
-	@apply h-full p-[7px];
-	@apply pr-8;
-	@apply rounded-[10px];
+	@apply h-full !p-[7px];
+	@apply !pr-8;
+	@apply !rounded-[10px];
 	/* ... */
 	/* @apply inputTextStyle; */
 	/* @apply px-[7px] py-[7px]; */
 }
 
 .input.inputWithIcon {
-	@apply pl-8;
+	@apply !pl-8;
 }
 
 /* .input.inputWithMic { */

@@ -3,11 +3,17 @@ import Section, { SectionProps } from '../../Section/Section'
 import SongsCollectionView, {
 	SongsCollectionViewProps,
 } from '../../Views/Collections/SongsCollectionView/SongsCollectionView'
-import { Song } from '@/types/Items'
+import { SectionCollectionProps, Song } from '@/types/Items'
+import LoadingSection from '../../Components/Loading/LoadingSection'
 
-interface SongsListSectionProps extends SectionProps, SongsCollectionViewProps {
+interface SongsListSectionProps
+	extends SectionProps,
+		SongsCollectionViewProps,
+		SectionCollectionProps {
 	// key: string
 	items: Song[]
+
+	full?: boolean
 }
 
 const SongsListSection = ({
@@ -15,18 +21,30 @@ const SongsListSection = ({
 	title,
 	seeAll,
 	seeAllPath,
+	loading = false,
+	newNav,
+	full,
 	...props
 }: SongsListSectionProps) => {
+	if (!loading && !props.items.length) {
+		return null
+	}
+
 	return (
 		<>
 			<Section
 				id={id}
 				title={title}
-				// todo : see all => send data & type, server component
+				// todo : see all
 				seeAll={seeAll}
 				seeAllPath={seeAllPath}
+				newNav={newNav}
 			>
-				<SongsCollectionView id={id} {...props} />
+				{loading ? (
+					<LoadingSection full={full} />
+				) : (
+					<SongsCollectionView id={id} {...props} />
+				)}
 			</Section>
 		</>
 	)

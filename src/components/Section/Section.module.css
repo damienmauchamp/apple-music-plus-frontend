@@ -20,10 +20,11 @@ h3.sectionTitle {
 }
 
 .sectionTitle > a {
+	@apply text-items-primary dark:text-items-primary-dark;
 	@apply flex items-center md:hover:underline;
 }
 .sectionTitle > a > .chevron {
-	@apply font-bold text-[#8A8A8D] dark:text-[#8D8D93];
+	@apply font-bold text-items-secondary dark:text-items-secondary-dark;
 }
 
 .sectionItems {

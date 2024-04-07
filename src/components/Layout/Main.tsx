@@ -6,8 +6,10 @@ import { MusicKitContextProvider } from '@/src/context/MusicKitContext'
 
 function Main({
 	children,
+	header = true,
 }: Readonly<{
 	children?: React.ReactNode
+	header?: boolean
 }>) {
 	// const [title, setTitle] = useState<string>('')
 	// const [search, setSearch] = useState<boolean>(true)
@@ -21,7 +23,7 @@ function Main({
 		<MusicKitContextProvider>
 			<>
 				{/* <UINavigation title={title} search={search}> */}
-				<Header />
+				{header && <Header />}
 				<main>{children}</main>
 				{/* </UINavigation> */}
 			</>

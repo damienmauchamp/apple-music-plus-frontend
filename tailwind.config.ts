@@ -144,6 +144,21 @@ const config: Config = {
 				buttonColor: buttonColor,
 				inactionColor: inactionColor,
 				//
+				items: {
+					primary: {
+						DEFAULT: '#000',
+						dark: '#fff',
+					},
+					secondary: {
+						DEFAULT: '#8A8A8E',
+						dark: '#8D8D93',
+					},
+				},
+				links: {
+					DEFAULT: '#000',
+					dark: '#fff',
+				},
+				//
 				input: {
 					bg: {
 						// light: '#71717a',

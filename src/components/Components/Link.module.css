@@ -1,0 +1,3 @@
+.link {
+	@apply text-links dark:text-links-dark;
+}

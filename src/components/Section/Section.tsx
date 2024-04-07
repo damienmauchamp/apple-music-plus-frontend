@@ -1,19 +1,30 @@
 import React from 'react'
 import styles from './Section.module.css'
-import { Item } from '@/types/Items'
+// import { Item } from '@/types/Items'
 import { IoChevronForward } from 'react-icons/io5'
+import { Link } from 'framework7-react'
 
 export interface SectionProps extends React.HTMLAttributes<HTMLElement> {
 	id: string
-	title: string
-	items?: Item[]
+	title?: string
+	// items?: Item[]
 	level?: number
 	seeAll?: () => void
 	seeAllPath?: string
 	children?: React.ReactNode
+	//
+	newNav?: boolean
 }
 
-const Section = ({ children, title, level, ...props }: SectionProps) => {
+const Section = ({
+	children,
+	title = '',
+	level,
+	seeAll,
+	seeAllPath,
+	newNav = false,
+	...props
+}: SectionProps) => {
 	level = level || 2
 	const SectionTitle = `h${level}` as keyof JSX.IntrinsicElements
 
@@ -24,17 +35,26 @@ const Section = ({ children, title, level, ...props }: SectionProps) => {
 			</div>
 		)
 
-		if (props.seeAll) {
+		if (!title) return null
+
+		if (seeAll) {
 			return (
-				<button onClick={props.seeAll}>
+				<button onClick={seeAll}>
 					{title} {chevron}
 				</button>
 			)
 		}
 
-		if (props.seeAllPath) {
+		if (seeAllPath) {
+			if (newNav) {
+				return (
+					<Link href={seeAllPath}>
+						{title} {chevron}
+					</Link>
+				)
+			}
 			return (
-				<a href={props.seeAllPath}>
+				<a href={seeAllPath}>
 					{title} {chevron}
 				</a>
 			)
@@ -45,7 +65,7 @@ const Section = ({ children, title, level, ...props }: SectionProps) => {
 
 	return (
 		<>
-			<section className={styles.section}>
+			<section className={styles.section} data-section={title} {...props}>
 				<div className={styles.sectionContent}>
 					<div className={styles.sectionHeader}>
 						<SectionTitle className={styles.sectionTitle}>

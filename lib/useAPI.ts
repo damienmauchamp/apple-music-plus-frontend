@@ -18,25 +18,40 @@ const timestamps = () => ({
 	timestamp: new Date().getTime(),
 })
 
+const defaultParams = () => ({
+	...timestamps(),
+	musickit: 0,
+})
+
+const generateUserCacheToken = () =>
+	'AMPUAPIUID' + String(Date.now()) + '-' + String(Math.random() * 100000)
+let userCacheToken = generateUserCacheToken()
+const updateUserCacheToken = () => {
+	userCacheToken = generateUserCacheToken()
+	return userCacheToken
+}
+const getUserCacheToken = () =>
+	process.env.TEST_USER_CACHE_TOKEN || userCacheToken
+
 export default function useAPI() {
 	const { logged, isAuthorized, getInstance } = useMusicKitContext()
 
 	const intercept = () => {
 		// Set the Music-Token token for any request
 		api.interceptors.request.use(function (config) {
-			if (process.env.TEST_USER_TOKEN) {
+			if (userCacheToken)
+				config.headers['User-Cache-Token'] = getUserCacheToken()
+
+			if (process.env.TEST_USER_TOKEN)
 				config.headers['Authorization'] =
 					`Bearer ${process.env.TEST_USER_TOKEN}`
-			}
-			if (process.env.TEST_USER_MUSIC_TOKEN) {
+			if (process.env.TEST_USER_MUSIC_TOKEN)
 				config.headers['Music-Token'] =
 					process.env.TEST_USER_MUSIC_TOKEN
-			}
 
-			if (logged || isAuthorized()) {
+			if (logged || isAuthorized())
 				config.headers['Music-Token'] =
 					getInstance().musicUserToken || ''
-			}
 
 			return config
 		})
@@ -78,11 +93,17 @@ export default function useAPI() {
 	/* endregion extending axios */
 
 	/* region API */
-	const getNewReleases = (from: string) => {
+	const getNewReleases = (
+		from: string,
+		params: object = {},
+		config?: AxiosRequestConfig<any> | undefined
+	) => {
 		return get(`/api/user/releases`, {
+			...config,
 			params: {
-				...timestamps(),
+				...defaultParams(),
 				from: from,
+				...params,
 				sort: '-releaseDate',
 				// weekly: 1,
 				// weeks: 1,
@@ -92,12 +113,17 @@ export default function useAPI() {
 			},
 		})
 	}
-
-	const getNewSingles = (from: string) => {
+	const getNewSingles = (
+		from: string,
+		params: object = {},
+		config?: AxiosRequestConfig<any> | undefined
+	) => {
 		return get(`/api/user/releases`, {
+			...config,
 			params: {
-				...timestamps(),
+				...defaultParams(),
 				from: from,
+				...params,
 				sort: '-releaseDate',
 				hide_albums: 1,
 				hide_eps: 1,
@@ -105,30 +131,42 @@ export default function useAPI() {
 			},
 		})
 	}
-	const getUpcoming = (from: string) => {
+	const getUpcomingReleases = (
+		from: string,
+		config?: AxiosRequestConfig<any> | undefined
+	) => {
 		return get(`/api/user/releases`, {
+			...config,
 			params: {
-				...timestamps(),
+				...defaultParams(),
 				from: from,
 				sort: 'releaseDate',
 				only_upcoming: 1,
 			},
 		})
 	}
-	const getNewSongs = (from: string) => {
+	const getNewSongs = (
+		from: string,
+		config?: AxiosRequestConfig<any> | undefined
+	) => {
 		return get(`/api/user/releases/songs`, {
+			...config,
 			params: {
-				...timestamps(),
+				...defaultParams(),
 				from: from,
 				sort: '-releaseDate',
 				hide_upcoming: 1,
 			},
 		})
 	}
-	const getUpcomingSongs = (from: string) => {
+	const getUpcomingSongs = (
+		from: string,
+		config?: AxiosRequestConfig<any> | undefined
+	) => {
 		return get(`/api/user/releases/songs`, {
+			...config,
 			params: {
-				...timestamps(),
+				...defaultParams(),
 				from: from,
 				sort: '-releaseDate',
 				only_upcoming: 1,
@@ -162,7 +200,13 @@ export default function useAPI() {
 
 	return {
 		...api,
+		axios: axios,
+		...axios,
 		api: api,
+		//
+		userCacheToken,
+		getUserCacheToken,
+		updateUserCacheToken,
 		//
 		get: get,
 		post: post,
@@ -171,7 +215,7 @@ export default function useAPI() {
 		//
 		getNewReleases,
 		getNewSingles,
-		getUpcoming,
+		getUpcomingReleases,
 		getNewSongs,
 		getUpcomingSongs,
 		addResourceToLibrary,

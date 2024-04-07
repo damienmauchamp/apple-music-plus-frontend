@@ -9,7 +9,7 @@ interface MiddlewareType {
 	middleware?: string
 }
 
-interface User {
+export interface User {
 	id: number
 	name: string
 	email: string
@@ -122,7 +122,7 @@ const useAuth = ({ middleware }: MiddlewareType = {}): AuthType => {
 	}
 
 	const authLoading = () => {
-		console.log('xxx', {
+		console.log('authLoading', {
 			isLoading: isLoading,
 			user: user,
 			hasTestToken: hasTestToken,

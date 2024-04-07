@@ -3,6 +3,7 @@ import Image from 'next/image'
 import styles from './Song.module.css'
 import ContentRating from '@/src/components/Elements/ContentRating/ContentRating'
 import { Artist, Song } from '@/types/Items'
+import Link from '@/src/components/Components/Link'
 
 interface SongProps extends React.HTMLAttributes<HTMLDivElement>, Song {
 	selected?: boolean
@@ -53,7 +54,7 @@ const SongComponent = ({
 	artists.forEach((artist: Artist) => {
 		artistsNames = artistsNames.replace(
 			artist.name,
-			`<a target="_blank" className="underline" href="https://music.apple.com/${process.env.STOREFRONT}/artist/${artist.storeId}">${artist.name}</a>`
+			`<a target="_blank" class="hover:underline external text-links dark:text-links-dark" href="https://music.apple.com/${process.env.STOREFRONT}/artist/${artist.storeId}">${artist.name}</a>`
 		)
 	})
 
@@ -67,7 +68,7 @@ const SongComponent = ({
 					<div className={styles.artworkNameContainer}>
 						<div className="flex">
 							<a
-								className={styles.artworkContainer}
+								className={`external ${styles.artworkContainer}`}
 								target="_blank"
 								href={songLink}
 							>
@@ -108,13 +109,13 @@ const SongComponent = ({
 				</div>
 				<div className={styles.albumNameCell}>
 					<div className={styles.albumName}>
-						<a
+						<Link
 							// className={styles.artworkContainer}
 							target="_blank"
 							href={albumId ? albumLink : '#'}
 						>
 							{albumName}
-						</a>
+						</Link>
 					</div>
 				</div>
 				<div className={styles.durationCell}>

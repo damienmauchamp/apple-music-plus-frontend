@@ -11,6 +11,7 @@ import {
 	isMobile,
 } from 'react-device-detect'
 import { IoCheckmarkCircle } from 'react-icons/io5'
+import Link from '../../Components/Link'
 
 interface AlbumProps extends React.HTMLAttributes<HTMLDivElement>, Album {}
 
@@ -68,7 +69,7 @@ const AlbumComponent = ({
 			data-m={Number(isMobile)}
 			// key={identifier}
 		>
-			<a
+			<Link
 				className={styles.album}
 				target="_blank"
 				href={`https://music.apple.com/${process.env.STOREFRONT}/album/${storeId}`}
@@ -134,7 +135,7 @@ const AlbumComponent = ({
 					</div>
 					<div className={styles.artistName}>{artistName}</div>
 				</div>
-			</a>
+			</Link>
 		</div>
 	)
 }

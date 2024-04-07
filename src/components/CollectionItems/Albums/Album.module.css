@@ -28,6 +28,7 @@
 
 .artworkOverlayActions {
 	@apply flex items-end justify-between p-4;
+	@apply pointer-events-none;
 }
 
 .album:hover .artworkOverlayActions {
@@ -35,7 +36,8 @@
 }
 
 .overlayButton {
-	@apply rounded-full;
+	@apply rounded-full w-auto;
+	@apply md:pointer-events-auto;
 }
 
 .libraryButton {
@@ -57,6 +59,7 @@
 }
 
 .albumName {
+	@apply text-items-primary dark:text-items-primary-dark;
 	@apply line-clamp-2 max-sm:line-clamp-1 hover:md:underline;
 }
 
@@ -65,6 +68,7 @@
 }
 
 .artistName {
+	@apply text-items-secondary dark:text-items-secondary-dark;
 	@apply line-clamp-1 hover:md:underline;
 }
 

@@ -27,7 +27,7 @@ body {
 	background: rgb(var(--background-rgb));
 	/* @apply text-base; */
 	/* @apply text-sm; */
-	@apply text-global;
+	@apply !text-global;
 	font-family:
 		-apple-system,
 		BlinkMacSystemFont,
@@ -37,7 +37,7 @@ body {
 		Helvetica Neue,
 		Helvetica,
 		Arial,
-		sans-serif;
+		sans-serif !important;
 }
 
 @layer utilities {
@@ -50,6 +50,10 @@ body {
 html,
 body {
 	@apply min-h-screen;
+	@apply text-items-primary dark:text-items-primary-dark;
+}
+a {
+	@apply text-links dark:text-links-dark;
 }
 
 /* SF Pro */
