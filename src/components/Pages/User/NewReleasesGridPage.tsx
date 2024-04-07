@@ -16,6 +16,14 @@ export default function NewReleasesGridPage({
 			{...props}
 		>
 			<NewReleasesGridSection full />
+			{[...Array(6)].map((value, index) =>
+				!index ? null : (
+					<NewReleasesGridSection
+						key={`NewReleasesGridSection${index}`}
+						weeks={-index}
+					/>
+				)
+			)}
 		</AppPage>
 	)
 }

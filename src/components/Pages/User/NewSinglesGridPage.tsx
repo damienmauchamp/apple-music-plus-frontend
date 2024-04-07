@@ -16,6 +16,12 @@ export default function NewSinglesGridPage({
 			{...props}
 		>
 			<NewSinglesGridSection full />
+			<NewSinglesGridSection weeks={-1} />
+			<NewSinglesGridSection weeks={-2} />
+			<NewSinglesGridSection weeks={-3} />
+			<NewSinglesGridSection weeks={-4} />
+			<NewSinglesGridSection weeks={-5} />
+			<NewSinglesGridSection weeks={-6} />
 		</AppPage>
 	)
 }

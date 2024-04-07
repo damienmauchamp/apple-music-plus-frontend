@@ -1,6 +1,6 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { Album } from '@/types/Items'
-import { getFrom } from '@/src/helpers/releases'
+import { getFromViaWeeks, getToViaWeeks } from '@/src/helpers/releases'
 import useAPI from '@/lib/useAPI'
 import AlbumsSection from '../../LayoutComponents/AlbumsSection/AlbumsSection'
 
@@ -14,15 +14,35 @@ export interface NewReleasesSectionProps {
 
 	newNav?: boolean
 	full?: boolean
+
+	weeks?: number
 }
 
 function NewReleasesSection({
 	data = [] as Album[],
 	grid = false,
+	weeks = 0,
+	title,
 	...props
 }: NewReleasesSectionProps) {
 	const api = useAPI()
-	const from = getFrom()
+	// const from = getFrom()
+	const from = getFromViaWeeks(weeks)
+	const params = useMemo(
+		() =>
+			weeks
+				? {
+						// 	weekly: 1,
+						// 	weeks: weeks * -1,
+						weekly: 0,
+						to: getToViaWeeks(weeks),
+					}
+				: {},
+		[weeks]
+	)
+	if (!title && weeks) {
+		title = getFromViaWeeks(weeks, 'll')
+	}
 
 	const hasData = Boolean(data.length)
 
@@ -35,7 +55,9 @@ function NewReleasesSection({
 		async (signal?: AbortSignal) => {
 			try {
 				if (!hasData && !newReleasesLoaded && !newReleasesLoading) {
-					const res = await api.getNewReleases(from, { signal })
+					const res = await api.getNewReleases(from, params, {
+						signal,
+					})
 					setNewReleases(res.data.data)
 					setNewReleasesLoading(true)
 				}
@@ -46,7 +68,7 @@ function NewReleasesSection({
 				setNewReleasesLoading(false)
 			}
 		},
-		[api, from, hasData, newReleasesLoaded, newReleasesLoading]
+		[api, from, params, hasData, newReleasesLoaded, newReleasesLoading]
 	)
 
 	useEffect(() => {
@@ -84,7 +106,7 @@ function NewReleasesSection({
 	return (
 		<AlbumsSection
 			id={props.id || 'newReleases'}
-			title={props.title}
+			title={title}
 			key={props.id || 'newReleases'}
 			items={newReleases}
 			scroll={false}

@@ -1,6 +1,6 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { Album } from '@/types/Items'
-import { getFrom } from '@/src/helpers/releases'
+import { getFromViaWeeks, getToViaWeeks } from '@/src/helpers/releases'
 import useAPI from '@/lib/useAPI'
 import AlbumsSection from '../../LayoutComponents/AlbumsSection/AlbumsSection'
 
@@ -14,15 +14,37 @@ export interface NewSinglesSectionProps {
 
 	newNav?: boolean
 	full?: boolean
+
+	weeks?: number
 }
 
 function NewSinglesSection({
 	data = [] as Album[],
 	grid = false,
+	weeks = 0,
+	title,
 	...props
 }: NewSinglesSectionProps) {
 	const api = useAPI()
-	const from = getFrom()
+	// const from = getFrom()
+	const from = getFromViaWeeks(weeks)
+
+	const params = useMemo(
+		() =>
+			weeks
+				? {
+						// 	weekly: 1,
+						// 	weeks: weeks * -1,
+						weekly: 0,
+						to: getToViaWeeks(weeks),
+					}
+				: {},
+		[weeks]
+	)
+	if (!title && weeks) {
+		// title = `${weeks} week${weeks > 1 ? 's' : ''} ago`
+		title = getFromViaWeeks(weeks, 'll')
+	}
 
 	const hasData = Boolean(data.length)
 
@@ -35,7 +57,9 @@ function NewSinglesSection({
 		async (signal?: AbortSignal) => {
 			try {
 				if (!hasData && !newSinglesLoaded && !newSinglesLoading) {
-					const res = await api.getNewSingles(from, { signal })
+					const res = await api.getNewSingles(from, params, {
+						signal,
+					})
 					setNewSingles(res.data.data)
 					setNewSinglesLoading(true)
 				}
@@ -46,7 +70,7 @@ function NewSinglesSection({
 				setNewSinglesLoading(false)
 			}
 		},
-		[api, from, hasData, newSinglesLoading, newSinglesLoaded]
+		[api, from, params, hasData, newSinglesLoading, newSinglesLoaded]
 	)
 
 	useEffect(() => {
@@ -85,7 +109,7 @@ function NewSinglesSection({
 	return (
 		<AlbumsSection
 			id={props.id || 'newSingles'}
-			title={props.title}
+			title={title}
 			key={props.id || 'newSingles'}
 			items={newSingles}
 			// mobileScroll={true}

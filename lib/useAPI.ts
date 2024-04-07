@@ -95,6 +95,7 @@ export default function useAPI() {
 	/* region API */
 	const getNewReleases = (
 		from: string,
+		params: object = {},
 		config?: AxiosRequestConfig<any> | undefined
 	) => {
 		return get(`/api/user/releases`, {
@@ -102,6 +103,7 @@ export default function useAPI() {
 			params: {
 				...defaultParams(),
 				from: from,
+				...params,
 				sort: '-releaseDate',
 				// weekly: 1,
 				// weeks: 1,
@@ -113,6 +115,7 @@ export default function useAPI() {
 	}
 	const getNewSingles = (
 		from: string,
+		params: object = {},
 		config?: AxiosRequestConfig<any> | undefined
 	) => {
 		return get(`/api/user/releases`, {
@@ -120,6 +123,7 @@ export default function useAPI() {
 			params: {
 				...defaultParams(),
 				from: from,
+				...params,
 				sort: '-releaseDate',
 				hide_albums: 1,
 				hide_eps: 1,
