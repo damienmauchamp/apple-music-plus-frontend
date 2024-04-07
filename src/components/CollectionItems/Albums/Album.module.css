@@ -28,6 +28,7 @@
 
 .artworkOverlayActions {
 	@apply flex items-end justify-between p-4;
+	@apply pointer-events-none;
 }
 
 .album:hover .artworkOverlayActions {
@@ -35,7 +36,8 @@
 }
 
 .overlayButton {
-	@apply rounded-full;
+	@apply rounded-full w-auto;
+	@apply md:pointer-events-auto;
 }
 
 .libraryButton {
