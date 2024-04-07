@@ -12,6 +12,8 @@ interface SongsListSectionProps
 		SectionCollectionProps {
 	// key: string
 	items: Song[]
+
+	full?: boolean
 }
 
 const SongsListSection = ({
@@ -21,6 +23,7 @@ const SongsListSection = ({
 	seeAllPath,
 	loading = false,
 	newNav,
+	full,
 	...props
 }: SongsListSectionProps) => {
 	if (!loading && !props.items.length) {
@@ -38,7 +41,7 @@ const SongsListSection = ({
 				newNav={newNav}
 			>
 				{loading ? (
-					<LoadingSection />
+					<LoadingSection full={full} />
 				) : (
 					<SongsCollectionView id={id} {...props} />
 				)}

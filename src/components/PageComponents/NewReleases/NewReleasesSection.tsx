@@ -13,6 +13,7 @@ export interface NewReleasesSectionProps {
 	rows?: number
 
 	newNav?: boolean
+	full?: boolean
 }
 
 function NewReleasesSection({

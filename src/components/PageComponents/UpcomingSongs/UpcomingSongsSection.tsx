@@ -15,6 +15,7 @@ export interface UpcomingSongsSectionProps {
 	header?: boolean
 
 	newNav?: boolean
+	full?: boolean
 }
 
 function UpcomingSongsSection({

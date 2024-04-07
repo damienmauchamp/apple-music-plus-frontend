@@ -9,8 +9,9 @@ export interface UpcomingReleasesGridSectionProps
 
 const UpcomingReleasesGridSection = ({
 	data = [] as Song[],
+	...props
 }: UpcomingReleasesGridSectionProps) => (
-	<UpcomingReleasesSection data={data} grid />
+	<UpcomingReleasesSection data={data} grid {...props} />
 )
 
 export default UpcomingReleasesGridSection

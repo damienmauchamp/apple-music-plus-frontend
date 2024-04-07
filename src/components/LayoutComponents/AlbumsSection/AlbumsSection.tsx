@@ -14,6 +14,7 @@ export interface AlbumsSectionProps
 	items: Album[]
 
 	grid?: boolean
+	full?: boolean
 }
 
 const AlbumsSection = ({
@@ -24,6 +25,7 @@ const AlbumsSection = ({
 	grid = false,
 	loading = false,
 	newNav,
+	full,
 	...props
 }: AlbumsSectionProps) => {
 	if (!loading && !props.items.length) {
@@ -47,7 +49,7 @@ const AlbumsSection = ({
 				newNav={newNav}
 			>
 				{loading ? (
-					<LoadingSection />
+					<LoadingSection full={full} />
 				) : (
 					<AlbumsCollectionView id={id} {...collectionViewProps()} />
 				)}

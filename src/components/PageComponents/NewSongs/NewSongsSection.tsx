@@ -15,6 +15,7 @@ export interface NewSongsSectionProps {
 	header?: boolean
 
 	newNav?: boolean
+	full?: boolean
 }
 
 function NewSongsSection({

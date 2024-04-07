@@ -13,6 +13,7 @@ export interface NewSinglesSectionProps {
 	rows?: number
 
 	newNav?: boolean
+	full?: boolean
 }
 
 function NewSinglesSection({

@@ -13,6 +13,7 @@ export interface UpcomingReleasesSectionProps {
 	rows?: number
 
 	newNav?: boolean
+	full?: boolean
 }
 
 function UpcomingReleasesSection({
