@@ -60,16 +60,16 @@
 
 .albumName {
 	@apply text-items-primary dark:text-items-primary-dark;
-	@apply line-clamp-2 max-sm:line-clamp-1 hover:md:underline;
+	@apply line-clamp-2 max-sm:line-clamp-1 hover:md:underline max-sm:break-all;
 }
 
 .albumBadge {
-	@apply pl-3 pt-[2px] ml-auto self-start;
+	@apply pt-[2px] ml-auto self-start;
 }
 
 .artistName {
 	@apply text-items-secondary dark:text-items-secondary-dark;
-	@apply line-clamp-1 hover:md:underline;
+	@apply line-clamp-1 hover:md:underline max-sm:break-all;
 }
 
 .inLibraryIcon {

@@ -89,7 +89,10 @@ const SongComponent = ({
 							<div className="flex items-center">
 								<div className={styles.songName}>{name}</div>
 								<span className={styles.songBadge}>
-									<ContentRating type={contentRating} />
+									<ContentRating
+										type={contentRating}
+										size={12}
+									/>
 								</span>
 							</div>
 							<div

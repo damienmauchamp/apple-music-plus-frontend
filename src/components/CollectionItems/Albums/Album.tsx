@@ -130,7 +130,7 @@ const AlbumComponent = ({
 					<div className={styles.albumNameContainer}>
 						<div className={styles.albumName}>{name}</div>
 						<span className={styles.albumBadge}>
-							<ContentRating type={contentRating} size={11} />
+							<ContentRating type={contentRating} size={14} />
 						</span>
 					</div>
 					<div className={styles.artistName}>{artistName}</div>
