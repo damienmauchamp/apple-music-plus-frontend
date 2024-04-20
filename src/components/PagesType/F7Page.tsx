@@ -55,6 +55,9 @@ const F7Page = ({
 			<Page
 				className={`page-${name} !bg-white dark:!bg-black ${navbarCollapsed ? 'page-with-navbar-large-collapsed' : ''} `}
 				{...props}
+				ptr
+				ptrMousewheel={true}
+				onPtrRefresh={() => console.log('onPtrRefresh')}
 			>
 				{/* todo : ProfileLink */}
 				{fixed && <div slot="fixed">{fixed}</div>}

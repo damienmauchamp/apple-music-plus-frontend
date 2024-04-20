@@ -21,6 +21,7 @@ import { useEffect } from 'react'
 // import routes from '@/src/routes'
 import routes from './routes'
 import F7ArtistsPage from '@/src/components/Pages/F7/F7ArtistsPage'
+import TestPullToRefresh from '@/src/components/Pages/F7/TestPullToRefresh'
 
 //
 const f7params = {
@@ -76,7 +77,7 @@ const F7HomePage = () => {
 				{...f7params}
 				className="max-w-5xl mx-auto lg:rounded-3xl lg:overflow-hidden"
 			>
-				<Views tabs>
+				<Views tabs className="safe-areas">
 					{/* Toolbar */}
 					<Toolbar tabbar bottom icons>
 						<Link
@@ -92,6 +93,13 @@ const F7HomePage = () => {
 							iconIos="f7:music_mic"
 							iconMd="material:artist"
 						/>
+						{/* TESTS */}
+						<Link
+							tabLink="#tab-tests"
+							text="Tests"
+							iconIos="f7:lightbulb_fill"
+							iconMd="material:lightbulb"
+						/>
 					</Toolbar>
 
 					{/* Tabs */}
@@ -100,6 +108,10 @@ const F7HomePage = () => {
 					</View>
 					<View id="tab-artists" tab>
 						<F7ArtistsPage />
+					</View>
+					{/* TESTS */}
+					<View id="tab-tests" tab>
+						<TestPullToRefresh />
 					</View>
 				</Views>
 			</App>
