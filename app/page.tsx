@@ -22,6 +22,7 @@ import { useEffect } from 'react'
 import routes from './routes'
 import F7ArtistsPage from '@/src/components/Pages/F7/F7ArtistsPage'
 import TestPullToRefresh from '@/src/components/Pages/F7/TestPullToRefresh'
+// import { fixNavBar } from '@/src/helpers/f7'
 
 //
 const f7params = {
@@ -50,9 +51,10 @@ const F7HomePage = () => {
 			f7.setColorTheme('#ff2d55')
 		})
 
-		document
-			.querySelector('.navbars.navbar-hidden')
-			?.classList.remove('navbar-hidden')
+		// document
+		// 	.querySelector('.navbars.navbar-hidden')
+		// 	?.classList.remove('navbar-hidden')
+		// fixNavBar()
 
 		return () => {
 			// console.log('%c[F7HomePage] UNMOUNTED', 'color:red;')

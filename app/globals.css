@@ -49,7 +49,7 @@ body {
 /* CUSTOM */
 html,
 body {
-	@apply min-h-screen;
+	/* @apply min-h-screen; */
 	@apply text-items-primary dark:text-items-primary-dark;
 }
 a {
