@@ -53,7 +53,7 @@ const F7Page = ({
 	return (
 		<>
 			<Page
-				className={`page-${name} !bg-white dark:!bg-black ${navbarCollapsed ? 'page-with-navbar-large-collapsed' : ''}`}
+				className={`page-${name} !bg-white dark:!bg-black ${navbarCollapsed ? 'page-with-navbar-large-collapsed' : ''} `}
 				{...props}
 			>
 				{/* todo : ProfileLink */}

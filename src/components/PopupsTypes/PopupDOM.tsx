@@ -19,13 +19,10 @@ const PopupDOM = ({
 }: PopupDOMProps) => {
 	useEffect(() => {
 		fixNavBar()
-		// document
-		// 	.querySelector('.navbars.navbar-hidden')
-		// 	?.classList.remove('navbar-hidden')
 	}, [])
 
 	return (
-		<Popup className={className} {...props}>
+		<Popup className={className} {...props} onPopupOpen={() => fixNavBar()}>
 			<View>
 				<Page>
 					<Navbar title={title} large>

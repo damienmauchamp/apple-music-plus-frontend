@@ -1,10 +1,14 @@
 import {
 	Block,
 	BlockTitle,
+	Button,
 	List,
 	ListItem,
 	Searchbar,
+	Segmented,
 	Subnavbar,
+	SwipeoutActions,
+	SwipeoutButton,
 } from 'framework7-react'
 import AppPage from '../../PagesType/AppPage'
 import styles from './ArtistsPage.module.css'
@@ -33,11 +37,8 @@ export default function ArtistPage({ ...props }: ArtistsPageProps) {
 				/>
 			</Subnavbar>
 
-			{/* <Subnavbar
-				inner
-				className={styles.artistsSubnavbar}
-				title="Page Title"
-			>
+			<div className="">
+				<BlockTitle>Search results</BlockTitle>
 				<Segmented strong>
 					<Button smallMd active>
 						Link 1
@@ -45,6 +46,68 @@ export default function ArtistPage({ ...props }: ArtistsPageProps) {
 					<Button smallMd>Link 2</Button>
 					<Button smallMd>Link 3</Button>
 				</Segmented>
+
+				<List
+					// strong
+					insetMd
+					outlineIos
+					dividersIos
+					className="search-list searchbar-found"
+					// bgColor="transparent"
+				>
+					{[
+						'AAA Ivan Petrov',
+						'Acura',
+						'Audi',
+						'BMW',
+						'Cadillac',
+					].map((title) => (
+						<ListItem
+							title={title}
+							key={title}
+							swipeout
+							// link="#"
+							after="Add / Added"
+							// bgColor="transparent"
+						>
+							{/* eslint-disable-next-line @next/next/no-img-element */}
+							<img
+								slot="media"
+								style={{ borderRadius: '100%' }}
+								src="/android-chrome-192x192.png"
+								alt="cul"
+								width="44"
+							/>
+
+							<SwipeoutActions right>
+								<SwipeoutButton
+									onClick={() => {
+										console.log('MORE')
+									}}
+								>
+									More
+								</SwipeoutButton>
+								<SwipeoutButton
+									delete
+									confirmText="Are you sure you want to delete this item?"
+								>
+									Confirm
+								</SwipeoutButton>
+
+								<SwipeoutButton delete>Delete</SwipeoutButton>
+							</SwipeoutActions>
+						</ListItem>
+					))}
+					<ListItem title="Coucou" />
+				</List>
+			</div>
+
+			{/* TMP */}
+			{/* <Subnavbar
+				inner
+				className={styles.artistsSubnavbar}
+				title="Page Title"
+			>
 			</Subnavbar> */}
 			{/* </Navbar> */}
 
@@ -59,33 +122,6 @@ export default function ArtistPage({ ...props }: ArtistsPageProps) {
 
 			<Block>-</Block>
 
-			<List
-				strongIos
-				outlineIos
-				dividersIos
-				className="search-list searchbar-found"
-			>
-				<ListItem title="Acura" />
-				<ListItem title="Audi" />
-				<ListItem title="BMW" />
-				<ListItem title="Cadillac" />
-			</List>
-
-			{/* TMP */}
-			<Block>Nothing here yet</Block>
-			<Block>Nothing here yet</Block>
-			<Block>Nothing here yet</Block>
-			<Block>Nothing here yet</Block>
-			<Block>Nothing here yet</Block>
-			<Block>Nothing here yet</Block>
-			<Block>Nothing here yet</Block>
-			<Block>Nothing here yet</Block>
-			<Block>Nothing here yet</Block>
-			<Block>Nothing here yet</Block>
-			<Block>Nothing here yet</Block>
-			<Block>Nothing here yet</Block>
-			<Block>Nothing here yet</Block>
-			<Block>Nothing here yet</Block>
 			<Block>Nothing here yet</Block>
 			<Block>Nothing here yet</Block>
 			<Block>Nothing here yet</Block>
