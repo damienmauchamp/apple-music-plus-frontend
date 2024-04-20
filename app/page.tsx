@@ -3,7 +3,14 @@
 // F7
 import 'framework7/css/bundle'
 import Framework7 from '@/src/framework7-custom'
-import Framework7React, { App, View, Views, f7ready } from 'framework7-react'
+import Framework7React, {
+	App,
+	Link,
+	Toolbar,
+	View,
+	Views,
+	f7ready,
+} from 'framework7-react'
 Framework7.use(Framework7React)
 
 //
@@ -13,6 +20,7 @@ import { useEffect } from 'react'
 // routes
 // import routes from '@/src/routes'
 import routes from './routes'
+import F7ArtistsPage from '@/src/components/Pages/F7/F7ArtistsPage'
 
 //
 const f7params = {
@@ -22,6 +30,7 @@ const f7params = {
 	// theme: 'auto',
 	theme: 'ios',
 	darkMode: 'auto',
+	// autoDarkTheme: true,
 	// store: store,
 	popup: { closeOnEscape: true },
 	sheet: { closeOnEscape: true },
@@ -68,11 +77,29 @@ const F7HomePage = () => {
 				className="max-w-5xl mx-auto lg:rounded-3xl lg:overflow-hidden"
 			>
 				<Views tabs>
-					<View id="tab-1" main url="/" tab tabActive>
+					{/* Toolbar */}
+					<Toolbar tabbar bottom icons>
+						<Link
+							tabLink="#tab-releases"
+							tabLinkActive
+							text="Home"
+							iconIos="f7:house"
+							iconMd="material:home"
+						/>
+						<Link
+							tabLink="#tab-artists"
+							text="Artists"
+							iconIos="f7:music_mic"
+							iconMd="material:artist"
+						/>
+					</Toolbar>
+
+					{/* Tabs */}
+					<View id="tab-releases" main url="/" tab tabActive>
 						<F7ReleasePage home={true} />
 					</View>
-					<View id="tab-2" tab>
-						...
+					<View id="tab-artists" tab>
+						<F7ArtistsPage />
 					</View>
 				</Views>
 			</App>

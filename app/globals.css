@@ -129,3 +129,18 @@ a {
 	font-style: normal;
 	src: url('../public/assets/fonts/SFPro/SFProText-Heavy.ttf');
 }
+
+/* TODO : MOVE */
+.page-with-navbar-large-collapsed {
+	--f7-navbar-large-collapse-progress: 1;
+}
+.page:not(.page-with-navbar-large-collapsed)
+/* :not(
+		.with-appstore-searchbar-enabled
+	) */
+	.subnavbar {
+	-webkit-backdrop-filter: blur(0px) !important;
+	backdrop-filter: blur(0px) !important;
+	background-color: transparent !important;
+	--f7-bars-border-color: transparent;
+}
