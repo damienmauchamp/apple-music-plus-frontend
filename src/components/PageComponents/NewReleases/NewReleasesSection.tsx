@@ -3,6 +3,7 @@ import { Album } from '@/types/Items'
 import { getFromViaWeeks, getToViaWeeks } from '@/src/helpers/releases'
 import useAPI from '@/lib/useAPI'
 import AlbumsSection from '../../LayoutComponents/AlbumsSection/AlbumsSection'
+import { pagePtrSectionEl } from '../../PagesType/F7Page'
 
 export interface NewReleasesSectionProps {
 	data?: Album[]
@@ -51,11 +52,47 @@ function NewReleasesSection({
 	const [newReleasesLoading, setNewReleasesLoading] = useState<boolean>(false)
 	const [newReleasesLoaded, setNewReleasesLoaded] = useState<boolean>(false)
 
+	// region pull to refresh
+	const [isReloading, setIsReloading] = useState(false)
+	const reload = () => {
+		setIsReloading(true)
+		setNewReleasesLoaded(false)
+		setIsLoading(true)
+	}
+	useEffect(() => {
+		const pagePtrHandler = (e: Event) => {
+			const event = e as CustomEvent
+			const sectionEl = pagePtrSectionEl(props.id || 'newReleases')
+
+			if (
+				!event.detail ||
+				!event.detail.ref.el ||
+				!event.detail.ref.el.contains(sectionEl)
+			) {
+				return
+			}
+
+			reload()
+		}
+		document.addEventListener('page-ptr', pagePtrHandler)
+		return () => {
+			document.removeEventListener('page-ptr', pagePtrHandler)
+		}
+	}, [props.id])
+	// endregion pull to refresh
+
 	const loadNewReleases = useCallback(
 		async (signal?: AbortSignal) => {
 			try {
-				if (!hasData && !newReleasesLoaded && !newReleasesLoading) {
-					const res = await api.getNewReleases(from, params, {
+				if (
+					!hasData &&
+					(!newReleasesLoaded || isReloading) &&
+					!newReleasesLoading
+				) {
+					const parameters = isReloading
+						? { ...params, 'no-cache': 1 }
+						: params
+					const res = await api.getNewReleases(from, parameters, {
 						signal,
 					})
 					setNewReleases(res.data.data)
@@ -66,9 +103,18 @@ function NewReleasesSection({
 				if (!api.isCancel(error)) throw error
 			} finally {
 				setNewReleasesLoading(false)
+				setIsReloading(false)
 			}
 		},
-		[api, from, params, hasData, newReleasesLoaded, newReleasesLoading]
+		[
+			api,
+			from,
+			params,
+			hasData,
+			newReleasesLoaded,
+			newReleasesLoading,
+			isReloading,
+		]
 	)
 
 	useEffect(() => {

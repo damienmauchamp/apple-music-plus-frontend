@@ -4,7 +4,12 @@ import F7Page from '../../PagesType/F7Page'
 
 const F7NewSinglesGridPage = () => {
 	return (
-		<F7Page name="singles" title="New Singles" backLink={'New Releases'}>
+		<F7Page
+			name="singles"
+			title="New Singles"
+			backLink={'New Releases'}
+			ptr
+		>
 			<NewSinglesGridPage newNav={true} />
 		</F7Page>
 	)

@@ -3,6 +3,7 @@ import { Album } from '@/types/Items'
 import { getFrom } from '@/src/helpers/releases'
 import useAPI from '@/lib/useAPI'
 import AlbumsSection from '../../LayoutComponents/AlbumsSection/AlbumsSection'
+import { pagePtrSectionEl } from '../../PagesType/F7Page'
 
 export interface UpcomingReleasesSectionProps {
 	data?: Album[]
@@ -33,15 +34,49 @@ function UpcomingReleasesSection({
 	const [upcomingReleasesLoaded, setUpcomingReleasesLoaded] =
 		useState<boolean>(false)
 
+	// region pull to refresh
+	const [isReloading, setIsReloading] = useState(false)
+	const reload = () => {
+		setIsReloading(true)
+		setUpcomingReleasesLoaded(false)
+		setIsLoading(true)
+	}
+	useEffect(() => {
+		const pagePtrHandler = (e: Event) => {
+			const event = e as CustomEvent
+			const sectionEl = pagePtrSectionEl(props.id || 'upcomingReleases')
+
+			if (
+				!event.detail ||
+				!event.detail.ref.el ||
+				!event.detail.ref.el.contains(sectionEl)
+			) {
+				return
+			}
+
+			reload()
+		}
+		document.addEventListener('page-ptr', pagePtrHandler)
+		return () => {
+			document.removeEventListener('page-ptr', pagePtrHandler)
+		}
+	}, [props.id])
+	// endregion pull to refresh
+
 	const loadUpcomingReleases = useCallback(
 		async (signal?: AbortSignal) => {
 			try {
 				if (
 					!hasData &&
-					!upcomingReleasesLoaded &&
+					(!upcomingReleasesLoaded || isReloading) &&
 					!upcomingReleasesLoading
 				) {
-					const res = await api.getUpcomingReleases(from, { signal })
+					const parameters = isReloading ? { 'no-cache': 1 } : {}
+					const res = await api.getUpcomingReleases(
+						from,
+						parameters,
+						{ signal }
+					)
 					setUpcomingReleases(res.data.data)
 					setUpcomingReleasesLoading(true)
 				}
@@ -50,9 +85,17 @@ function UpcomingReleasesSection({
 				if (!api.isCancel(error)) throw error
 			} finally {
 				setUpcomingReleasesLoading(false)
+				setIsReloading(false)
 			}
 		},
-		[api, from, hasData, upcomingReleasesLoading, upcomingReleasesLoaded]
+		[
+			api,
+			from,
+			hasData,
+			upcomingReleasesLoading,
+			upcomingReleasesLoaded,
+			isReloading,
+		]
 	)
 
 	useEffect(() => {

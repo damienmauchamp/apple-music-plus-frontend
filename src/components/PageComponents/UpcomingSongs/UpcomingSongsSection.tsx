@@ -3,6 +3,7 @@ import { Song } from '@/types/Items'
 import { getFrom } from '@/src/helpers/releases'
 import useAPI from '@/lib/useAPI'
 import SongsListSection from '../../LayoutComponents/SongsSection/SongsListSection'
+import { pagePtrSectionEl } from '../../PagesType/F7Page'
 
 export interface UpcomingSongsSectionProps {
 	data?: Song[]
@@ -35,11 +36,43 @@ function UpcomingSongsSection({
 	const [upcomingSongsLoaded, setUpcomingSongsLoaded] =
 		useState<boolean>(false)
 
+	// region pull to refresh
+	const [isReloading, setIsReloading] = useState(false)
+	const reload = () => {
+		setIsReloading(true)
+		setUpcomingSongsLoaded(false)
+		setIsLoading(true)
+	}
+	useEffect(() => {
+		const pagePtrHandler = (e: Event) => {
+			const event = e as CustomEvent
+			const sectionEl = pagePtrSectionEl(props.id || 'upcomingSongs')
+
+			if (
+				!event.detail ||
+				!event.detail.ref.el ||
+				!event.detail.ref.el.contains(sectionEl)
+			) {
+				return
+			}
+
+			reload()
+		}
+		document.addEventListener('page-ptr', pagePtrHandler)
+		return () => {
+			document.removeEventListener('page-ptr', pagePtrHandler)
+		}
+	}, [props.id])
+	// endregion pull to refresh
+
 	const loadUpcomingSongs = useCallback(
 		async (signal?: AbortSignal) => {
 			try {
 				if (!hasData && !upcomingSongsLoaded && !upcomingSongsLoading) {
-					const res = await api.getUpcomingSongs(from, { signal })
+					const parameters = isReloading ? { 'no-cache': 1 } : {}
+					const res = await api.getUpcomingSongs(from, parameters, {
+						signal,
+					})
 					setUpcomingSongs(res.data.data)
 					setUpcomingSongsLoading(true)
 				}
@@ -48,9 +81,17 @@ function UpcomingSongsSection({
 				if (!api.isCancel(error)) throw error
 			} finally {
 				setUpcomingSongsLoading(false)
+				setIsReloading(false)
 			}
 		},
-		[api, from, hasData, upcomingSongsLoading, upcomingSongsLoaded]
+		[
+			api,
+			from,
+			hasData,
+			upcomingSongsLoading,
+			upcomingSongsLoaded,
+			isReloading,
+		]
 	)
 
 	useEffect(() => {

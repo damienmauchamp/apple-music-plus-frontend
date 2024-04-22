@@ -133,6 +133,7 @@ export default function useAPI() {
 	}
 	const getUpcomingReleases = (
 		from: string,
+		params: object = {},
 		config?: AxiosRequestConfig<any> | undefined
 	) => {
 		return get(`/api/user/releases`, {
@@ -140,6 +141,7 @@ export default function useAPI() {
 			params: {
 				...defaultParams(),
 				from: from,
+				...params,
 				sort: 'releaseDate',
 				only_upcoming: 1,
 			},
@@ -147,6 +149,7 @@ export default function useAPI() {
 	}
 	const getNewSongs = (
 		from: string,
+		params: object = {},
 		config?: AxiosRequestConfig<any> | undefined
 	) => {
 		return get(`/api/user/releases/songs`, {
@@ -154,6 +157,7 @@ export default function useAPI() {
 			params: {
 				...defaultParams(),
 				from: from,
+				...params,
 				sort: '-releaseDate',
 				hide_upcoming: 1,
 			},
@@ -161,6 +165,7 @@ export default function useAPI() {
 	}
 	const getUpcomingSongs = (
 		from: string,
+		params: object = {},
 		config?: AxiosRequestConfig<any> | undefined
 	) => {
 		return get(`/api/user/releases/songs`, {
@@ -168,6 +173,7 @@ export default function useAPI() {
 			params: {
 				...defaultParams(),
 				from: from,
+				...params,
 				sort: '-releaseDate',
 				only_upcoming: 1,
 			},

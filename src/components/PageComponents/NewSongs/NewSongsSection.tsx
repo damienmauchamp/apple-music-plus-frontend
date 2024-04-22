@@ -3,6 +3,7 @@ import { Song } from '@/types/Items'
 import { getFrom } from '@/src/helpers/releases'
 import useAPI from '@/lib/useAPI'
 import SongsListSection from '../../LayoutComponents/SongsSection/SongsListSection'
+import { pagePtrSectionEl } from '../../PagesType/F7Page'
 
 export interface NewSongsSectionProps {
 	data?: Song[]
@@ -34,11 +35,47 @@ function NewSongsSection({
 	const [newSongsLoading, setNewSongsLoading] = useState<boolean>(false)
 	const [newSongsLoaded, setNewSongsLoaded] = useState<boolean>(false)
 
+	// region pull to refresh
+	const [isReloading, setIsReloading] = useState(false)
+	const reload = () => {
+		setIsReloading(true)
+		setNewSongsLoaded(false)
+		setIsLoading(true)
+	}
+	useEffect(() => {
+		const pagePtrHandler = (e: Event) => {
+			const event = e as CustomEvent
+			const sectionEl = pagePtrSectionEl(props.id || 'newSongs')
+
+			if (
+				!event.detail ||
+				!event.detail.ref.el ||
+				!event.detail.ref.el.contains(sectionEl)
+			) {
+				return
+			}
+
+			reload()
+		}
+		document.addEventListener('page-ptr', pagePtrHandler)
+		return () => {
+			document.removeEventListener('page-ptr', pagePtrHandler)
+		}
+	}, [props.id])
+	// endregion pull to refresh
+
 	const loadNewSongs = useCallback(
 		async (signal?: AbortSignal) => {
 			try {
-				if (!hasData && !newSongsLoaded && !newSongsLoading) {
-					const res = await api.getNewSongs(from, { signal })
+				if (
+					!hasData &&
+					(!newSongsLoaded || isReloading) &&
+					!newSongsLoading
+				) {
+					const parameters = isReloading ? { 'no-cache': 1 } : {}
+					const res = await api.getNewSongs(from, parameters, {
+						signal,
+					})
 					setNewSongs(res.data.data)
 					setNewSongsLoading(true)
 				}
@@ -47,9 +84,10 @@ function NewSongsSection({
 				if (!api.isCancel(error)) throw error
 			} finally {
 				setNewSongsLoading(false)
+				setIsReloading(false)
 			}
 		},
-		[api, from, hasData, newSongsLoading, newSongsLoaded]
+		[api, from, hasData, newSongsLoading, newSongsLoaded, isReloading]
 	)
 
 	useEffect(() => {

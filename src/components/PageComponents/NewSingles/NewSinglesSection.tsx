@@ -3,6 +3,7 @@ import { Album } from '@/types/Items'
 import { getFromViaWeeks, getToViaWeeks } from '@/src/helpers/releases'
 import useAPI from '@/lib/useAPI'
 import AlbumsSection from '../../LayoutComponents/AlbumsSection/AlbumsSection'
+import { pagePtrSectionEl } from '../../PagesType/F7Page'
 
 export interface NewSinglesSectionProps {
 	data?: Album[]
@@ -53,11 +54,47 @@ function NewSinglesSection({
 	const [newSinglesLoading, setNewSinglesLoading] = useState<boolean>(false)
 	const [newSinglesLoaded, setNewSinglesLoaded] = useState<boolean>(false)
 
+	// region pull to refresh
+	const [isReloading, setIsReloading] = useState(false)
+	const reload = () => {
+		setIsReloading(true)
+		setNewSinglesLoaded(false)
+		setIsLoading(true)
+	}
+	useEffect(() => {
+		const pagePtrHandler = (e: Event) => {
+			const event = e as CustomEvent
+			const sectionEl = pagePtrSectionEl(props.id || 'newSingles')
+
+			if (
+				!event.detail ||
+				!event.detail.ref.el ||
+				!event.detail.ref.el.contains(sectionEl)
+			) {
+				return
+			}
+
+			reload()
+		}
+		document.addEventListener('page-ptr', pagePtrHandler)
+		return () => {
+			document.removeEventListener('page-ptr', pagePtrHandler)
+		}
+	}, [props.id])
+	// endregion pull to refresh
+
 	const loadNewSingles = useCallback(
 		async (signal?: AbortSignal) => {
 			try {
-				if (!hasData && !newSinglesLoaded && !newSinglesLoading) {
-					const res = await api.getNewSingles(from, params, {
+				if (
+					!hasData &&
+					(!newSinglesLoaded || isReloading) &&
+					!newSinglesLoading
+				) {
+					const parameters = isReloading
+						? { ...params, 'no-cache': 1 }
+						: params
+					const res = await api.getNewSingles(from, parameters, {
 						signal,
 					})
 					setNewSingles(res.data.data)
@@ -68,9 +105,18 @@ function NewSinglesSection({
 				if (!api.isCancel(error)) throw error
 			} finally {
 				setNewSinglesLoading(false)
+				setIsReloading(false)
 			}
 		},
-		[api, from, params, hasData, newSinglesLoading, newSinglesLoaded]
+		[
+			api,
+			from,
+			params,
+			hasData,
+			newSinglesLoading,
+			newSinglesLoaded,
+			isReloading,
+		]
 	)
 
 	useEffect(() => {
