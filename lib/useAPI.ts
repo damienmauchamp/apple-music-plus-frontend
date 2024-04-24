@@ -93,6 +93,8 @@ export default function useAPI() {
 	/* endregion extending axios */
 
 	/* region API */
+
+	// releases
 	const getNewReleases = (
 		from: string,
 		params: object = {},
@@ -180,8 +182,7 @@ export default function useAPI() {
 		})
 	}
 
-	//
-
+	// libbrary
 	const addResourceToLibrary = (
 		storeIds: string[],
 		type: string = 'albums'
@@ -199,9 +200,14 @@ export default function useAPI() {
 		)
 	}
 
-	//
-
-	const getUserArtists = () => get(`/api/user/artists`)
+	// artists
+	const getUserArtists = (config?: AxiosRequestConfig<any> | undefined) =>
+		get(`/api/user/artists`, {
+			...config,
+			params: {
+				limit: 1000,
+			},
+		})
 	/* endregion API */
 
 	return {

@@ -40,6 +40,10 @@ const f7params = {
 	actions: { closeOnEscape: true },
 }
 
+// React query
+import { QueryClient, QueryClientProvider } from 'react-query'
+const queryClient = new QueryClient()
+
 const F7HomePage = () => {
 	// const [ready, setReady] = useState<any>(false)
 
@@ -75,48 +79,50 @@ const F7HomePage = () => {
 
 	return (
 		<>
-			<App
-				{...f7params}
-				className="max-w-5xl mx-auto lg:rounded-3xl lg:overflow-hidden"
-			>
-				<Views tabs className="safe-areas">
-					{/* Toolbar */}
-					<Toolbar tabbar bottom icons>
-						<Link
-							tabLink="#tab-releases"
-							tabLinkActive
-							text="Home"
-							iconIos="f7:house"
-							iconMd="material:home"
-						/>
-						<Link
-							tabLink="#tab-artists"
-							text="Artists"
-							iconIos="f7:music_mic"
-							iconMd="material:artist"
-						/>
-						{/* TESTS */}
-						<Link
-							tabLink="#tab-tests"
-							text="Tests"
-							iconIos="f7:lightbulb_fill"
-							iconMd="material:lightbulb"
-						/>
-					</Toolbar>
+			<QueryClientProvider client={queryClient}>
+				<App
+					{...f7params}
+					className="max-w-5xl mx-auto lg:rounded-3xl lg:overflow-hidden"
+				>
+					<Views tabs className="safe-areas">
+						{/* Toolbar */}
+						<Toolbar tabbar bottom icons>
+							<Link
+								tabLink="#tab-releases"
+								tabLinkActive
+								text="Home"
+								iconIos="f7:house"
+								iconMd="material:home"
+							/>
+							<Link
+								tabLink="#tab-artists"
+								text="Artists"
+								iconIos="f7:music_mic"
+								iconMd="material:artist"
+							/>
+							{/* TESTS */}
+							<Link
+								tabLink="#tab-tests"
+								text="Tests"
+								iconIos="f7:lightbulb_fill"
+								iconMd="material:lightbulb"
+							/>
+						</Toolbar>
 
-					{/* Tabs */}
-					<View id="tab-releases" main url="/" tab tabActive>
-						<F7ReleasePage home={true} />
-					</View>
-					<View id="tab-artists" tab>
-						<F7ArtistsPage />
-					</View>
-					{/* TESTS */}
-					<View id="tab-tests" tab>
-						<TestPullToRefresh />
-					</View>
-				</Views>
-			</App>
+						{/* Tabs */}
+						<View id="tab-releases" main url="/" tab tabActive>
+							<F7ReleasePage home={true} />
+						</View>
+						<View id="tab-artists" tab>
+							<F7ArtistsPage />
+						</View>
+						{/* TESTS */}
+						<View id="tab-tests" tab>
+							<TestPullToRefresh />
+						</View>
+					</Views>
+				</App>
+			</QueryClientProvider>
 		</>
 	)
 }

@@ -12,7 +12,7 @@ export interface Album {
 	artists?: Artist[]
 	releaseDate: string
 	artworkUrl: string
-	artworkSize?: number
+	artworkSize: number
 	contentRating: string
 	// trackCount?: number
 	// isSingle?: boolean
@@ -39,7 +39,7 @@ export interface Song {
 	artistName: string
 	releaseDate: string
 	artworkUrl: string
-	artworkSize?: number
+	artworkSize: number
 	durationInMillis?: number
 	contentRating: string
 	// discNumber?: number
@@ -54,4 +54,11 @@ export interface Song {
 
 export interface SectionCollectionProps {
 	loading?: boolean
+}
+
+export interface UserArtist {
+	id: string
+	name: string
+	storeId: string
+	artworkUrl?: string
 }

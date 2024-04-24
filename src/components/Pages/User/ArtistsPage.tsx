@@ -1,25 +1,45 @@
-import {
-	Block,
-	BlockTitle,
-	Button,
-	List,
-	ListItem,
-	Searchbar,
-	Segmented,
-	Subnavbar,
-	SwipeoutActions,
-	SwipeoutButton,
-} from 'framework7-react'
+import { BlockTitle, List, Searchbar, Subnavbar } from 'framework7-react'
 import AppPage from '../../PagesType/AppPage'
 import styles from './ArtistsPage.module.css'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
+import useAPI from '@/lib/useAPI'
+import { useQuery } from 'react-query'
+import { UserArtist } from '@/types/Items'
+import ArtistListItem from '../../Elements/ArtistListItem/ArtistListItem'
 
 interface ArtistsPageProps {}
 
 export default function ArtistPage({ ...props }: ArtistsPageProps) {
+	// api
+	const api = useAPI()
+
+	// artists
+	const { data, refetch } = useQuery(
+		'userArtists',
+		async () => await api.getUserArtists(),
+		{
+			enabled: false,
+			retry: 1,
+			onSuccess: (res) => {
+				console.log('SUCCESS setUserArtists:', res.data.data)
+				setUserArtists(res.data.data as UserArtist[])
+				// setUserArtists(fortmatResponse(res))
+			},
+			onError: (err: any) => {
+				setUserArtists([])
+				console.log('err', err)
+				// setUserArtists(fortmatResponse(err.response?.data || err))
+			},
+		}
+	)
+	const [userArtists, setUserArtists] = useState<UserArtist[]>(
+		data?.data.data || []
+	)
+
 	useEffect(() => {
+		if (!userArtists.length) refetch()
 		return () => {}
-	}, [])
+	}, [refetch, userArtists])
 
 	return (
 		<AppPage {...props} newNav={true}>
@@ -32,13 +52,14 @@ export default function ArtistPage({ ...props }: ArtistsPageProps) {
 				<Searchbar
 					className={styles.artistsSearchbar}
 					searchItem="li"
-					searchContainer=".search-list"
+					// searchContainer=".search-list"
+					searchContainer=".artists-list"
 					searchIn=".item-title"
 				/>
 			</Subnavbar>
 
-			<div className="">
-				<BlockTitle>Search results</BlockTitle>
+			{/* Search results */}
+			{/* <div slot="fixed">
 				<Segmented strong>
 					<Button smallMd active>
 						Link 1
@@ -46,61 +67,46 @@ export default function ArtistPage({ ...props }: ArtistsPageProps) {
 					<Button smallMd>Link 2</Button>
 					<Button smallMd>Link 3</Button>
 				</Segmented>
+			</div> */}
+			{/* <div className="search">
+				<div className="search-results">
+					<BlockTitle>Search results</BlockTitle>
+				</div>
+			</div> */}
 
-				<List
-					// strong
-					insetMd
-					outlineIos
-					dividersIos
-					className="search-list searchbar-found"
-					// bgColor="transparent"
-				>
-					{[
-						'AAA Ivan Petrov',
-						'Acura',
-						'Audi',
-						'BMW',
-						'Cadillac',
-					].map((title) => (
-						<ListItem
-							title={title}
-							key={title}
-							swipeout
-							// link="#"
-							after="Add / Added"
-							// bgColor="transparent"
-						>
-							{/* eslint-disable-next-line @next/next/no-img-element */}
-							<img
-								slot="media"
-								style={{ borderRadius: '100%' }}
-								src="/android-chrome-192x192.png"
-								alt="cul"
-								width="44"
-							/>
+			{/* User artists */}
 
-							<SwipeoutActions right>
-								<SwipeoutButton
-									onClick={() => {
-										console.log('MORE')
-									}}
-								>
-									More
-								</SwipeoutButton>
-								<SwipeoutButton
-									delete
-									confirmText="Are you sure you want to delete this item?"
-								>
-									Confirm
-								</SwipeoutButton>
-
-								<SwipeoutButton delete>Delete</SwipeoutButton>
-							</SwipeoutActions>
-						</ListItem>
+			<BlockTitle>Followed</BlockTitle>
+			<List
+				insetMd
+				outlineIos
+				dividersIos
+				className="artists-list searchbar-found"
+			>
+				<ul>
+					{userArtists.map((artist: UserArtist) => (
+						<ArtistListItem key={artist.id} artist={artist} />
 					))}
-					<ListItem title="Coucou" />
+				</ul>
+			</List>
+
+			{/* <Block>
+				<Button onClick={() => fetchArtists()}>
+					Fetch artists [API]
+				</Button>
+				<Button onClick={() => refetch()}>refetch() [Query]</Button>
+
+				<List>
+					<ListItem title={'status'}>{status}</ListItem>
+					<ListItem title={'error'}>{error}</ListItem>
+					<ListItem title={'isLoading'}>{Number(isLoading)}</ListItem>
+					<ListItem title={'isFetching'}>
+						{Number(isFetching)}
+					</ListItem>
+					<ListItem title={'isSuccess'}>{Number(isSuccess)}</ListItem>
+					<ListItem title={'isError'}>{Number(isError)}</ListItem>
 				</List>
-			</div>
+			</Block> */}
 
 			{/* TMP */}
 			{/* <Subnavbar
@@ -111,31 +117,12 @@ export default function ArtistPage({ ...props }: ArtistsPageProps) {
 			</Subnavbar> */}
 			{/* </Navbar> */}
 
-			<BlockTitle>Discover</BlockTitle>
+			{/* <BlockTitle>Discover</BlockTitle>
 			<List dividers dividersIos noChevron>
 				<ListItem link title="All Artists" />
 				<ListItem link title="All Artists" />
 				<ListItem link title="All Artists" />
-			</List>
-
-			{/* List */}
-
-			<Block>-</Block>
-
-			<Block>Nothing here yet</Block>
-			<Block>Nothing here yet</Block>
-			<Block>Nothing here yet</Block>
-			<Block>Nothing here yet</Block>
-			<Block>Nothing here yet</Block>
-			<Block>Nothing here yet</Block>
-			<Block>Nothing here yet</Block>
-			<Block>Nothing here yet</Block>
-			<Block>Nothing here yet</Block>
-			<Block>Nothing here yet</Block>
-			<Block>Nothing here yet</Block>
-			<Block>Nothing here yet</Block>
-			<Block>Nothing here yet</Block>
-			<Block>Nothing here yet</Block>
+			</List> */}
 		</AppPage>
 	)
 }

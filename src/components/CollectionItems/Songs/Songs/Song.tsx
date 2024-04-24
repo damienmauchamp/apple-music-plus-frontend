@@ -4,6 +4,12 @@ import styles from './Song.module.css'
 import ContentRating from '@/src/components/Elements/ContentRating/ContentRating'
 import { Artist, Song } from '@/types/Items'
 import Link from '@/src/components/Components/Link'
+import {
+	setAlbumLink,
+	setAlbumSongLink,
+	setArtistLink,
+	setArtworkUrl,
+} from '@/src/helpers/api'
 
 interface SongProps extends React.HTMLAttributes<HTMLDivElement>, Song {
 	selected?: boolean
@@ -54,12 +60,12 @@ const SongComponent = ({
 	artists.forEach((artist: Artist) => {
 		artistsNames = artistsNames.replace(
 			artist.name,
-			`<a target="_blank" class="hover:underline external text-links dark:text-links-dark" href="https://music.apple.com/${process.env.STOREFRONT}/artist/${artist.storeId}">${artist.name}</a>`
+			`<a target="_blank" class="hover:underline external text-links dark:text-links-dark" href="${setArtistLink(artist.storeId)}">${artist.name}</a>`
 		)
 	})
 
-	const albumLink = `https://music.apple.com/${process.env.STOREFRONT}/album/${albumId}`
-	const songLink = `${albumLink}?i=${storeId}`
+	const albumLink = setAlbumLink(albumId)
+	const songLink = setAlbumSongLink(albumId, storeId)
 
 	const song = () => {
 		return (
@@ -74,10 +80,7 @@ const SongComponent = ({
 							>
 								<Image
 									className={styles.artwork}
-									src={artworkUrl.replace(
-										'{w}x{h}',
-										`${artworkSize}x${artworkSize}`
-									)}
+									src={setArtworkUrl(artworkUrl, artworkSize)}
 									alt={`${name} by ${artistName}`}
 									width={artworkSize}
 									height={artworkSize}

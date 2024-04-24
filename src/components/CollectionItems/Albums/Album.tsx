@@ -12,6 +12,7 @@ import {
 } from 'react-device-detect'
 import { IoCheckmarkCircle } from 'react-icons/io5'
 import Link from '../../Components/Link'
+import { setAlbumLink, setArtworkUrl } from '@/src/helpers/api'
 
 interface AlbumProps extends React.HTMLAttributes<HTMLDivElement>, Album {}
 
@@ -72,15 +73,12 @@ const AlbumComponent = ({
 			<Link
 				className={styles.album}
 				target="_blank"
-				href={`https://music.apple.com/${process.env.STOREFRONT}/album/${storeId}`}
+				href={setAlbumLink(storeId)}
 			>
 				<div className={styles.artworkContainer}>
 					<Image
 						className={styles.artwork}
-						src={artworkUrl.replace(
-							'{w}x{h}',
-							`${artworkSize}x${artworkSize}`
-						)}
+						src={setArtworkUrl(artworkUrl, artworkSize)}
 						alt={`${name} by ${artistName}`}
 						width={artworkSize}
 						height={artworkSize}
