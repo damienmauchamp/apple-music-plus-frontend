@@ -9,7 +9,7 @@ interface ArtistListItemProps {
 	artist: UserArtist
 }
 
-const artworkSize = 44
+const artworkSize = 128
 
 const ArtistListItem = ({ artist }: ArtistListItemProps) => {
 	const imageProps = {

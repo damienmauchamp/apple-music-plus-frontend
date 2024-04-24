@@ -1,5 +1,5 @@
 .artwork {
-	@apply rounded-full overflow-hidden;
+	@apply rounded-full overflow-hidden w-11 h-auto;
 }
 .pathGeneric {
 	@apply fill-[#EBEBEB] dark:fill-[#323232];
