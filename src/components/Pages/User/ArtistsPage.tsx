@@ -12,6 +12,7 @@ import useAPI from '@/lib/useAPI'
 import { useQuery } from 'react-query'
 import { UserArtist } from '@/types/Items'
 import ArtistListItem from '../../Elements/ArtistListItem/ArtistListItem'
+import LoadingSection from '../../Components/Loading/LoadingSection'
 
 interface ArtistsPageProps {}
 
@@ -20,24 +21,24 @@ export default function ArtistPage({ ...props }: ArtistsPageProps) {
 	const api = useAPI()
 
 	// artists
-	const { data, refetch } = useQuery(
-		'userArtists',
-		async () => await api.getUserArtists(),
-		{
-			enabled: false,
-			retry: 1,
-			onSuccess: (res) => {
-				console.log('SUCCESS setUserArtists:', res.data.data)
-				setUserArtists(res.data.data as UserArtist[])
-				// setUserArtists(fortmatResponse(res))
-			},
-			onError: (err: any) => {
-				setUserArtists([])
-				console.log('err', err)
-				// setUserArtists(fortmatResponse(err.response?.data || err))
-			},
-		}
-	)
+	const {
+		data,
+		refetch,
+		isLoading: isLoadingArtists,
+	} = useQuery('userArtists', async () => await api.getUserArtists(), {
+		enabled: false,
+		retry: 1,
+		onSuccess: (res) => {
+			console.log('SUCCESS setUserArtists:', res.data.data)
+			setUserArtists(res.data.data as UserArtist[])
+			// setUserArtists(fortmatResponse(res))
+		},
+		onError: (err: any) => {
+			setUserArtists([])
+			console.log('err', err)
+			// setUserArtists(fortmatResponse(err.response?.data || err))
+		},
+	})
 	const [userArtists, setUserArtists] = useState<UserArtist[]>(
 		data?.data.data || []
 	)
@@ -198,11 +199,15 @@ export default function ArtistPage({ ...props }: ArtistsPageProps) {
 				dividersIos
 				className="artists-list searchbar-found"
 			>
-				<ul>
-					{userArtists.map((artist: UserArtist) => (
-						<ArtistListItem key={artist.id} artist={artist} />
-					))}
-				</ul>
+				{isLoadingArtists ? (
+					<LoadingSection />
+				) : (
+					<ul>
+						{userArtists.map((artist: UserArtist) => (
+							<ArtistListItem key={artist.id} artist={artist} />
+						))}
+					</ul>
+				)}
 			</List>
 
 			{/* <Block>

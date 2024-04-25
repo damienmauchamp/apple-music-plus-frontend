@@ -164,6 +164,7 @@ const F7Page = forwardRef<{ el: HTMLElement | null }, F7PageProps>(
 					${searchBarEnabled ? 'with-appstore-searchbar-enabled' : ''}
 					`}
 					ptr={ref ? ptr : false}
+					ptrDistance={(ref && ptr && props.ptrDistance) || 128}
 					onPtrRefresh={onPullToRefresh}
 					{...props}
 					ref={pageRef}
