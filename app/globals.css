@@ -131,16 +131,69 @@ a {
 }
 
 /* TODO : MOVE */
+.with-appstore-searchbar-closing.navbar,
+.with-appstore-searchbar-closing.navbar .navbar-bg,
+.with-appstore-searchbar-closing.navbar .navbar-inner .title,
+.with-appstore-searchbar-closing.navbar .navbar-inner .title-large,
+.with-appstore-searchbar-enabled.navbar,
+.with-appstore-searchbar-enabled.navbar .navbar-bg,
+.with-appstore-searchbar-enabled.navbar .navbar-inner .title,
+.with-appstore-searchbar-enabled.navbar .navbar-inner .title-large {
+	transition-duration: 0.3s;
+	transition-property: opacity, transform;
+}
+.navbar.with-appstore-searchbar-enabled .navbar-bg,
+.navbar.with-appstore-searchbar-enabled .title,
+.navbar.with-appstore-searchbar-enabled .title-large,
+.navbar.with-appstore-searchbar-enabled .title-large-text {
+	animation: none !important;
+}
+
+.navbar.with-appstore-searchbar-enabled .title,
+.navbar.with-appstore-searchbar-enabled .title-large {
+	opacity: 0 !important;
+}
+.appstore-page-large-navbar:not(.router-navbar-transition-from-large)
+	.title-large {
+	opacity: 0;
+	pointer-events: none;
+}
+
+.navbar.with-appstore-searchbar-enabled .navbar-bg {
+	opacity: 1 !important;
+	transform: none !important;
+	height: 100% !important;
+}
+
 .page-with-navbar-large-collapsed {
 	--f7-navbar-large-collapse-progress: 1;
 }
-.page:not(.page-with-navbar-large-collapsed)
-/* :not(
+.page:not(.page-with-navbar-large-collapsed):not(
 		.with-appstore-searchbar-enabled
-	) */
+	)
 	.subnavbar {
-	-webkit-backdrop-filter: blur(0px) !important;
 	backdrop-filter: blur(0px) !important;
 	background-color: transparent !important;
 	--f7-bars-border-color: transparent;
+}
+
+.page.with-appstore-searchbar-enabled .page-content {
+	transform: translateY(
+		calc(
+			-1 * (var(--f7-navbar-height) + var(--f7-navbar-large-title-height))
+		)
+	);
+	height: calc(
+		100% + var(--f7-navbar-height) + var(--f7-navbar-large-title-height)
+	);
+}
+
+.page.with-appstore-searchbar-enabled .subnavbar {
+	top: 0 !important;
+}
+
+.navbar.with-appstore-searchbar-enabled {
+	pointer-events: none;
+	transform: translateY(calc(-1 * var(--f7-navbar-height)));
+	--f7-navbar-border-color: transparent;
 }

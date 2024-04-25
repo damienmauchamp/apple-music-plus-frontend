@@ -5,6 +5,7 @@ import NewSinglesGridPage from '@/src/components/Pages/F7/F7NewSinglesGridPage'
 import NewSongsListPage from '@/src/components/Pages/F7/F7NewSongsListPage'
 import UpcomingSongsListPage from '@/src/components/Pages/F7/F7UpcomingSongsListPage'
 import ProfilePage from '@/src/components/Pages/ProfilePage'
+import ArtistPage from '@/src/components/Pages/User/ArtistsPage'
 
 const routes = [
 	{
@@ -30,6 +31,10 @@ const routes = [
 	{
 		path: '/profile',
 		component: ProfilePage,
+	},
+	{
+		path: '/artists',
+		component: ArtistPage,
 	},
 ]
 

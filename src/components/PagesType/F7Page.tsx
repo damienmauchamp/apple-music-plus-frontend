@@ -2,6 +2,7 @@ import React, {
 	ForwardedRef,
 	MutableRefObject,
 	forwardRef,
+	useCallback,
 	useEffect,
 	useState,
 } from 'react'
@@ -87,14 +88,97 @@ const F7Page = forwardRef<{ el: HTMLElement | null }, F7PageProps>(
 			}
 		}
 
+		// region searchbar
+		const [searchBarEnabled, setSearchBarEnabled] = useState(false)
+
+		const searchBarToggleHandler = useCallback(
+			(e: Event, enabled: boolean) => {
+				// if (!pageRef?.current) return
+
+				const event = e as CustomEvent
+				console.log('searchBarEnabledHandler', {
+					name,
+					// enabled,
+					// pageRef: pageRef.current?.el,
+					pageElement: event.detail.page,
+					pageName: event.detail.name,
+					// searchBarRef: event.detail.ref?.el,
+					// e,
+					// event,
+				})
+
+				console.log('new conditions', {
+					// samepage: pageRef.current?.el === event.detail.page,
+					samepage: name === event.detail.name,
+				})
+
+				// console.log('conditions', {
+				// 	1: !event.detail,
+				// 	2: !event.detail.ref.el,
+				// 	3: !pageRef.current?.el?.contains(event.detail.ref.el),
+				// })
+
+				// if (
+				// 	!event.detail ||
+				// 	!event.detail.ref.el ||
+				// 	!pageRef.current?.el?.contains(event.detail.ref.el)
+				// ) {
+				// 	return
+				// }
+
+				if (name !== event.detail.name) return
+
+				console.log('searchBarToggleHandler', { enabled, event })
+
+				setSearchBarEnabled(enabled)
+			},
+			[name]
+		)
+
+		const searchBarEnabledHandler = useCallback(
+			(e: Event) => searchBarToggleHandler(e, true),
+			[searchBarToggleHandler]
+		)
+		const searchBarDisabledHandler = useCallback(
+			(e: Event) => searchBarToggleHandler(e, false),
+			[searchBarToggleHandler]
+		)
+
+		useEffect(() => {
+			console.log('setup searchbar listeners', name)
+			document.addEventListener(
+				'page-searchbar-enabled',
+				searchBarEnabledHandler
+			)
+			document.addEventListener(
+				'page-searchbar-disabled',
+				searchBarDisabledHandler
+			)
+			return () => {
+				document.removeEventListener(
+					'page-searchbar-enabled',
+					searchBarEnabledHandler
+				)
+				document.removeEventListener(
+					'page-searchbar-disabled',
+					searchBarDisabledHandler
+				)
+			}
+		}, [name, pageRef, searchBarDisabledHandler, searchBarEnabledHandler])
+		// endregion searchbar
+
 		return (
 			<>
 				<Page
-					className={`page-${name} !bg-white dark:!bg-black ${navbarCollapsed ? 'page-with-navbar-large-collapsed' : ''} `}
+					className={`page-${name} !bg-white dark:!bg-black 
+					${navbarCollapsed ? 'page-with-navbar-large-collapsed' : ''}
+					${searchBarEnabled ? 'with-appstore-searchbar-enabled' : ''}
+					`}
 					ptr={ref ? ptr : false}
 					onPtrRefresh={onPullToRefresh}
 					{...props}
 					ref={pageRef}
+					name={name}
 				>
 					{/* todo : ProfileLink */}
 					{fixed && <div slot="fixed">{fixed}</div>}
@@ -108,6 +192,11 @@ const F7Page = forwardRef<{ el: HTMLElement | null }, F7PageProps>(
 						outline={false}
 						onNavbarCollapse={() => setNavbarCollapsed(true)}
 						onNavbarExpand={() => setNavbarCollapsed(false)}
+						className={
+							searchBarEnabled
+								? 'with-appstore-searchbar-enabled'
+								: ''
+						}
 					>
 						{titleVisible() && (
 							<NavTitleLarge>
