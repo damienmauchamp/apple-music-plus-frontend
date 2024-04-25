@@ -63,15 +63,10 @@ export default function ArtistPage({ ...props }: ArtistsPageProps) {
 		// searchBarRef.current?.
 		// return document.querySelector('.page')
 	}
-	const onSearchbarEnable = () => {
+	const searchBarEvent = (name: string) => {
 		const element = getPageElement()
-		console.log('enable', {
-			ref: searchBarRef.current,
-			page: element,
-			name: element?.dataset.name,
-		})
 		document.dispatchEvent(
-			new CustomEvent('page-searchbar-enabled', {
+			new CustomEvent(name, {
 				detail: {
 					ref: searchBarRef.current,
 					page: element,
@@ -79,29 +74,15 @@ export default function ArtistPage({ ...props }: ArtistsPageProps) {
 				},
 			})
 		)
-		// return getPageElement()?.classList.add(
-		// 	'with-appstore-searchbar-enabled'
-		// )
+	}
+	const onSearchbarEnable = () => {
+		searchBarEvent('page-searchbar-enabled')
 	}
 	const onSearchbarDisable = () => {
-		const element = getPageElement()
-		console.log('disable', {
-			ref: searchBarRef.current,
-			page: element,
-			name: element?.dataset.name,
-		})
-		document.dispatchEvent(
-			new CustomEvent('page-searchbar-disabled', {
-				detail: {
-					ref: searchBarRef.current,
-					page: element,
-					name: element?.dataset.name,
-				},
-			})
-		)
-		// return getPageElement()?.classList.remove(
-		// 	'with-appstore-searchbar-enabled'
-		// )
+		searchBarEvent('page-searchbar-disabled')
+	}
+	const onClickDisable = () => {
+		searchBarEvent('page-searchbar-closing')
 	}
 	const onChange = () => {
 		console.log('onChange')
@@ -116,8 +97,6 @@ export default function ArtistPage({ ...props }: ArtistsPageProps) {
 	useEffect(() => {
 		console.log('searchBarRef', searchBarRef.current)
 	}, [searchBarRef])
-
-	// todo : with-appstore-searchbar-closing
 
 	return (
 		<AppPage {...props} newNav={true}>
@@ -143,9 +122,11 @@ export default function ArtistPage({ ...props }: ArtistsPageProps) {
 					//
 					onSearchbarEnable={onSearchbarEnable}
 					onSearchbarDisable={onSearchbarDisable}
+					onClickDisable={onClickDisable}
 					onChange={onChange}
 					onFocus={onFocus}
 					onBlur={onBlur}
+					backdrop={false}
 				/>
 			</Subnavbar>
 
