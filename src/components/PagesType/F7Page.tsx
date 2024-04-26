@@ -120,7 +120,6 @@ const F7Page = forwardRef<{ el: HTMLElement | null }, F7PageProps>(
 		)
 
 		useEffect(() => {
-			console.log('setup searchbar listeners', name)
 			document.addEventListener(
 				'page-searchbar-enabled',
 				searchBarEnabledHandler

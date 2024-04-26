@@ -11,12 +11,15 @@ import { AppleMusic } from '@/types/AppleMusic'
 
 interface ArtistListItemProps extends ListItemProps {
 	artist: UserArtist | AppleMusic.Artist
+	open?: boolean
 }
 
 const artworkSize = 128
 
 const ArtistListItem = ({
 	artist,
+	className,
+	open = true,
 	children,
 	...props
 }: ArtistListItemProps) => {
@@ -63,16 +66,14 @@ const ArtistListItem = ({
 
 	return (
 		<ListItem
-			className={styles.listItem}
+			className={`${className || ''} ${styles.listItem}`}
 			title={ArtistsHelper.getName(artist)}
 			key={artist.id}
 			swipeout
 			// mediaItem
-			external
+			external={open}
 			target="_blank"
-			link={setArtistLink(ArtistsHelper.getStoreId(artist))}
-			// after="OK"
-			// bgColor="transparent"
+			link={open && setArtistLink(ArtistsHelper.getStoreId(artist))}
 			{...props}
 		>
 			{artwork()}

@@ -247,6 +247,38 @@ export default function useAPI() {
 				limit: 1000,
 			},
 		})
+
+	const followArtist = (
+		artist_id: string,
+		config?: AxiosRequestConfig<any> | undefined
+	) =>
+		post(
+			`/api/user/artists/subscribe`,
+			{
+				artist_id: artist_id,
+				fetch: 1,
+			},
+			{
+				//
+				...config,
+				params: {},
+			}
+		)
+	const unfollowArtist = (
+		artist_id: string,
+		config?: AxiosRequestConfig<any> | undefined
+	) =>
+		post(
+			`/api/user/artists/unsubscribe`,
+			{
+				artist_id: artist_id,
+			},
+			{
+				//
+				...config,
+				params: {},
+			}
+		)
 	/* endregion API */
 
 	return {
@@ -272,5 +304,7 @@ export default function useAPI() {
 		searchCatalogArtists,
 		addResourceToLibrary,
 		getUserArtists,
+		followArtist,
+		unfollowArtist,
 	}
 }

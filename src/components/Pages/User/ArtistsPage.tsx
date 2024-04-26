@@ -36,10 +36,9 @@ export default function ArtistPage({ ...props }: ArtistsPageProps) {
 		refetch: refetchArtists,
 		isLoading: isLoadingArtists,
 	} = useQuery('userArtists', async () => await api.getUserArtists(), {
-		enabled: false,
+		enabled: true,
 		retry: 1,
 		onSuccess: (res) => {
-			console.log('SUCCESS setUserArtists:', res.data.data)
 			setUserArtists(res.data.data as UserArtist[])
 			// setUserArtists(fortmatResponse(res))
 		},
@@ -124,18 +123,47 @@ export default function ArtistPage({ ...props }: ArtistsPageProps) {
 	)
 
 	useEffect(() => {
-		console.log('searchBarValue', searchBarValue)
 		if (searchBarValue) refetchArtistsSearch()
 		else setSearchArtists([])
 	}, [refetchArtistsSearch, searchBarValue])
 	// endregion search
 
 	// region follow
+	const [followLoading, setFollowLoading] = useState<boolean>(false)
+	const [followIndex, setFollowIndex] = useState<number | null>(null)
+	// const [followedIndex, setFollowedIndex] = useState<number | null>(null)
+	const onFollowArtist = (artist: AppleMusic.Artist) => {
+		const artistIndex = searchArtists.findIndex((a) => a.id === artist.id)
+		setFollowIndex(artistIndex)
+		setFollowLoading(true)
+
+		api.followArtist(artist.id)
+			.then(() => {
+				// setFollowedIndex(artistIndex)
+				refetchArtists()
+			})
+			.catch(console.error)
+			.finally(() => {
+				setFollowIndex(null)
+				setFollowLoading(false)
+				// setFollowedIndex(null)
+			})
+	}
+	// useEffect(() => {
+	// 	console.log('followedIndex', followedIndex)
+	// }, [followedIndex])
 	// endregion follow
 
 	// region unfollow
 	const onUnfollowArtist = (artist: UserArtist) => {
-		console.log('onUnfollowArtist', artist)
+		api.unfollowArtist(artist.storeId)
+			.then(() => {
+				// refetchArtists()
+				// setUserArtists(
+				// 	userArtists.filter((a) => a.storeId !== artist.storeId)
+				// )
+			})
+			.catch(console.error)
 	}
 	// endregion unfollow
 
@@ -169,24 +197,6 @@ export default function ArtistPage({ ...props }: ArtistsPageProps) {
 					clearButton
 				/>
 			</Subnavbar>
-
-			{/* Search results */}
-			{/* <div slot="fixed">
-				<Segmented strong>
-					<Button smallMd active>
-						Link 1
-					</Button>
-					<Button smallMd>Link 2</Button>
-					<Button smallMd>Link 3</Button>
-				</Segmented>
-			</div> */}
-			{/* <div className="search">
-				<div className="search-results">
-					<BlockTitle>Search results</BlockTitle>
-				</div>
-			</div> */}
-
-			{/* {tests()} */}
 
 			{/* Page Content */}
 
@@ -232,7 +242,7 @@ export default function ArtistPage({ ...props }: ArtistsPageProps) {
 												delete
 												confirmText="Are you sure you want to unfollow this artist?"
 											>
-												Confirm
+												Unfollow
 											</SwipeoutButton>
 											{/* 
 											<SwipeoutButton delete>
@@ -276,15 +286,40 @@ export default function ArtistPage({ ...props }: ArtistsPageProps) {
 							) : (
 								<ul>
 									{searchArtists.map(
-										(artist: AppleMusic.Artist) => (
-											<ArtistListItem
-												key={artist.id}
-												artist={artist}
-												mediaItem
-												subtitle={'Artist'}
-												swipeout={false}
-											/>
-										)
+										(artist: AppleMusic.Artist, index) => {
+											const following = userArtists.find(
+												(a) => a.storeId === artist.id
+											)
+
+											return (
+												<ArtistListItem
+													key={artist.id}
+													artist={artist}
+													// mediaItem
+													// subtitle={'Artist'}
+													swipeout={false}
+													open={false}
+													onClick={() =>
+														!following &&
+														onFollowArtist(artist)
+													}
+													className={`
+													${(following && 'following') || ''}
+													${followIndex === index ? 'followIndex' : ''}
+													${followIndex === index && followLoading ? 'followLoading' : ''}
+												`}
+													after={
+														following // || followedIndex === index
+															? 'Followed'
+															: followIndex ===
+																		index &&
+																  followLoading
+																? 'Following...'
+																: ''
+													}
+												/>
+											)
+										}
 									)}
 								</ul>
 							)}
@@ -292,33 +327,6 @@ export default function ArtistPage({ ...props }: ArtistsPageProps) {
 					</div>
 				</>
 			)}
-
-			{/* <Block>
-				<Button onClick={() => fetchArtists()}>
-					Fetch artists [API]
-				</Button>
-				<Button onClick={() => refetch()}>refetch() [Query]</Button>
-
-				<List>
-					<ListItem title={'status'}>{status}</ListItem>
-					<ListItem title={'error'}>{error}</ListItem>
-					<ListItem title={'isLoading'}>{Number(isLoading)}</ListItem>
-					<ListItem title={'isFetching'}>
-						{Number(isFetching)}
-					</ListItem>
-					<ListItem title={'isSuccess'}>{Number(isSuccess)}</ListItem>
-					<ListItem title={'isError'}>{Number(isError)}</ListItem>
-				</List>
-			</Block> */}
-
-			{/* TMP */}
-			{/* <Subnavbar
-				inner
-				className={styles.artistsSubnavbar}
-				title="Page Title"
-			>
-			</Subnavbar> */}
-			{/* </Navbar> */}
 
 			{/* <BlockTitle>Discover</BlockTitle>
 			<List dividers dividersIos noChevron>
