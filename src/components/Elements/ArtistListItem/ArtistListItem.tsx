@@ -6,9 +6,11 @@ import React from 'react'
 import styles from './ArtistListItem.module.css'
 import { ListItemProps } from 'framework7-react/components/list-item.js'
 import './ArtistListItem.css'
+import { ArtistsHelper } from '@/src/helpers/helpers'
+import { AppleMusic } from '@/types/AppleMusic'
 
 interface ArtistListItemProps extends ListItemProps {
-	artist: UserArtist
+	artist: UserArtist | AppleMusic.Artist
 }
 
 const artworkSize = 128
@@ -26,14 +28,13 @@ const ArtistListItem = ({
 	}
 
 	const artwork = () => {
-		if (artist.artworkUrl)
+		const artworkUrl = ArtistsHelper.getArtwork(artist)
+		if (artworkUrl)
 			return (
-				// eslint-disable-next-line @next/next/no-img-element
-				// <img
 				<Image
 					{...imageProps}
-					src={setArtworkUrl(artist.artworkUrl, artworkSize)}
-					alt={String(artist.name)}
+					src={setArtworkUrl(artworkUrl, artworkSize)}
+					alt={ArtistsHelper.getName(artist)}
 				/>
 			)
 
@@ -63,13 +64,13 @@ const ArtistListItem = ({
 	return (
 		<ListItem
 			className={styles.listItem}
-			title={artist.name}
+			title={ArtistsHelper.getName(artist)}
 			key={artist.id}
 			swipeout
 			// mediaItem
 			external
 			target="_blank"
-			link={setArtistLink(artist.storeId)}
+			link={setArtistLink(ArtistsHelper.getStoreId(artist))}
 			// after="OK"
 			// bgColor="transparent"
 			{...props}

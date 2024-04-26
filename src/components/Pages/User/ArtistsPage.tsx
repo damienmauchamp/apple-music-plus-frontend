@@ -16,8 +16,13 @@ import { useQuery } from 'react-query'
 import { UserArtist } from '@/types/Items'
 import ArtistListItem from '../../Elements/ArtistListItem/ArtistListItem'
 import LoadingSection from '../../Components/Loading/LoadingSection'
-import { useMusicKitContext } from '@/src/context/MusicKitContext'
 import { AppleMusic } from '@/types/AppleMusic'
+
+// todo : export in another file
+type F7SearchBarType = {
+	el: HTMLElement | null
+	f7Searchbar: () => Searchbar.Searchbar
+}
 
 interface ArtistsPageProps {}
 
@@ -25,7 +30,7 @@ export default function ArtistPage({ ...props }: ArtistsPageProps) {
 	// api
 	const api = useAPI()
 
-	// artists
+	// region users artists
 	const {
 		data: artists,
 		refetch: refetchArtists,
@@ -52,25 +57,17 @@ export default function ArtistPage({ ...props }: ArtistsPageProps) {
 		if (!userArtists.length) refetchArtists()
 		return () => {}
 	}, [refetchArtists, userArtists])
+	// endregion users artists
 
-	// searchbar
+	// region searchbar
+	const searchBarRef = useRef<F7SearchBarType>(null)
+
+	const [searchBarValue, setSearchBarValue] = useState<string>('')
 	const [searchBarEnabled, setSearchBarEnabled] = useState<boolean>(false)
 	// const [searchBarClosing, setSearchBarClosing] = useState<boolean>(false)
-	// const [searchList, setSearchList] = useState<string>('artists-list')
 
-	// focus
-	// blur
-	const searchBarRef = useRef<{
-		el: HTMLElement | null
-		f7Searchbar: () => Searchbar.Searchbar
-	}>(null)
-
-	//
-	const getPageElement = () => {
-		return searchBarRef.current?.el?.closest('.page') as HTMLElement
-		// searchBarRef.current?.
-		// return document.querySelector('.page')
-	}
+	const getPageElement = () =>
+		searchBarRef.current?.el?.closest('.page') as HTMLElement
 	const searchBarEvent = (name: string) => {
 		const element = getPageElement()
 		document.dispatchEvent(
@@ -97,20 +94,9 @@ export default function ArtistPage({ ...props }: ArtistsPageProps) {
 		// setSearchBarClosing(true)
 		searchBarEvent('page-searchbar-closing')
 	}
-	// const onChange = () => {
-	// 	console.log('onChange')
-	// }
-	// const onFocus = () => {
-	// 	console.log('onFocus')
-	// }
-	// const onBlur = () => {
-	// 	console.log('onBlur')
-	// }
-
 	// region search
-	const { getInstance } = useMusicKitContext()
-	const [searchBarValue, setSearchBarValue] = useState<string>('')
 
+	// endregion searchbar
 	const {
 		data: searchData,
 		refetch: refetchArtistsSearch,
@@ -118,35 +104,12 @@ export default function ArtistPage({ ...props }: ArtistsPageProps) {
 		isFetching: isFetchingArtistsSearch,
 	} = useQuery(
 		'artistSearch',
-		async () =>
-			await (getInstance().api as MusicKitV3.APIV3).music(
-				'v1/catalog/fr/search',
-				{
-					term: searchBarValue,
-					types: 'artists',
-					limit: 25,
-				}
-			),
+		async () => await api.searchCatalogArtists(searchBarValue),
 		{
 			enabled: false,
 			retry: 1,
-			onSuccess: (res) => {
-				console.log('SUCCESS res:', res)
-				console.log(
-					'SUCCESS setSearchArtists res:',
-					res.data.results.artists.data
-				)
-
-				const data = res.data.results.artists.data.map(
-					(a: AppleMusic.Artist) => ({
-						...a,
-						name: a.attributes.name,
-						storeId: a.id,
-						artworkUrl: a.attributes.artwork?.url || undefined,
-					})
-				)
-				console.log('data setSearchArtists:', data)
-				setSearchArtists(data as UserArtist[])
+			onSuccess: (data) => {
+				setSearchArtists(data as AppleMusic.Artist[])
 				// setSearchArtists(fortmatResponse(res))
 			},
 			onError: (err: any) => {
@@ -156,8 +119,8 @@ export default function ArtistPage({ ...props }: ArtistsPageProps) {
 			},
 		}
 	)
-	const [searchArtists, setSearchArtists] = useState<UserArtist[]>(
-		searchData?.data.data || []
+	const [searchArtists, setSearchArtists] = useState<AppleMusic.Artist[]>(
+		searchData || []
 	)
 
 	useEffect(() => {
@@ -186,12 +149,7 @@ export default function ArtistPage({ ...props }: ArtistsPageProps) {
 				data-enabled={+searchBarEnabled}
 			>
 				<Searchbar
-					ref={
-						searchBarRef as MutableRefObject<{
-							el: HTMLElement | null
-							f7Searchbar: () => Searchbar.Searchbar
-						}>
-					}
+					ref={searchBarRef as MutableRefObject<F7SearchBarType>}
 					className={` ${styles.artistsSearchbar}`}
 					searchItem="li"
 					// searchContainer=".search-list"
@@ -208,6 +166,7 @@ export default function ArtistPage({ ...props }: ArtistsPageProps) {
 					// onFocus={onFocus}
 					// onBlur={onBlur}
 					backdrop={false}
+					clearButton
 				/>
 			</Subnavbar>
 
@@ -316,42 +275,20 @@ export default function ArtistPage({ ...props }: ArtistsPageProps) {
 								<LoadingSection />
 							) : (
 								<ul>
-									{searchArtists.map((artist: UserArtist) => (
-										<ArtistListItem
-											key={artist.id}
-											artist={artist}
-											mediaItem
-											subtitle={'Artist'}
-											swipeout={false}
-										/>
-									))}
+									{searchArtists.map(
+										(artist: AppleMusic.Artist) => (
+											<ArtistListItem
+												key={artist.id}
+												artist={artist}
+												mediaItem
+												subtitle={'Artist'}
+												swipeout={false}
+											/>
+										)
+									)}
 								</ul>
 							)}
 						</List>
-
-						{/* <Block>Hello</Block>
-						<Block>Hello</Block>
-						<Block>Hello</Block> */}
-						{/* <Block>Hello</Block>
-						<Block>Hello</Block>
-						<Block>Hello</Block>
-						<Block>Hello</Block>
-						<Block>Hello</Block>
-						<Block>Hello</Block>
-						<Block>Hello</Block>
-						<Block>Hello</Block>
-						<Block>Hello</Block>
-						<Block>Hello</Block>
-						<Block>Hello</Block>
-						<Block>Hello</Block>
-						<Block>Hello</Block>
-						<Block>Hello</Block>
-						<Block>Hello</Block>
-						<Block>Hello</Block>
-						<Block>Hello</Block>
-						<Block>Hello</Block>
-						<Block>Hello</Block>
-						<Block>Hello</Block> */}
 					</div>
 				</>
 			)}

@@ -14,6 +14,8 @@ const api = axios.create({
 
 // export default api
 
+// export const getMusicKitVersion = process.env.MUSICKIT_VERSION || 1;
+
 const timestamps = () => ({
 	timestamp: new Date().getTime(),
 })
@@ -182,7 +184,44 @@ export default function useAPI() {
 		})
 	}
 
-	// libbrary
+	// catalog
+	interface SearchTypeResource {
+		data: MusicKit.Resource[]
+		next?: string
+		href: string
+	}
+	interface SearchResource {
+		albums: SearchTypeResource
+		artists: SearchTypeResource
+		'music-videos': SearchTypeResource
+		songs: SearchTypeResource
+	}
+	const searchCatalogArtists = async (term: string, params: object = {}) => {
+		const mkAPI = getInstance().api
+		const mkVersion = Number(process.env.MUSICKIT_VERSION)
+
+		if (mkVersion === 3) {
+			const res = await (mkAPI as MusicKitV3.APIV3).music(
+				'v1/catalog/fr/search',
+				{
+					term: term,
+					types: 'artists',
+					limit: 25,
+					...params,
+				}
+			)
+			return res.data.results.artists?.data || []
+		}
+
+		const res = await mkAPI.search(term, {
+			types: 'artists',
+			limit: 25,
+			...params,
+		})
+		return (res as unknown as SearchResource).artists.data
+	}
+
+	// library
 	const addResourceToLibrary = (
 		storeIds: string[],
 		type: string = 'albums'
@@ -230,6 +269,7 @@ export default function useAPI() {
 		getUpcomingReleases,
 		getNewSongs,
 		getUpcomingSongs,
+		searchCatalogArtists,
 		addResourceToLibrary,
 		getUserArtists,
 	}
