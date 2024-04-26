@@ -56,6 +56,26 @@ export default function ArtistPage({ ...props }: ArtistsPageProps) {
 		if (!userArtists.length) refetchArtists()
 		return () => {}
 	}, [refetchArtists, userArtists])
+
+	// const getUserArtistsByFirstLetter = () => {
+	// 	const grouped = {} as Record<string, UserArtist[]>
+	// 	userArtists.forEach((artist) => {
+	// 		let firstLetter = artist.name.charAt(0).toUpperCase()
+	// 		if (
+	// 			['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'].includes(
+	// 				firstLetter
+	// 			)
+	// 		) {
+	// 			firstLetter = '#'
+	// 		}
+	// 		if (!grouped[firstLetter]) {
+	// 			grouped[firstLetter] = []
+	// 		}
+	// 		grouped[firstLetter].push(artist)
+	// 	})
+	// 	return grouped
+	// }
+
 	// endregion users artists
 
 	// region searchbar
@@ -93,9 +113,9 @@ export default function ArtistPage({ ...props }: ArtistsPageProps) {
 		// setSearchBarClosing(true)
 		searchBarEvent('page-searchbar-closing')
 	}
-	// region search
-
 	// endregion searchbar
+
+	// region search
 	const {
 		data: searchData,
 		refetch: refetchArtistsSearch,
@@ -204,8 +224,6 @@ export default function ArtistPage({ ...props }: ArtistsPageProps) {
 				<>
 					{/* User artists */}
 
-					<BlockTitle>Followed</BlockTitle>
-					{/* todo : list indexes */}
 					{/* <ListIndex
 						indexes="auto"
 						listEl=".list.artists-list"
@@ -215,6 +233,7 @@ export default function ArtistPage({ ...props }: ArtistsPageProps) {
 							console.log('onListIndexSelect', x)
 						}}
 					/> */}
+					<BlockTitle>Followed</BlockTitle>
 					<List
 						insetMd
 						outlineIos
@@ -225,9 +244,17 @@ export default function ArtistPage({ ...props }: ArtistsPageProps) {
 							<LoadingSection />
 						) : (
 							<ul>
-								{/* <ListGroup>
-          							<ListItem title="A" groupTitle />
-								</ListGroup> */}
+								{/* <>
+								 {Object.keys(getUserArtistsByFirstLetter()).map(
+									(letter) => (
+										<ListGroup key={letter}>
+											<ListItem
+												title={letter}
+												groupTitle
+											/>
+											{getUserArtistsByFirstLetter()[
+												letter
+											].map((artist) => ( */}
 								{userArtists.map((artist: UserArtist) => (
 									<ArtistListItem
 										key={artist.id}
@@ -244,13 +271,13 @@ export default function ArtistPage({ ...props }: ArtistsPageProps) {
 											>
 												Unfollow
 											</SwipeoutButton>
-											{/* 
-											<SwipeoutButton delete>
-												Delete
-											</SwipeoutButton> */}
 										</SwipeoutActions>
 									</ArtistListItem>
 								))}
+								{/* </ListGroup>
+									)
+								)}
+							</> */}
 							</ul>
 						)}
 					</List>
