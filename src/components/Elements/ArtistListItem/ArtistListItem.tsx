@@ -1,6 +1,6 @@
 import { setArtistLink, setArtworkUrl } from '@/src/helpers/api'
 import { UserArtist } from '@/types/Items'
-import { ListItem, SwipeoutActions, SwipeoutButton } from 'framework7-react'
+import { ListItem } from 'framework7-react'
 import Image from 'next/image'
 import React from 'react'
 import styles from './ArtistListItem.module.css'
@@ -13,7 +13,11 @@ interface ArtistListItemProps extends ListItemProps {
 
 const artworkSize = 128
 
-const ArtistListItem = ({ artist, ...props }: ArtistListItemProps) => {
+const ArtistListItem = ({
+	artist,
+	children,
+	...props
+}: ArtistListItemProps) => {
 	const imageProps = {
 		slot: 'media',
 		className: styles.artwork,
@@ -71,25 +75,7 @@ const ArtistListItem = ({ artist, ...props }: ArtistListItemProps) => {
 			{...props}
 		>
 			{artwork()}
-
-			{/* swipeout */}
-			<SwipeoutActions right>
-				<SwipeoutButton
-					onClick={() => {
-						console.log('MORE')
-					}}
-				>
-					More
-				</SwipeoutButton>
-				<SwipeoutButton
-					delete
-					confirmText="Are you sure you want to delete this item?"
-				>
-					Confirm
-				</SwipeoutButton>
-
-				<SwipeoutButton delete>Delete</SwipeoutButton>
-			</SwipeoutActions>
+			{children}
 		</ListItem>
 	)
 }

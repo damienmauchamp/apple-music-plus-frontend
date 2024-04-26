@@ -5,6 +5,8 @@ import {
 	Searchbar,
 	Segmented,
 	Subnavbar,
+	SwipeoutActions,
+	SwipeoutButton,
 } from 'framework7-react'
 import AppPage from '../../PagesType/AppPage'
 import styles from './ArtistsPage.module.css'
@@ -165,6 +167,15 @@ export default function ArtistPage({ ...props }: ArtistsPageProps) {
 	}, [refetchArtistsSearch, searchBarValue])
 	// endregion search
 
+	// region follow
+	// endregion follow
+
+	// region unfollow
+	const onUnfollowArtist = (artist: UserArtist) => {
+		console.log('onUnfollowArtist', artist)
+	}
+	// endregion unfollow
+
 	return (
 		<AppPage {...props} newNav={true}>
 			{/* Search Bar */}
@@ -252,7 +263,24 @@ export default function ArtistPage({ ...props }: ArtistsPageProps) {
 									<ArtistListItem
 										key={artist.id}
 										artist={artist}
-									/>
+										onSwipeoutDelete={() =>
+											onUnfollowArtist(artist)
+										}
+									>
+										{/* swipeout */}
+										<SwipeoutActions right>
+											<SwipeoutButton
+												delete
+												confirmText="Are you sure you want to unfollow this artist?"
+											>
+												Confirm
+											</SwipeoutButton>
+											{/* 
+											<SwipeoutButton delete>
+												Delete
+											</SwipeoutButton> */}
+										</SwipeoutActions>
+									</ArtistListItem>
 								))}
 							</ul>
 						)}
