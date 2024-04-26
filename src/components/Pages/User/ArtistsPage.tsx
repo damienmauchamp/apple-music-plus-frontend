@@ -2,7 +2,6 @@ import {
 	BlockTitle,
 	Button,
 	List,
-	ListIndex,
 	Searchbar,
 	Segmented,
 	Subnavbar,
