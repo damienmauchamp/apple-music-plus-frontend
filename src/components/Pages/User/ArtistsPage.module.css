@@ -33,3 +33,38 @@
 	background-color: transparent !important;
 	--f7-bars-border-color: transparent;
 }
+
+.searchOptions {
+	@apply !sticky z-10;
+	/* @apply bg-[rgb(var(--background-rgb))]; */
+	top: calc(var(--f7-subnavbar-height) + 1px);
+
+	background-color: var(--f7-subnavbar-bg-color, var(--f7-bars-bg-color));
+}
+@supports (
+	(-webkit-backdrop-filter: blur(20px)) or (backdrop-filter: blur(20px))
+) {
+	.ios-translucent-bars .searchOptions {
+		background-color: rgba(
+			var(--f7-subnavbar-bg-color-rgb, var(--f7-bars-bg-color-rgb)),
+			var(--f7-bars-translucent-opacity)
+		);
+		-webkit-backdrop-filter: saturate(180%)
+			blur(var(--f7-bars-translucent-blur));
+		backdrop-filter: saturate(180%) blur(var(--f7-bars-translucent-blur));
+	}
+}
+.searchOptions .searchOptionsInner {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	box-sizing: border-box;
+	justify-content: space-between;
+	overflow: hidden;
+	padding: 0
+		calc(var(--f7-subnavbar-inner-padding-left) + var(--f7-safe-area-right))
+		0
+		calc(var(--f7-subnavbar-inner-padding-right) + var(--f7-safe-area-left));
+	@apply py-3;
+}

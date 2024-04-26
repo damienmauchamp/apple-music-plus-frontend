@@ -228,3 +228,9 @@ a {
 	opacity: 0;
 	pointer-events: none;
 }
+
+/* subnavbar */
+
+.subnavbar.custom[data-enabled='1']:after {
+	background-color: transparent;
+}

@@ -1,0 +1,7 @@
+.list .media-item .item-title {
+	@apply font-normal;
+	@apply text-items-primary dark:text-items-primary-dark;
+}
+.list .media-item .item-subtitle {
+	@apply text-items-secondary dark:text-items-secondary-dark;
+}

@@ -57,7 +57,7 @@ export interface SectionCollectionProps {
 }
 
 export interface UserArtist {
-	id: string
+	id?: int
 	name: string
 	storeId: string
 	artworkUrl?: string

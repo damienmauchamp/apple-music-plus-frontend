@@ -1,8 +1,10 @@
 import {
 	BlockTitle,
+	Button,
 	List,
-	ListItem,
+	ListIndex,
 	Searchbar,
+	Segmented,
 	Subnavbar,
 } from 'framework7-react'
 import AppPage from '../../PagesType/AppPage'
@@ -13,6 +15,8 @@ import { useQuery } from 'react-query'
 import { UserArtist } from '@/types/Items'
 import ArtistListItem from '../../Elements/ArtistListItem/ArtistListItem'
 import LoadingSection from '../../Components/Loading/LoadingSection'
+import { useMusicKitContext } from '@/src/context/MusicKitContext'
+import { AppleMusic } from '@/types/AppleMusic'
 
 interface ArtistsPageProps {}
 
@@ -22,8 +26,8 @@ export default function ArtistPage({ ...props }: ArtistsPageProps) {
 
 	// artists
 	const {
-		data,
-		refetch,
+		data: artists,
+		refetch: refetchArtists,
 		isLoading: isLoadingArtists,
 	} = useQuery('userArtists', async () => await api.getUserArtists(), {
 		enabled: false,
@@ -40,15 +44,17 @@ export default function ArtistPage({ ...props }: ArtistsPageProps) {
 		},
 	})
 	const [userArtists, setUserArtists] = useState<UserArtist[]>(
-		data?.data.data || []
+		artists?.data.data || []
 	)
 
 	useEffect(() => {
-		if (!userArtists.length) refetch()
+		if (!userArtists.length) refetchArtists()
 		return () => {}
-	}, [refetch, userArtists])
+	}, [refetchArtists, userArtists])
 
 	// searchbar
+	const [searchBarEnabled, setSearchBarEnabled] = useState<boolean>(false)
+	// const [searchBarClosing, setSearchBarClosing] = useState<boolean>(false)
 	// const [searchList, setSearchList] = useState<string>('artists-list')
 
 	// focus
@@ -77,35 +83,97 @@ export default function ArtistPage({ ...props }: ArtistsPageProps) {
 		)
 	}
 	const onSearchbarEnable = () => {
+		setSearchBarEnabled(true)
 		searchBarEvent('page-searchbar-enabled')
 	}
 	const onSearchbarDisable = () => {
+		setSearchBarEnabled(false)
+		// setSearchBarClosing(false)
 		searchBarEvent('page-searchbar-disabled')
+		setSearchArtists([])
 	}
 	const onClickDisable = () => {
+		// setSearchBarClosing(true)
 		searchBarEvent('page-searchbar-closing')
 	}
-	const onChange = () => {
-		console.log('onChange')
-	}
-	const onFocus = () => {
-		console.log('onFocus')
-	}
-	const onBlur = () => {
-		console.log('onBlur')
-	}
+	// const onChange = () => {
+	// 	console.log('onChange')
+	// }
+	// const onFocus = () => {
+	// 	console.log('onFocus')
+	// }
+	// const onBlur = () => {
+	// 	console.log('onBlur')
+	// }
+
+	// region search
+	const { getInstance } = useMusicKitContext()
+	const [searchBarValue, setSearchBarValue] = useState<string>('')
+
+	const {
+		data: searchData,
+		refetch: refetchArtistsSearch,
+		isLoading: isLoadingArtistsSearch,
+		isFetching: isFetchingArtistsSearch,
+	} = useQuery(
+		'artistSearch',
+		async () =>
+			await (getInstance().api as MusicKitV3.APIV3).music(
+				'v1/catalog/fr/search',
+				{
+					term: searchBarValue,
+					types: 'artists',
+					limit: 25,
+				}
+			),
+		{
+			enabled: false,
+			retry: 1,
+			onSuccess: (res) => {
+				console.log('SUCCESS res:', res)
+				console.log(
+					'SUCCESS setSearchArtists res:',
+					res.data.results.artists.data
+				)
+
+				const data = res.data.results.artists.data.map(
+					(a: AppleMusic.Artist) => ({
+						...a,
+						name: a.attributes.name,
+						storeId: a.id,
+						artworkUrl: a.attributes.artwork?.url || undefined,
+					})
+				)
+				console.log('data setSearchArtists:', data)
+				setSearchArtists(data as UserArtist[])
+				// setSearchArtists(fortmatResponse(res))
+			},
+			onError: (err: any) => {
+				setSearchArtists([])
+				console.log('err', err)
+				// setSearchArtists(fortmatResponse(err.response?.data || err))
+			},
+		}
+	)
+	const [searchArtists, setSearchArtists] = useState<UserArtist[]>(
+		searchData?.data.data || []
+	)
 
 	useEffect(() => {
-		console.log('searchBarRef', searchBarRef.current)
-	}, [searchBarRef])
+		console.log('searchBarValue', searchBarValue)
+		if (searchBarValue) refetchArtistsSearch()
+		else setSearchArtists([])
+	}, [refetchArtistsSearch, searchBarValue])
+	// endregion search
 
 	return (
 		<AppPage {...props} newNav={true}>
 			{/* Search Bar */}
 			<Subnavbar
 				inner
-				className={styles.artistsSubnavbar}
+				className={`custom ${styles.artistsSubnavbar}`}
 				// title="Page Title"
+				data-enabled={+searchBarEnabled}
 			>
 				<Searchbar
 					ref={
@@ -114,7 +182,7 @@ export default function ArtistPage({ ...props }: ArtistsPageProps) {
 							f7Searchbar: () => Searchbar.Searchbar
 						}>
 					}
-					className={styles.artistsSearchbar}
+					className={` ${styles.artistsSearchbar}`}
 					searchItem="li"
 					// searchContainer=".search-list"
 					searchContainer=".artists-list"
@@ -124,9 +192,11 @@ export default function ArtistPage({ ...props }: ArtistsPageProps) {
 					onSearchbarEnable={onSearchbarEnable}
 					onSearchbarDisable={onSearchbarDisable}
 					onClickDisable={onClickDisable}
-					onChange={onChange}
-					onFocus={onFocus}
-					onBlur={onBlur}
+					onChange={(e) => {
+						setSearchBarValue(e.target.value)
+					}}
+					// onFocus={onFocus}
+					// onBlur={onBlur}
 					backdrop={false}
 				/>
 			</Subnavbar>
@@ -147,68 +217,117 @@ export default function ArtistPage({ ...props }: ArtistsPageProps) {
 				</div>
 			</div> */}
 
-			{/* Test list */}
-			<BlockTitle>Tests</BlockTitle>
-			{/* <Button
-				onClick={() => {
-					if (searchList === 'artists-list')
-						setSearchList('search-list')
-					else setSearchList('artists-list')
-				}}
-			>
-				Toggle search list : {searchList}
-			</Button> */}
-			<List
-				// strong
-				insetMd
-				outlineIos
-				dividersIos
-				className="search-list searchbar-found"
-				// bgColor="transparent"
-			>
-				{['AAA Ivan Petrov', 'Acura', 'Audi', 'BMW', 'Cadillac'].map(
-					(title) => (
-						<ListItem
-							title={title}
-							key={title}
-							// swipeout
-							// mediaItem
-							// link="#"
-							after="Add / Added"
-							// bgColor="transparent"
+			{/* {tests()} */}
+
+			{/* Page Content */}
+
+			{!searchBarEnabled ? (
+				<>
+					{/* User artists */}
+
+					<BlockTitle>Followed</BlockTitle>
+					{/* todo : list indexes */}
+					{/* <ListIndex
+						indexes="auto"
+						listEl=".list.artists-list"
+						scrollList={true}
+						label={true}
+						onListIndexSelect={(x) => {
+							console.log('onListIndexSelect', x)
+						}}
+					/> */}
+					<List
+						insetMd
+						outlineIos
+						dividersIos
+						className="artists-list searchbar-found"
+					>
+						{isLoadingArtists ? (
+							<LoadingSection />
+						) : (
+							<ul>
+								{/* <ListGroup>
+          							<ListItem title="A" groupTitle />
+								</ListGroup> */}
+								{userArtists.map((artist: UserArtist) => (
+									<ArtistListItem
+										key={artist.id}
+										artist={artist}
+									/>
+								))}
+							</ul>
+						)}
+					</List>
+				</>
+			) : (
+				<>
+					<div className="search-content">
+						{/* Segmented options */}
+						<div
+							className={`search-options ${styles.searchOptions}`}
 						>
-							{/* eslint-disable-next-line @next/next/no-img-element */}
-							<img
-								slot="media"
-								style={{ borderRadius: '100%' }}
-								src="/android-chrome-192x192.png"
-								alt="cul"
-								width="44"
-							/>
-						</ListItem>
-					)
-				)}
-			</List>
+							<div className={styles.searchOptionsInner}>
+								<Segmented strong className="w-full">
+									<Button smallMd>Followed</Button>
+									<Button smallMd active>
+										Apple Music
+									</Button>
+								</Segmented>
+							</div>
+						</div>
 
-			{/* User artists */}
+						{/* Search results */}
+						{/* <BlockTitle>Search results</BlockTitle> */}
+						<List
+							insetMd
+							outlineIos
+							dividersIos
+							className={`search-results-list searchbar-found ${!searchArtists.length && 'hidden'}`}
+						>
+							{isLoadingArtistsSearch ||
+							isFetchingArtistsSearch ? (
+								<LoadingSection />
+							) : (
+								<ul>
+									{searchArtists.map((artist: UserArtist) => (
+										<ArtistListItem
+											key={artist.id}
+											artist={artist}
+											mediaItem
+											subtitle={'Artist'}
+											swipeout={false}
+										/>
+									))}
+								</ul>
+							)}
+						</List>
 
-			<BlockTitle>Followed</BlockTitle>
-			<List
-				insetMd
-				outlineIos
-				dividersIos
-				className="artists-list searchbar-found"
-			>
-				{isLoadingArtists ? (
-					<LoadingSection />
-				) : (
-					<ul>
-						{userArtists.map((artist: UserArtist) => (
-							<ArtistListItem key={artist.id} artist={artist} />
-						))}
-					</ul>
-				)}
-			</List>
+						{/* <Block>Hello</Block>
+						<Block>Hello</Block>
+						<Block>Hello</Block> */}
+						{/* <Block>Hello</Block>
+						<Block>Hello</Block>
+						<Block>Hello</Block>
+						<Block>Hello</Block>
+						<Block>Hello</Block>
+						<Block>Hello</Block>
+						<Block>Hello</Block>
+						<Block>Hello</Block>
+						<Block>Hello</Block>
+						<Block>Hello</Block>
+						<Block>Hello</Block>
+						<Block>Hello</Block>
+						<Block>Hello</Block>
+						<Block>Hello</Block>
+						<Block>Hello</Block>
+						<Block>Hello</Block>
+						<Block>Hello</Block>
+						<Block>Hello</Block>
+						<Block>Hello</Block>
+						<Block>Hello</Block> */}
+					</div>
+				</>
+			)}
 
 			{/* <Block>
 				<Button onClick={() => fetchArtists()}>

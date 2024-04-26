@@ -4,14 +4,16 @@ import { ListItem, SwipeoutActions, SwipeoutButton } from 'framework7-react'
 import Image from 'next/image'
 import React from 'react'
 import styles from './ArtistListItem.module.css'
+import { ListItemProps } from 'framework7-react/components/list-item.js'
+import './ArtistListItem.css'
 
-interface ArtistListItemProps {
+interface ArtistListItemProps extends ListItemProps {
 	artist: UserArtist
 }
 
 const artworkSize = 128
 
-const ArtistListItem = ({ artist }: ArtistListItemProps) => {
+const ArtistListItem = ({ artist, ...props }: ArtistListItemProps) => {
 	const imageProps = {
 		slot: 'media',
 		className: styles.artwork,
@@ -56,6 +58,7 @@ const ArtistListItem = ({ artist }: ArtistListItemProps) => {
 
 	return (
 		<ListItem
+			className={styles.listItem}
 			title={artist.name}
 			key={artist.id}
 			swipeout
@@ -65,6 +68,7 @@ const ArtistListItem = ({ artist }: ArtistListItemProps) => {
 			link={setArtistLink(artist.storeId)}
 			// after="OK"
 			// bgColor="transparent"
+			{...props}
 		>
 			{artwork()}
 

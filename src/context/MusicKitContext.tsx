@@ -14,7 +14,7 @@ interface MusicKitContextProviderProps {
 interface MusicKitContextProps {
 	logged: boolean
 	updateLogin: (testing?: boolean) => void
-	getInstance: () => MusicKit.MusicKitInstance
+	getInstance: () => MusicKit.MusicKitInstance | MusicKitV3.MusicKitInstanceV3
 	isAuthorized: () => boolean
 	musicKit: MusicKit.MusicKitInstance
 	setMusicKit: React.Dispatch<React.SetStateAction<MusicKit.MusicKitInstance>>
