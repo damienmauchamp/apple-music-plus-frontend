@@ -21,7 +21,6 @@ import { useEffect } from 'react'
 // import routes from '@/src/routes'
 import routes from './routes'
 import F7ArtistsPage from '@/src/components/Pages/F7/F7ArtistsPage'
-import TestPullToRefresh from '@/src/components/Pages/F7/TestPullToRefresh'
 import { fixNavBar } from '@/src/helpers/f7'
 
 //
@@ -101,12 +100,12 @@ const F7HomePage = () => {
 								iconMd="material:artist"
 							/>
 							{/* TESTS */}
-							<Link
+							{/* <Link
 								tabLink="#tab-tests"
 								text="Tests"
 								iconIos="f7:lightbulb_fill"
 								iconMd="material:lightbulb"
-							/>
+							/> */}
 						</Toolbar>
 
 						{/* Tabs */}
@@ -117,9 +116,7 @@ const F7HomePage = () => {
 							<F7ArtistsPage />
 						</View>
 						{/* TESTS */}
-						<View id="tab-tests" tab>
-							<TestPullToRefresh />
-						</View>
+						{/* <View id="tab-tests" tab>Hello World!</View> */}
 					</Views>
 				</App>
 			</QueryClientProvider>
