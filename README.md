@@ -69,8 +69,3 @@ server {
     }
 }
 ```
-
-## TODO
-
--   [ ] hashRouting
--   [ ] create "cache" for each section for data ?
