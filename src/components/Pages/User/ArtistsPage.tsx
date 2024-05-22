@@ -10,13 +10,21 @@ import {
 } from 'framework7-react'
 import AppPage from '../../PagesType/AppPage'
 import styles from './ArtistsPage.module.css'
-import { MutableRefObject, useEffect, useRef, useState } from 'react'
+import {
+	MutableRefObject,
+	SetStateAction,
+	useCallback,
+	useEffect,
+	useRef,
+	useState,
+} from 'react'
 import useAPI from '@/lib/useAPI'
 import { useQuery } from 'react-query'
 import { UserArtist } from '@/types/Items'
 import ArtistListItem from '../../Elements/ArtistListItem/ArtistListItem'
 import LoadingSection from '../../Components/Loading/LoadingSection'
 import { AppleMusic } from '@/types/AppleMusic'
+import { debounce } from 'lodash'
 
 // todo : export in another file
 type F7SearchBarType = {
@@ -115,38 +123,90 @@ export default function ArtistPage({ ...props }: ArtistsPageProps) {
 	}
 	// endregion searchbar
 
-	// region search
-	const {
-		data: searchData,
-		refetch: refetchArtistsSearch,
-		isLoading: isLoadingArtistsSearch,
-		isFetching: isFetchingArtistsSearch,
-	} = useQuery(
-		'artistSearch',
-		async () => await api.searchCatalogArtists(searchBarValue),
-		{
-			enabled: false,
-			retry: 1,
-			onSuccess: (data) => {
+	// region [OLD] artists search
+	// const {
+	// 	data: searchData,
+	// 	refetch: refetchArtistsSearch,
+	// 	isLoading: isLoadingArtistsSearch,
+	// 	isFetching: isFetchingArtistsSearch,
+	// } = useQuery(
+	// 	'artistSearch',
+	// 	async () => await api.searchCatalogArtists(searchBarValue),
+	// 	{
+	// 		enabled: false,
+	// 		retry: 1,
+	// 		onSuccess: (data) => {
+	// 			setSearchArtists(data as AppleMusic.Artist[])
+	// 			// setSearchArtists(fortmatResponse(res))
+	// 		},
+	// 		onError: (err: any) => {
+	// 			setSearchArtists([])
+	// 			console.log('err', err)
+	// 			// setSearchArtists(fortmatResponse(err.response?.data || err))
+	// 		},
+	// 	}
+	// )
+
+	// const [searchArtists, setSearchArtists] = useState<AppleMusic.Artist[]>(
+	// 	searchData || []
+	// )
+
+	// useEffect(() => {
+	// 	// if (searchBarValue) refetchArtistsSearch()
+	// 	if (searchBarValue) {
+	// 		console.log('searchBarValue:', searchBarValue)
+	// 		refetchArtistsSearch()
+	// 	} else setSearchArtists([])
+	// }, [refetchArtistsSearch, searchBarValue])
+	// endregion [OLD] artists search
+
+	// region artists search
+	// todo : signal to cancel request
+	const [searchArtists, setSearchArtists] = useState<AppleMusic.Artist[]>([])
+	const [artistSearchIsLoading] = useState(false)
+	const [artistSearchIsFetching, setArtistSearchIsFetching] = useState(false)
+
+	const refetchArtistsSearchTmp = async (term: string) => {
+		if (!term) return
+		console.log('[refetchArtistsSearchTmp] term:', term)
+		console.log('[refetchArtistsSearchTmp] searchBarValue', searchBarValue)
+		// setArtistSearchIsLoading(true)
+		setArtistSearchIsFetching(true)
+
+		// await api.searchCatalogArtists(searchBarValue)
+		api.searchCatalogArtists(term)
+			.then((data) => {
+				console.log('data', data)
 				setSearchArtists(data as AppleMusic.Artist[])
-				// setSearchArtists(fortmatResponse(res))
-			},
-			onError: (err: any) => {
+			})
+			.catch((err) => {
 				setSearchArtists([])
 				console.log('err', err)
-				// setSearchArtists(fortmatResponse(err.response?.data || err))
-			},
-		}
-	)
-	const [searchArtists, setSearchArtists] = useState<AppleMusic.Artist[]>(
-		searchData || []
+			})
+			.finally(() => {
+				// setArtistSearchIsLoading(false)
+				setArtistSearchIsFetching(false)
+			})
+	}
+
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	const verify = useCallback(
+		debounce((artistTerm: string) => {
+			console.log(`processing ${artistTerm}`)
+			refetchArtistsSearchTmp(artistTerm)
+		}, 1000),
+		[]
 	)
 
-	useEffect(() => {
-		if (searchBarValue) refetchArtistsSearch()
-		else setSearchArtists([])
-	}, [refetchArtistsSearch, searchBarValue])
-	// endregion search
+	const handleSearchBarChange = (e: {
+		target: { value: SetStateAction<string> }
+	}) => {
+		console.log('handleSearchBarChange', e.target.value)
+		setSearchBarValue(e.target.value)
+		verify(e.target.value)
+	}
+
+	// endregion artists search
 
 	// region follow
 	const [followLoading, setFollowLoading] = useState<boolean>(false)
@@ -208,9 +268,7 @@ export default function ArtistPage({ ...props }: ArtistsPageProps) {
 					onSearchbarEnable={onSearchbarEnable}
 					onSearchbarDisable={onSearchbarDisable}
 					onClickDisable={onClickDisable}
-					onChange={(e) => {
-						setSearchBarValue(e.target.value)
-					}}
+					onChange={handleSearchBarChange}
 					// onFocus={onFocus}
 					// onBlur={onBlur}
 					backdrop={false}
@@ -307,8 +365,9 @@ export default function ArtistPage({ ...props }: ArtistsPageProps) {
 							dividersIos
 							className={`search-results-list searchbar-found ${!searchArtists.length && 'hidden'}`}
 						>
-							{isLoadingArtistsSearch ||
-							isFetchingArtistsSearch ? (
+							{/* {isLoadingArtistsSearch ||
+							isFetchingArtistsSearch ? ( */}
+							{artistSearchIsLoading || artistSearchIsFetching ? (
 								<LoadingSection />
 							) : (
 								<ul>
