@@ -1,5 +1,11 @@
 # AM+
 
+Stay updated on new music from your favorite artists!
+
+## See also
+
+- [Backend](https://github.com/damienmauchamp/apple-music-plus-backend)
+
 ## Run locally
 
 ```bash
@@ -69,8 +75,3 @@ server {
     }
 }
 ```
-
-## TODO
-
--   [ ] hashRouting
--   [ ] create "cache" for each section for data ?
