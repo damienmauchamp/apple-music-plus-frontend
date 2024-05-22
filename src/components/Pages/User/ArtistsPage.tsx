@@ -190,7 +190,7 @@ export default function ArtistPage({ ...props }: ArtistsPageProps) {
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	const verify = useCallback(
 		debounce((artistTerm: string) => {
-			console.log(`processing ${artistTerm}`)
+			// console.log(`processing ${artistTerm}`)
 			refetchArtistsSearchTmp(artistTerm)
 		}, 1000),
 		[]
@@ -199,7 +199,7 @@ export default function ArtistPage({ ...props }: ArtistsPageProps) {
 	const handleSearchBarChange = (e: {
 		target: { value: SetStateAction<string> }
 	}) => {
-		console.log('handleSearchBarChange', e.target.value)
+		// console.log('handleSearchBarChange', e.target.value)
 		setSearchBarValue(e.target.value)
 		verify(String(e.target.value))
 	}
