@@ -179,7 +179,7 @@ export default function ArtistPage({ ...props }: ArtistsPageProps) {
 			})
 			.catch((err) => {
 				setSearchArtists([])
-				console.log('err', err)
+				console.log('err', err, searchBarValue)
 			})
 			.finally(() => {
 				// setArtistSearchIsLoading(false)
@@ -201,7 +201,7 @@ export default function ArtistPage({ ...props }: ArtistsPageProps) {
 	}) => {
 		console.log('handleSearchBarChange', e.target.value)
 		setSearchBarValue(e.target.value)
-		verify(e.target.value)
+		verify(String(e.target.value))
 	}
 
 	// endregion artists search
