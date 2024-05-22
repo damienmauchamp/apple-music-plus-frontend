@@ -161,22 +161,20 @@ export default function ArtistPage({ ...props }: ArtistsPageProps) {
 	// endregion [OLD] artists search
 
 	// region artists search
-	// todo : signal to cancel request
+	// todo AbortController/signal to cancel request
 	const [searchArtists, setSearchArtists] = useState<AppleMusic.Artist[]>([])
 	const [artistSearchIsLoading] = useState(false)
 	const [artistSearchIsFetching, setArtistSearchIsFetching] = useState(false)
 
 	const refetchArtistsSearchTmp = async (term: string) => {
 		if (!term) return
-		console.log('[refetchArtistsSearchTmp] term:', term)
-		console.log('[refetchArtistsSearchTmp] searchBarValue', searchBarValue)
+
 		// setArtistSearchIsLoading(true)
 		setArtistSearchIsFetching(true)
 
 		// await api.searchCatalogArtists(searchBarValue)
 		api.searchCatalogArtists(term)
 			.then((data) => {
-				console.log('data', data)
 				setSearchArtists(data as AppleMusic.Artist[])
 			})
 			.catch((err) => {
