@@ -48,12 +48,12 @@ export default function ArtistPage({ ...props }: ArtistsPageProps) {
 		retry: 1,
 		onSuccess: (res) => {
 			setUserArtists(res.data.data as UserArtist[])
-			// setUserArtists(fortmatResponse(res))
+			// setUserArtists(formatResponse(res))
 		},
 		onError: (err: any) => {
 			setUserArtists([])
 			console.log('err', err)
-			// setUserArtists(fortmatResponse(err.response?.data || err))
+			// setUserArtists(formatResponse(err.response?.data || err))
 		},
 	})
 	const [userArtists, setUserArtists] = useState<UserArtist[]>(
@@ -137,12 +137,12 @@ export default function ArtistPage({ ...props }: ArtistsPageProps) {
 	// 		retry: 1,
 	// 		onSuccess: (data) => {
 	// 			setSearchArtists(data as AppleMusic.Artist[])
-	// 			// setSearchArtists(fortmatResponse(res))
+	// 			// setSearchArtists(formatResponse(res))
 	// 		},
 	// 		onError: (err: any) => {
 	// 			setSearchArtists([])
 	// 			console.log('err', err)
-	// 			// setSearchArtists(fortmatResponse(err.response?.data || err))
+	// 			// setSearchArtists(formatResponse(err.response?.data || err))
 	// 		},
 	// 	}
 	// )
