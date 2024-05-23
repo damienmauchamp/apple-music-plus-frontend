@@ -1,0 +1,54 @@
+{
+	"version": "2.0.0",
+	"windows": {
+		"options": {
+			"shell": {
+				"executable": "cmd.exe",
+				"args": ["/d", "/c"]
+			}
+		}
+	},
+	"tasks": [
+		{
+			"type": "shell",
+			"command": "npm run lint",
+			"problemMatcher": [],
+			"label": "npm: lint",
+			"detail": "next lint",
+			"group": {
+				"kind": "none",
+				"isDefault": true
+			}
+		},
+		{
+			"type": "shell",
+			"command": "npm run dev -- -p 3001",
+			"problemMatcher": [],
+			"label": "npm: dev",
+			"detail": "[Port 3001] env-cmd -f .env.local next dev",
+			"group": {
+				"kind": "none",
+				"isDefault": true
+			}
+		},
+		{
+			"type": "shell",
+			"command": "npm run dev:production -- -p 3001",
+			"problemMatcher": [],
+			"label": "npm: dev (production)",
+			"detail": "[Port 3001] env-cmd -f .env.production next dev",
+			"group": {
+				"kind": "none",
+				"isDefault": true
+			}
+		},
+		{
+			"type": "shell",
+			"command": "npm run build",
+			"problemMatcher": [],
+			"label": "npm: build",
+			"detail": "next build",
+			"group": "build"
+		}
+	]
+}
