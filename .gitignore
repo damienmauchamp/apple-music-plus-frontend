@@ -38,3 +38,6 @@ next-env.d.ts
 
 # scripts
 update.sh
+
+# ide
+.vscode/tasks.json
