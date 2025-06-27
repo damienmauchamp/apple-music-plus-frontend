@@ -1,6 +1,6 @@
+import { useMusicKitContext } from '@/src/context/MusicKitContext'
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
 import { axiosWithCredentialsConfig } from './axios'
-import { useMusicKitContext } from '@/src/context/MusicKitContext'
 
 // const api = axiosWithCredentials
 const api = axios.create({
@@ -99,10 +99,13 @@ export default function useAPI() {
 	// releases
 	const getNewReleases = (
 		from: string,
-		params: object = {},
+		params: {
+			from?: string
+			to?: string
+		},
 		config?: AxiosRequestConfig<any> | undefined
 	) => {
-		return get(`/api/user/releases`, {
+		return get(`/api/albums`, {
 			...config,
 			params: {
 				...defaultParams(),
@@ -111,45 +114,102 @@ export default function useAPI() {
 				sort: '-releaseDate',
 				// weekly: 1,
 				// weeks: 1,
-				hide_singles: 1,
-				hide_eps: 0,
-				hide_upcoming: 1,
+				filter: {
+					type: 'album,ep',
+					upcoming: false,
+					from: from,
+					...params,
+				},
+				// hide_singles: 1,
+				// hide_eps: 0,
+				// hide_upcoming: 1,
 			},
 		})
+		// return get(`/api/user/releases`, {
+		// 	...config,
+		// 	params: {
+		// 		...defaultParams(),
+		// 		from: from,
+		// 		...params,
+		// 		sort: '-releaseDate',
+		// 		// weekly: 1,
+		// 		// weeks: 1,
+		// 		hide_singles: 1,
+		// 		hide_eps: 0,
+		// 		hide_upcoming: 1,
+		// 	},
+		// })
 	}
 	const getNewSingles = (
 		from: string,
-		params: object = {},
+		params: {
+			from?: string
+			to?: string
+		},
 		config?: AxiosRequestConfig<any> | undefined
 	) => {
-		return get(`/api/user/releases`, {
+		return get(`/api/albums`, {
 			...config,
 			params: {
 				...defaultParams(),
-				from: from,
 				...params,
 				sort: '-releaseDate',
-				hide_albums: 1,
-				hide_eps: 1,
-				hide_upcoming: 1,
+				filter: {
+					from: from,
+					type: 'single',
+					upcoming: false,
+					...params,
+				},
+				// hide_albums: 1,
+				// hide_eps: 1,
+				// hide_upcoming: 1,
 			},
 		})
+		// return get(`/api/user/releases`, {
+		// 	...config,
+		// 	params: {
+		// 		...defaultParams(),
+		// 		from: from,
+		// 		...params,
+		// 		sort: '-releaseDate',
+		// 		hide_albums: 1,
+		// 		hide_eps: 1,
+		// 		hide_upcoming: 1,
+		// 	},
+		// })
 	}
 	const getUpcomingReleases = (
 		from: string,
-		params: object = {},
+		params: {
+			from?: string
+			to?: string
+		},
 		config?: AxiosRequestConfig<any> | undefined
 	) => {
-		return get(`/api/user/releases`, {
+		return get(`/api/albums`, {
 			...config,
 			params: {
 				...defaultParams(),
-				from: from,
 				...params,
 				sort: 'releaseDate',
-				only_upcoming: 1,
+				filter: {
+					from: from,
+					upcoming: true,
+					...params,
+				},
+				// only_upcoming: 1,
 			},
 		})
+		// return get(`/api/user/releases`, {
+		// 	...config,
+		// 	params: {
+		// 		...defaultParams(),
+		// 		from: from,
+		// 		...params,
+		// 		sort: 'releaseDate',
+		// 		only_upcoming: 1,
+		// 	},
+		// })
 	}
 	const getNewSongs = (
 		from: string,
@@ -160,10 +220,10 @@ export default function useAPI() {
 			...config,
 			params: {
 				...defaultParams(),
-				from: from,
 				...params,
 				sort: '-releaseDate',
 				hide_upcoming: 1,
+				from: from,
 			},
 		})
 	}

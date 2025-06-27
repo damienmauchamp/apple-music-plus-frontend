@@ -1,3 +1,7 @@
+import useAPI from '@/lib/useAPI'
+import { AppleMusic } from '@/types/AppleMusic'
+import { UserArtist } from '@/types/Items'
+import { useQuery } from '@tanstack/react-query'
 import {
 	BlockTitle,
 	Button,
@@ -8,8 +12,7 @@ import {
 	SwipeoutActions,
 	SwipeoutButton,
 } from 'framework7-react'
-import AppPage from '../../PagesType/AppPage'
-import styles from './ArtistsPage.module.css'
+import { debounce } from 'lodash'
 import {
 	MutableRefObject,
 	SetStateAction,
@@ -18,13 +21,10 @@ import {
 	useRef,
 	useState,
 } from 'react'
-import useAPI from '@/lib/useAPI'
-import { useQuery } from 'react-query'
-import { UserArtist } from '@/types/Items'
-import ArtistListItem from '../../Elements/ArtistListItem/ArtistListItem'
 import LoadingSection from '../../Components/Loading/LoadingSection'
-import { AppleMusic } from '@/types/AppleMusic'
-import { debounce } from 'lodash'
+import ArtistListItem from '../../Elements/ArtistListItem/ArtistListItem'
+import AppPage from '../../PagesType/AppPage'
+import styles from './ArtistsPage.module.css'
 
 // todo : export in another file
 type F7SearchBarType = {
@@ -43,22 +43,19 @@ export default function ArtistPage({ ...props }: ArtistsPageProps) {
 		data: artists,
 		refetch: refetchArtists,
 		isLoading: isLoadingArtists,
-	} = useQuery('userArtists', async () => await api.getUserArtists(), {
+	} = useQuery({
+		queryKey: ['userArtists'],
+		queryFn: async () => await api.getUserArtists(),
 		enabled: true,
 		retry: 1,
-		onSuccess: (res) => {
-			setUserArtists(res.data.data as UserArtist[])
-			// setUserArtists(formatResponse(res))
-		},
-		onError: (err: any) => {
-			setUserArtists([])
-			console.log('err', err)
-			// setUserArtists(formatResponse(err.response?.data || err))
-		},
 	})
-	const [userArtists, setUserArtists] = useState<UserArtist[]>(
-		artists?.data.data || []
-	)
+	const [userArtists, setUserArtists] = useState<UserArtist[]>(artists?.data?.data || [])
+
+	useEffect(() => {
+		if (artists?.data?.data) {
+			setUserArtists(artists.data.data as UserArtist[])
+		}
+	}, [artists])
 
 	useEffect(() => {
 		if (!userArtists.length) refetchArtists()

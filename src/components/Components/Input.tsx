@@ -1,11 +1,10 @@
 import React, { ForwardedRef, forwardRef, useEffect, useState } from 'react'
-import styles from './Input.module.css'
 import { IconType } from 'react-icons'
-import { IoCloseCircle, IoMic } from 'react-icons/io5'
-import 'regenerator-runtime/runtime'
-import SpeechRecognition, {
-	useSpeechRecognition,
-} from 'react-speech-recognition'
+// import SpeechRecognition, {
+// 	useSpeechRecognition,
+// } from 'react-speech-recognition'
+// import 'regenerator-runtime/runtime'
+import styles from './Input.module.css'
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 	// interface InputProps extends React.ComponentProps<'input'> {
@@ -56,120 +55,120 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
 			setInputValue(value)
 		}, [value])
 
-		// region transcript
-		const {
-			transcript,
-			browserSupportsSpeechRecognition,
-			isMicrophoneAvailable,
-		} = useSpeechRecognition()
+		// // region transcript
+		// const {
+		// 	transcript,
+		// 	browserSupportsSpeechRecognition,
+		// 	isMicrophoneAvailable,
+		// } = useSpeechRecognition()
 
-		// transcript : speech to text enabled (browser support)
-		const [speechToTextEnabled, setSpeechToTextEnabled] = useState<boolean>(
-			Boolean(speechToText)
-		)
-		useEffect(() => {
-			if (!browserSupportsSpeechRecognition) {
-				setSpeechToTextEnabled(false)
-			}
-		}, [browserSupportsSpeechRecognition])
+		// // transcript : speech to text enabled (browser support)
+		// const [speechToTextEnabled, setSpeechToTextEnabled] = useState<boolean>(
+		// 	Boolean(speechToText)
+		// )
+		// useEffect(() => {
+		// 	if (!browserSupportsSpeechRecognition) {
+		// 		setSpeechToTextEnabled(false)
+		// 	}
+		// }, [browserSupportsSpeechRecognition])
 
-		useEffect(() => {
-			setSpeechToTextEnabled(Boolean(speechToText))
-		}, [speechToText])
+		// useEffect(() => {
+		// 	setSpeechToTextEnabled(Boolean(speechToText))
+		// }, [speechToText])
 
-		// transcript : speech to text listening
-		const [speechToTextIsListening, setSpeechToTextIsListening] =
-			useState<boolean>(false)
-		const [speechToTextCurrentId, setSpeechToTextCurrentId] =
-			useState<string>('')
+		// // transcript : speech to text listening
+		// const [speechToTextIsListening, setSpeechToTextIsListening] =
+		// 	useState<boolean>(false)
+		// const [speechToTextCurrentId, setSpeechToTextCurrentId] =
+		// 	useState<string>('')
 
-		const startListening = (listeningId: string) => {
-			// (/*event: React.MouseEventHandler<HTMLDivElement>*/) => {
-			if (!isMicrophoneAvailable || !speechToTextEnabled) {
-				// todo : handle error ?
-				setSpeechToTextEnabled(false)
-				console.error('Mic not available')
-				return
-			}
-			setSpeechToTextIsListening(true)
-			setSpeechToTextCurrentId(listeningId)
-			SpeechRecognition.startListening()
-		}
-		const stopListening =
-			(/*event: React.MouseEventHandler<HTMLDivElement>*/) => {
-				SpeechRecognition.stopListening()
-				setSpeechToTextIsListening(false)
-				setSpeechToTextCurrentId('')
-				setInputValue(transcript)
-			}
+		// const startListening = (listeningId: string) => {
+		// 	// (/*event: React.MouseEventHandler<HTMLDivElement>*/) => {
+		// 	if (!isMicrophoneAvailable || !speechToTextEnabled) {
+		// 		// todo : handle error ?
+		// 		setSpeechToTextEnabled(false)
+		// 		console.error('Mic not available')
+		// 		return
+		// 	}
+		// 	setSpeechToTextIsListening(true)
+		// 	setSpeechToTextCurrentId(listeningId)
+		// 	SpeechRecognition.startListening()
+		// }
+		// const stopListening =
+		// 	(/*event: React.MouseEventHandler<HTMLDivElement>*/) => {
+		// 		SpeechRecognition.stopListening()
+		// 		setSpeechToTextIsListening(false)
+		// 		setSpeechToTextCurrentId('')
+		// 		setInputValue(transcript)
+		// 	}
 
-		useEffect(() => {
-			if (!speechToTextEnabled) return
+		// useEffect(() => {
+		// 	if (!speechToTextEnabled) return
 
-			// not the good id
-			if (speechToTextCurrentId !== id) return
+		// 	// not the good id
+		// 	if (speechToTextCurrentId !== id) return
 
-			setInputValue(transcript)
-			onInput &&
-				onInput({
-					currentTarget: { value: transcript },
-					// currentTarget: { value: localTranscript },
-				} as React.FormEvent<HTMLInputElement>)
-			onTranscript && onTranscript(transcript)
-		}, [
-			id,
-			onInput,
-			onTranscript,
-			speechToTextCurrentId,
-			speechToTextEnabled,
-			transcript,
-		])
+		// 	setInputValue(transcript)
+		// 	onInput &&
+		// 		onInput({
+		// 			currentTarget: { value: transcript },
+		// 			// currentTarget: { value: localTranscript },
+		// 		} as React.FormEvent<HTMLInputElement>)
+		// 	onTranscript && onTranscript(transcript)
+		// }, [
+		// 	id,
+		// 	onInput,
+		// 	onTranscript,
+		// 	speechToTextCurrentId,
+		// 	speechToTextEnabled,
+		// 	transcript,
+		// ])
 
-		const renderRightIcon = (
-			icon: React.ReactNode,
-			onClick: React.MouseEventHandler<HTMLDivElement> | undefined
-		) => (
-			<div
-				className={styles.inputRightIcon}
-				style={{
-					background: speechToTextIsListening ? 'green' : '',
-					cursor: 'pointer',
-				}}
-				onClick={onClick}
-			>
-				{icon}
-			</div>
-		)
+		// const renderRightIcon = (
+		// 	icon: React.ReactNode,
+		// 	onClick: React.MouseEventHandler<HTMLDivElement> | undefined
+		// ) => (
+		// 	<div
+		// 		className={styles.inputRightIcon}
+		// 		style={{
+		// 			background: speechToTextIsListening ? 'green' : '',
+		// 			cursor: 'pointer',
+		// 		}}
+		// 		onClick={onClick}
+		// 	>
+		// 		{icon}
+		// 	</div>
+		// )
 
-		const renderClearable = () => {
-			const clearable = inputValue && !speechToTextIsListening
-			if (!clearable) return null
+		// const renderClearable = () => {
+		// 	const clearable = inputValue && !speechToTextIsListening
+		// 	if (!clearable) return null
 
-			return renderRightIcon(<IoCloseCircle size={18} />, () =>
-				setInputValue('')
-			)
-		}
+		// 	return renderRightIcon(<IoCloseCircle size={18} />, () =>
+		// 		setInputValue('')
+		// 	)
+		// }
 
-		const renderMic = () => {
-			const clearable = inputValue && !speechToTextIsListening
-			if (clearable) return null
+		// const renderMic = () => {
+		// 	const clearable = inputValue && !speechToTextIsListening
+		// 	if (clearable) return null
 
-			return renderRightIcon(
-				<IoMic
-					size={18}
-					className={`${speechToTextIsListening ? 'text-green' : ''}`}
-				/>,
-				(event: React.MouseEvent<HTMLDivElement>) => {
-					console.log('click Mic', event)
-					return speechToTextEnabled
-						? speechToTextIsListening
-							? stopListening()
-							: startListening(id)
-						: {}
-				}
-			)
-		}
-		// endregion
+		// 	return renderRightIcon(
+		// 		<IoMic
+		// 			size={18}
+		// 			className={`${speechToTextIsListening ? 'text-green' : ''}`}
+		// 		/>,
+		// 		(event: React.MouseEvent<HTMLDivElement>) => {
+		// 			console.log('click Mic', event)
+		// 			return speechToTextEnabled
+		// 				? speechToTextIsListening
+		// 					? stopListening()
+		// 					: startListening(id)
+		// 				: {}
+		// 		}
+		// 	)
+		// }
+		// // endregion
 
 		// render
 
@@ -203,8 +202,8 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
 							<div className={styles.inputSearchIcon}>
 								{renderLeftIcon()}
 							</div>
-							{speechToText && renderMic()}
-							{renderClearable()}
+							{/* {speechToText && renderMic()} */}
+							{/* {renderClearable()} */}
 						</div>
 					</div>
 				</div>
