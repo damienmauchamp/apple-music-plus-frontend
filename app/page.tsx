@@ -1,7 +1,6 @@
 'use client'
 
 // F7
-import 'framework7/css/bundle'
 import Framework7 from '@/src/framework7-custom'
 import Framework7React, {
 	App,
@@ -11,6 +10,7 @@ import Framework7React, {
 	Views,
 	f7ready,
 } from 'framework7-react'
+import 'framework7/css/bundle'
 Framework7.use(Framework7React)
 
 //
@@ -19,9 +19,9 @@ import { useEffect } from 'react'
 
 // routes
 // import routes from '@/src/routes'
-import routes from './routes'
 import F7ArtistsPage from '@/src/components/Pages/F7/F7ArtistsPage'
 import { fixNavBar } from '@/src/helpers/f7'
+import routes from './routes'
 
 //
 const f7params = {
@@ -40,7 +40,7 @@ const f7params = {
 }
 
 // React query
-import { QueryClient, QueryClientProvider } from 'react-query'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 const queryClient = new QueryClient()
 
 const F7HomePage = () => {

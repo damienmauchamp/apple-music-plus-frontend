@@ -1,9 +1,9 @@
 import useSWR from 'swr'
 import { axiosWithCredentials as axios } from './axios'
 // import router from 'next/router'
+import { AxiosResponse } from 'axios'
 import { useRouter } from 'next/navigation'
 import { Dispatch, SetStateAction, useEffect, useState } from 'react'
-import { AxiosResponse } from 'axios'
 
 interface MiddlewareType {
 	middleware?: string
@@ -57,6 +57,8 @@ interface AuthType {
 
 const useAuth = ({ middleware }: MiddlewareType = {}): AuthType => {
 	const router = useRouter()
+	// const url = '/api/user'
+	const url = '/api/auth/user'
 
 	const [isLoading, setIsLoading] = useState(true)
 
@@ -64,8 +66,8 @@ const useAuth = ({ middleware }: MiddlewareType = {}): AuthType => {
 		data: user,
 		error,
 		mutate,
-	} = useSWR('/api/user', () =>
-		axios.get('/api/user').then((response) => response.data)
+	} = useSWR(url, () =>
+		axios.get(url).then((response) => response.data)
 	)
 
 	// todo : env ?

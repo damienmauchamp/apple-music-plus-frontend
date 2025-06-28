@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { type JSX } from 'react';
 import styles from './Section.module.css'
 // import { Item } from '@/types/Items'
 import { IoChevronForward } from 'react-icons/io5'

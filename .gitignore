@@ -41,3 +41,6 @@ update.sh
 
 # ide
 .vscode/tasks.json
+*storybook.log
+storybook-static
+.idea/

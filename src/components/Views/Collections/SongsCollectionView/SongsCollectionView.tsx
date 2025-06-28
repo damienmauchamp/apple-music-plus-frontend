@@ -48,7 +48,7 @@ const SongsCollectionView = ({
 
 	// highlight songs
 	const [active, setActive] = React.useState<number | null>(null)
-	const ref = React.useRef()
+	const ref = React.useRef(undefined)
 	const listRef = useOutsideClick(ref, () => {
 		// On click outside
 		setActive(null)

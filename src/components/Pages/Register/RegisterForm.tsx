@@ -1,10 +1,11 @@
-import { ChangeEvent, FormEvent, useRef, useState } from 'react'
 import { RegisterFunction } from '@/lib/useAuth'
-import Head from 'next/head'
-import Label from '@/src/components/Components/Label'
-import Input from '@/src/components/Components/Input'
 import FormErrors from '@/src/components/Components/FormErrors'
+import Input from '@/src/components/Components/Input'
+import Label from '@/src/components/Components/Label'
+import Head from 'next/head'
+import { ChangeEvent, FormEvent, useRef, useState } from 'react'
 import { IoSearch } from 'react-icons/io5'
+import Button from '../../Components/Button'
 import Link from '../../Components/Link'
 
 interface RegisterFormProps {
@@ -128,6 +129,7 @@ const RegisterForm = ({ onSubmit, register, ...props }: RegisterFormProps) => {
 
 					<div className="flex items-center gap-4 justify-between">
 						<Link href="/login">Already registered?</Link>
+						<Button className="ml-3">Register</Button>
 					</div>
 				</form>
 			</div>

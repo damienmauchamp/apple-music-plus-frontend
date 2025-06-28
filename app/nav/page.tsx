@@ -4,7 +4,8 @@ import React from 'react'
 interface Props {}
 
 const page = (props: Props) => {
-	console.log('props', props)
+	console.log('props', /* @next-codemod-error 'props' is passed as an argument. Any asynchronous properties of 'props' must be awaited when accessed. */
+    props)
 	return (
 		<>
 			<hr />

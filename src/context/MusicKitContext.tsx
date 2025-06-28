@@ -8,7 +8,7 @@ import React, {
 } from 'react'
 
 interface MusicKitContextProviderProps {
-	children?: ReactElement
+	children?: ReactElement<any>
 }
 
 interface MusicKitContextProps {

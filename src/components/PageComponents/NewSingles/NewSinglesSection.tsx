@@ -1,7 +1,7 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import { Album } from '@/types/Items'
-import { getFromViaWeeks, getToViaWeeks } from '@/src/helpers/releases'
 import useAPI from '@/lib/useAPI'
+import { getFromViaWeeks, getToViaWeeks } from '@/src/helpers/releases'
+import { Album } from '@/types/Items'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import AlbumsSection from '../../LayoutComponents/AlbumsSection/AlbumsSection'
 import { pagePtrSectionEl } from '../../PagesType/F7Page'
 
@@ -34,10 +34,10 @@ function NewSinglesSection({
 		() =>
 			weeks
 				? {
-						// 	weekly: 1,
-						// 	weeks: weeks * -1,
-						weekly: 0,
-						to: getToViaWeeks(weeks),
+					// weekly: 1,
+					// weeks: weeks * -1,
+					weekly: 0,
+					to: getToViaWeeks(weeks),
 					}
 				: {},
 		[weeks]
@@ -46,6 +46,8 @@ function NewSinglesSection({
 		// title = `${weeks} week${weeks > 1 ? 's' : ''} ago`
 		title = getFromViaWeeks(weeks, 'll')
 	}
+
+	console.log('weeks;', weeks)
 
 	const hasData = Boolean(data.length)
 
