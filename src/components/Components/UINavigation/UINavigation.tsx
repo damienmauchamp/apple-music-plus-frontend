@@ -8,8 +8,8 @@ import React, {
 	useState,
 } from 'react'
 import { IoChevronBackOutline } from 'react-icons/io5'
-import styles from './UINavigation.module.css'
 import UISearchBar from '../UISearchBar/UISearchBar'
+import styles from './UINavigation.module.css'
 // import { useSelectedLayoutSegments } from 'next/navigation'
 
 export interface UINavBarTopCornerIconProps {
@@ -46,8 +46,8 @@ export type UINavigationProps = {
 	searchText?: string
 	onSearchInput?: onSearchInputType
 	searchPlaceholder?: string
-	speechToText?: boolean
-	onSearchTranscript?: (value: string) => void
+	// speechToText?: boolean
+	// onSearchTranscript?: (value: string) => void
 	//
 	scrollX?: boolean
 
@@ -77,9 +77,9 @@ const UINavigation = ({
 	search = false,
 	searchText = '',
 	searchPlaceholder = 'Search',
-	onSearchInput,
-	speechToText = true,
-	onSearchTranscript,
+	// onSearchInput,
+	// speechToText = true,
+	// onSearchTranscript,
 	...props
 }: UINavigationProps) => {
 	// const [isMounted, setIsMounted] = useState(false)
@@ -246,13 +246,13 @@ const UINavigation = ({
 	const [searchbarText, setSearchBarText] = useState<string>(searchText)
 
 	const onInput = (e: React.FormEvent<HTMLInputElement>) => {
-		onSearchInput && onSearchInput(e)
+		// onSearchInput && onSearchInput(e)
 		updateSearchText(e.currentTarget.value)
 	}
 
-	const onTranscript = (value: string) => {
-		onSearchTranscript && onSearchTranscript(value)
-	}
+	// const onTranscript = (value: string) => {
+	// 	onSearchTranscript && onSearchTranscript(value)
+	// }
 	// endregion SearchBar
 
 	const updateSearchText = (text: string) => {
@@ -278,18 +278,18 @@ const UINavigation = ({
 					<p>content / scrollY : {scrollY}</p>
 					<p>searchBarIsFixed: {Number(searchBarIsFixed)}</p>
 					{/* <p>transcript : {transcript}</p> */}
-					<p>
+					{/* <p>
 						speechToText :{' '}
 						{speechToText !== undefined
 							? Number(speechToText)
 							: 'undefined'}
-					</p>
-					<p>
+					</p> */}
+					{/* <p>
 						speechToTextEnabled :{' '}
 						{speechToText !== undefined
 							? Number(speechToText)
 							: 'undefined'}
-					</p>
+					</p> */}
 					<div className="my-96"></div>
 					<div className="my-96"></div>
 					<p>Foot</p>
@@ -410,11 +410,11 @@ const UINavigation = ({
 								id="searchbar"
 								ref={searchBarRef}
 								value={searchbarText}
-								speechToText={speechToText}
+								// speechToText={speechToText}
 								placeholder={searchPlaceholder}
 								data-fixed={Number(searchBarIsFixed)}
 								onInput={onInput}
-								onTranscript={onTranscript}
+								// onTranscript={onTranscript}
 							/>
 						)}
 					</div>

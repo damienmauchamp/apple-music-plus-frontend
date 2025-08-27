@@ -7,19 +7,10 @@ import { IconType } from 'react-icons'
 import styles from './Input.module.css'
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-	// interface InputProps extends React.ComponentProps<'input'> {
-	// input
 	id: string
 	value: string
-	// onInput: React.FormEventHandler<HTMLInputElement> | undefined
-	onTranscript?: (value: string) => void
-	speechToText?: boolean
-	// container
 	classNameContainer?: string
-	// icons
-	// leftIcon?: JSX.IntrinsicElements | IconType
 	leftIcon?: IconType
-	// allowClear?: boolean
 }
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
@@ -30,25 +21,17 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
 			classNameContainer = '',
 			className = '',
 			onInput,
-			onTranscript,
-			speechToText,
 			leftIcon,
-			// allowClear = true,
 			...props
 		},
 		ref: ForwardedRef<HTMLInputElement>
 	) => {
-		// defaults
-		// const allowClear = true
-
-		// icons
 		const renderLeftIcon = () => {
 			if (!leftIcon) return null
 			const LeftIconComponent = leftIcon
 			return <LeftIconComponent size={18} />
 		}
 
-		// text
 		const [inputValue, setInputValue] = useState<string>(value)
 
 		useEffect(() => {
@@ -173,29 +156,21 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
 		// render
 
 		return (
-			<>
-				{/* <div
-					// ref={ref}
-					// 	{...props}
-					className={`${classNameContainer} ${styles.searchbar}`}
-				> */}
-				<div
-					className={`${styles.inputContainer} ${classNameContainer}`}
-				>
-					<input
-						ref={ref}
-						id={id}
-						// className={`${className} outline-none border rounded border-gray-200 h-10 px-2 `}
-						className={`${className} ${styles.input}
-							${leftIcon ? styles.inputWithIcon : ''}
-							${speechToText ? styles.inputWithMic : ''}
-							`}
-						value={inputValue}
-						onInput={(event: React.FormEvent<HTMLInputElement>) =>
-							onInput && onInput(event)
-						}
-						{...props}
-					/>
+			<div
+				className={`${styles.inputContainer} ${classNameContainer}`}
+			>
+				<input
+					ref={ref}
+					id={id}
+					className={`${className} ${styles.input}
+						${leftIcon ? styles.inputWithIcon : ''}
+						`}
+					value={inputValue}
+					onInput={(event: React.FormEvent<HTMLInputElement>) =>
+						onInput && onInput(event)
+					}
+					{...props}
+				/>
 
 					<div className={styles.inputIcons}>
 						<div className={styles.inputIconsContainer}>
@@ -206,9 +181,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
 							{/* {renderClearable()} */}
 						</div>
 					</div>
-				</div>
-				{/* </div> */}
-			</>
+			</div>
 		)
 	}
 )

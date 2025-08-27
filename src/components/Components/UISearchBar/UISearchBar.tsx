@@ -1,7 +1,7 @@
 'use client'
 import { ChangeEvent, HTMLProps, useState } from 'react'
-import styles from './UISearchBar.module.css'
 import Input from '../Input'
+import styles from './UISearchBar.module.css'
 
 export interface UISearchBarProps extends HTMLProps<HTMLDivElement> {
 	value?: string
@@ -12,8 +12,8 @@ export interface UISearchBarProps extends HTMLProps<HTMLDivElement> {
 
 const UISearchBar = ({
 	value = '',
-	speechToText = true,
-	onTranscript,
+	// speechToText = true,
+	// onTranscript,
 	...props
 }: UISearchBarProps) => {
 	// searchText
@@ -28,12 +28,12 @@ const UISearchBar = ({
 			<Input
 				id={'test'}
 				placeholder="Search..."
-				speechToText={speechToText}
+				// speechToText={speechToText}
 				value={searchbarText}
 				onChange={(event: ChangeEvent<HTMLInputElement>) => {
 					setSearchBarText(event.target.value)
 				}}
-				onTranscript={onTranscript}
+				// onTranscript={onTranscript}
 			/>
 		</div>
 	)
