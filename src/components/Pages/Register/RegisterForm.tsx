@@ -1,9 +1,9 @@
-import { ChangeEvent, FormEvent, useRef, useState } from 'react'
 import { RegisterFunction } from '@/lib/useAuth'
-import Head from 'next/head'
-import Label from '@/src/components/Components/Label'
-import Input from '@/src/components/Components/Input'
 import FormErrors from '@/src/components/Components/FormErrors'
+import Input from '@/src/components/Components/Input'
+import Label from '@/src/components/Components/Label'
+import Head from 'next/head'
+import { ChangeEvent, FormEvent, useRef, useState } from 'react'
 import { IoSearch } from 'react-icons/io5'
 import Link from '../../Components/Link'
 
@@ -53,11 +53,11 @@ const RegisterForm = ({ onSubmit, register, ...props }: RegisterFormProps) => {
 
 						<Input
 							ref={nameRef}
-							speechToText={true} // todo : del
-							onTranscript={(val: string) => {
-								console.log('onTranscript.name:', val)
-								// setName(val)
-							}} // todo : del
+							// speechToText={true} // todo : del
+							// onTranscript={(val: string) => {
+							// 	console.log('onTranscript.name:', val)
+							// 	// setName(val)
+							// }} // todo : del
 							id="name"
 							type="text"
 							value={name}
